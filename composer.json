@@ -1,0 +1,39 @@
+{
+  "name": "aspirantzhang/thinkphp6-model-creator",
+  "description": "A complete model creator based on thinkphp6.",
+  "type": "library",
+  "version": "0.0.1-dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "aspirantzhang",
+      "email": "admin@aspirantzhang.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "aspirantzhang\\thinkphp6ModelCreator\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "aspirantzhang\\test\\thinkphp6ModelCreator\\": "tests"
+    }
+  },
+  "extra": {
+    "think": {
+      "services": [
+        "aspirantzhang\\thinkphp6ModelCreator\\Service"
+      ]
+    }
+  },
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=7.1.0",
+    "topthink/framework": "^6.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5",
+    "mockery/mockery": "^1.4"
+  }
+}
