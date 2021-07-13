@@ -17,7 +17,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "aspirantzhang\\test\\thinkphp6ModelCreator\\": "tests"
+      "aspirantzhang\\thinkphp6ModelCreator\\": "tests"
     }
   },
   "extra": {
@@ -30,7 +30,8 @@
   "minimum-stability": "stable",
   "require": {
     "php": ">=7.1.0",
-    "topthink/framework": "^6.0"
+    "topthink/framework": "^6.0",
+    "topthink/think-helper": "^3.1"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",

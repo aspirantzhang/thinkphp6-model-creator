@@ -1,0 +1,12 @@
+<?php
+
+declare(strict_types=1);
+
+namespace app\api\view;
+
+use app\api\model\UnitTest as UnitTestModel;
+
+class UnitTest extends UnitTestModel
+{
+
+}
