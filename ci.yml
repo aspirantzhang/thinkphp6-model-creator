@@ -1,0 +1,27 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Dependencies security check
+        uses: symfonycorp/security-checker-action@v2
+        with:
+            lock: subdir/composer.lock
+
+      - uses: php-actions/composer@v5
+
+      - name: Tests
+        uses: php-actions/phpunit@v2
+        with:
+          php_extensions: xdebug
+          bootstrap: vendor/autoload.php
+          configuration: phpunit.xml.dist
+          args: --coverage-clover runtime/.phpunit.cache/coverage.xml
+        env:
+          XDEBUG_MODE: coverage
