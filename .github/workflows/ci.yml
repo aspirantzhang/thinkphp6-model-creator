@@ -8,11 +8,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Dependencies security check
-        uses: symfonycorp/security-checker-action@v2
+        uses: actions/cache@v2
+        id: cache-db
         with:
-            lock: subdir/composer.lock
+          path: ~/.symfony/cache
+          key: db
+      - uses: symfonycorp/security-checker-action@v2
 
       - uses: php-actions/composer@v5
 
