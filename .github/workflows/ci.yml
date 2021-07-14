@@ -13,6 +13,7 @@ jobs:
         uses: php-actions/composer@v6
 
       - name: Cache vendor folder
+        id: vendor_cache_id
         uses: actions/cache@v2
         with:
           path: vendor
