@@ -5,6 +5,13 @@ on: [push, pull_request]
 jobs:
   setup:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: ['8.0', '7.4', '7.3']
+
+    name: ${{ matrix.php-versions }} - ${{ matrix.operating-system}}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
