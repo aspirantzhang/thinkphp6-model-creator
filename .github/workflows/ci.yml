@@ -53,8 +53,3 @@ jobs:
 
       - name: Dependencies security check
         uses: symfonycorp/security-checker-action@v2
-
-      - name: PHP Stan + Larastan
-        run: |
-          composer require --dev nunomaduro/larastan
-          vendor/bin/phpstan analyse src --level=4 --no-progress
