@@ -53,3 +53,13 @@ jobs:
 
       - name: Dependencies security check
         uses: symfonycorp/security-checker-action@v2
+
+      - name: PHPCS
+        run: |
+          composer require --dev squizlabs/php_codesniffer
+          vendor/bin/phpcs --standard=PSR12 src
+
+      - name: PHP Stan + Larastan
+        run: |
+          composer require --dev nunomaduro/larastan
+          vendor/bin/phpstan analyse src --level=4 --no-progress
