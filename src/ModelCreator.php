@@ -8,6 +8,6 @@ class ModelCreator
 {
     public static function file(string $tableName, array $fileTypes = null)
     {
-        return (new File())->make($tableName, $fileTypes);
+        return (new File())->init($tableName, $fileTypes);
     }
 }

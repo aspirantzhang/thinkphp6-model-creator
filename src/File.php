@@ -15,13 +15,18 @@ class File
     protected $instanceName;
     protected $error = '';
 
-    public function make(string $tableName, array $fileTypes = null)
+    public function init(string $tableName)
     {
         $this->tableName = $tableName;
         $this->routeName = $tableName;
         $this->modelName = Str::studly($tableName);
         $this->instanceName = Str::camel($tableName);
         $this->appPath = base_path();
+        return $this;
+    }
+
+    public function create(array $fileTypes = null)
+    {
         $fileTypes = $fileTypes ?: ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate'];
         try {
             $this->createFile($fileTypes);
@@ -30,7 +35,7 @@ class File
         }
     }
 
-    public function createFile(array $fileTypes): void
+    protected function createFile(array $fileTypes): void
     {
         foreach ($fileTypes as $type) {
             $filePath = $this->createPath($this->appPath, 'api', $type, $this->modelName) . '.php';

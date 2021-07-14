@@ -56,7 +56,7 @@ class FileTest extends TestCase
     public function testFileCreatedSuccessfully()
     {
         deleteDirectory(base_path());
-        ModelCreator::file('unit-test');
+        ModelCreator::file('unit-test')->create();
         $fileTypes = ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate'];
         foreach ($fileTypes as $types) {
             $filePath = createPath(base_path(), 'api', $types, 'UnitTest') . '.php';
@@ -70,7 +70,7 @@ class FileTest extends TestCase
     public function testFileCreatedFailed()
     {
         try {
-            ModelCreator::file('unit-test');
+            ModelCreator::file('unit-test')->create();
         } catch (\Exception $e) {
             $this->assertEquals($e->getMessage(), 'file already exists:' . createPath('runtime', 'api', 'controller', 'UnitTest') . '.php');
             return;
