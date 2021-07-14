@@ -51,5 +51,13 @@ jobs:
         env:
           XDEBUG_MODE: coverage
 
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          files: runtime/.phpunit.cache/coverage.xml
+          flags: unittests
+          fail_ci_if_error: true
+          verbose: true
+
       - name: Dependencies security check
         uses: symfonycorp/security-checker-action@v2
