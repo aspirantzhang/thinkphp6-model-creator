@@ -1,25 +1,21 @@
 name: CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
-  build-test:
+  setup:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      - uses: php-actions/composer@v5
-      
-      - name: Dependencies security check
-        uses: actions/cache@v2
-        id: cache-db
-        with:
-          path: ~/.symfony/cache
-          key: db
-      - uses: symfonycorp/security-checker-action@v2
+      - name: Install dependencies
+        uses: php-actions/composer@v5
 
-      - name: Tests
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Unit Test
         uses: php-actions/phpunit@v2
         with:
           php_extensions: xdebug
@@ -28,3 +24,14 @@ jobs:
           args: --coverage-clover runtime/.phpunit.cache/coverage.xml
         env:
           XDEBUG_MODE: coverage
+
+  security-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/cache@v2
+        id: cache-db
+        with:
+          path: ~/.symfony/cache
+          key: db
+      - name: Dependencies security check
+        uses: symfonycorp/security-checker-action@v2
