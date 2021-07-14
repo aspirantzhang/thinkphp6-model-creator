@@ -77,7 +77,7 @@ class FileTest extends TestCase
         try {
             $file->make('unit-test');
         } catch (\Exception $e) {
-            $this->assertEquals($e->getMessage(), 'file already exists:runtime\api\controller\UnitTest.php');
+            $this->assertEquals($e->getMessage(), 'file already exists:' . createPath('runtime', 'api', 'controller', 'UnitTest') . '.php');
             return;
         }
         $this->fail();
