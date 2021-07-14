@@ -24,6 +24,7 @@ jobs:
           args: --coverage-clover runtime/.phpunit.cache/coverage.xml
         env:
           XDEBUG_MODE: coverage
+    needs: setup
 
   security-check:
     runs-on: ubuntu-latest
@@ -35,3 +36,4 @@ jobs:
           key: db
       - name: Dependencies security check
         uses: symfonycorp/security-checker-action@v2
+    needs: setup
