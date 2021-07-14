@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace aspirantzhang\thinkphp6ModelCreator;
 
-use aspirantzhang\thinkphp6ModelCreator\File;
-use Mockery as m;
-
 function base_path(): string
 {
     return 'runtime';
@@ -59,8 +56,7 @@ class FileTest extends TestCase
     public function testFileCreatedSuccessfully()
     {
         deleteDirectory(base_path());
-        $file = new File();
-        $file->make('unit-test');
+        ModelCreator::file('unit-test');
         $fileTypes = ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate'];
         foreach ($fileTypes as $types) {
             $filePath = createPath(base_path(), 'api', $types, 'UnitTest') . '.php';
@@ -73,9 +69,8 @@ class FileTest extends TestCase
 
     public function testFileCreatedFailed()
     {
-        $file = new File();
         try {
-            $file->make('unit-test');
+            ModelCreator::file('unit-test');
         } catch (\Exception $e) {
             $this->assertEquals($e->getMessage(), 'file already exists:' . createPath('runtime', 'api', 'controller', 'UnitTest') . '.php');
             return;
