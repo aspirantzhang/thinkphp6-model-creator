@@ -103,7 +103,7 @@ class File
             $editText = __('edit');
             $i18nText = __('i18n');
     
-            $content = file_get_contents(createPath(__DIR__, 'stubs', 'lang-layout') . '.stub');
+            $content = file_get_contents($this->createPath(__DIR__, 'stubs', 'lang-layout') . '.stub');
             $content = str_replace(
                 ['{%tableName%}', '{%modelTitle%}', '{%listText%}', '{%addText%}', '{%editText%}', '{%i18nText%}'],
                 [$this->tableName, $this->modelTitle, $listText, $addText, $editText, $i18nText],
