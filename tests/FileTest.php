@@ -77,4 +77,34 @@ class FileTest extends TestCase
         }
         $this->fail();
     }
+
+    public function testFileRemoveSuccessfully()
+    {
+        ModelCreator::file('unit-test')->remove();
+        $fileTypes = ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate'];
+        foreach ($fileTypes as $types) {
+            $filePath = createPath(base_path(), 'api', $types, 'UnitTest') . '.php';
+            $this->assertFalse(is_file($filePath));
+        }
+    }
+
+    public function testFileRemoveFailed()
+    {
+        ModelCreator::file('unit-test')->create(['controller']);
+
+        $filePath = createPath('runtime', 'api', 'controller', 'UnitTest') . '.php';
+        $fh = fopen($filePath, 'w+') or die('file open error');
+        flock($fh, LOCK_EX);
+        if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
+            try {
+                ModelCreator::file('unit-test')->remove(['controller']);
+            } catch (\Exception $e) {
+                $this->assertEquals($e->getMessage(), 'could not remove file:' . createPath('runtime', 'api', 'controller', 'UnitTest') . '.php');
+                return;
+            }
+            $this->fail();
+            fclose($fh);
+        }
+        $this->assertTrue(true);
+    }
 }

@@ -30,8 +30,8 @@ class File
         $fileTypes = $fileTypes ?: ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate'];
         try {
             $this->createFile($fileTypes);
-        } catch (\Throwable $e) {
-            throw new \Exception($this->error);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
     }
 
@@ -49,12 +49,31 @@ class File
                 $this->checkAndMakeDir(dirname($filePath));
                 // write content
                 if (file_put_contents($filePath, $content) === false) {
-                    $this->error = __('could not write file', ['filePath' => $filePath]);
-                    throw new \Exception();
+                    throw new \Exception(__('could not write file', ['filePath' => $filePath]));
                 }
             } else {
-                $this->error = __('file already exists', ['filePath' => $filePath]);
-                throw new \Exception();
+                throw new \Exception(__('file already exists', ['filePath' => $filePath]));
+            }
+        }
+    }
+
+    public function remove(array $fileTypes = null)
+    {
+        $fileTypes = $fileTypes ?: ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate'];
+        try {
+            $this->removeFile($fileTypes);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    protected function removeFile(array $fileTypes): void
+    {
+        foreach ($fileTypes as $type) {
+            $filePath = $this->createPath($this->appPath, 'api', $type, $this->modelName) . '.php';
+
+            if (is_file($filePath) && unlink($filePath) === false) {
+                throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
             }
         }
     }
