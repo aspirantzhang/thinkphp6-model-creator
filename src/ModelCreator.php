@@ -6,8 +6,8 @@ namespace aspirantzhang\thinkphp6ModelCreator;
 
 class ModelCreator
 {
-    public static function file(string $tableName, array $fileTypes = null)
+    public static function file(string $tableName, string $modelTitle, string $currentLang)
     {
-        return (new File())->init($tableName, $fileTypes);
+        return (new File())->init($tableName, $modelTitle, $currentLang);
     }
 }

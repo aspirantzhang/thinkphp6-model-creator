@@ -12,69 +12,121 @@ class File
     protected $tableName;
     protected $routeName;
     protected $modelName;
+    protected $modelTitle;
     protected $instanceName;
-    protected $error = '';
+    protected $currentLang;
 
-    public function init(string $tableName)
+    public function init(string $tableName, string $modelTitle, string $currentLang)
     {
         $this->tableName = $tableName;
         $this->routeName = $tableName;
         $this->modelName = Str::studly($tableName);
         $this->instanceName = Str::camel($tableName);
+        $this->modelTitle = $modelTitle;
+        $this->currentLang = $currentLang;
         $this->appPath = base_path();
         return $this;
     }
 
     public function create(array $fileTypes = null)
     {
-        $fileTypes = $fileTypes ?: ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate'];
+        $fileTypes = $fileTypes ?: ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate', 'langLayout'];
         try {
-            $this->createFile($fileTypes);
+            foreach ($fileTypes as $type) {
+                switch ($type) {
+                    case 'langLayout':
+                        $this->createLangLayout();
+                        break;
+                    default:
+                        $this->createBasicFile($type);
+                }
+            }
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }
 
-    protected function createFile(array $fileTypes): void
+    public function createBasicFile(string $type): void
     {
-        foreach ($fileTypes as $type) {
-            $filePath = $this->createPath($this->appPath, 'api', $type, $this->modelName) . '.php';
+        $filePath = $this->createPath($this->appPath, 'api', $type, $this->modelName) . '.php';
 
-            if (!is_file($filePath)) {
-                // read from template
-                $content = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . $type . '.stub');
-                // replace keyword
-                $content = str_replace(['{%modelName%}', '{%instanceName%}', '{%tableName%}', '{%routeName%}'], [$this->modelName, $this->instanceName, $this->tableName, $this->routeName], $content);
-                // check parent dir exists
-                $this->checkAndMakeDir(dirname($filePath));
-                // write content
-                if (file_put_contents($filePath, $content) === false) {
-                    throw new \Exception(__('could not write file', ['filePath' => $filePath]));
-                }
-            } else {
-                throw new \Exception(__('file already exists', ['filePath' => $filePath]));
+        if (!is_file($filePath)) {
+            // read from template
+            $content = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . $type . '.stub');
+            // replace keyword
+            $content = str_replace(['{%modelName%}', '{%instanceName%}', '{%tableName%}', '{%routeName%}'], [$this->modelName, $this->instanceName, $this->tableName, $this->routeName], $content);
+            // check parent dir exists
+            $this->checkAndMakeDir(dirname($filePath));
+            // write content
+            if (file_put_contents($filePath, $content) === false) {
+                throw new \Exception(__('could not write file', ['filePath' => $filePath]));
             }
+        } else {
+            throw new \Exception(__('file already exists', ['filePath' => $filePath]));
         }
     }
 
     public function remove(array $fileTypes = null)
     {
-        $fileTypes = $fileTypes ?: ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate'];
+        $fileTypes = $fileTypes ?: ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate', 'langLayout'];
         try {
-            $this->removeFile($fileTypes);
+            foreach ($fileTypes as $type) {
+                switch ($type) {
+                    case 'langLayout':
+                        $this->removeLangLayout();
+                        break;
+                    default:
+                        $this->removeBasicFile($type);
+                }
+            }
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }
 
-    protected function removeFile(array $fileTypes): void
+    public function removeBasicFile(string $type): void
     {
-        foreach ($fileTypes as $type) {
-            $filePath = $this->createPath($this->appPath, 'api', $type, $this->modelName) . '.php';
+        $filePath = $this->createPath($this->appPath, 'api', $type, $this->modelName) . '.php';
 
-            if (is_file($filePath) && unlink($filePath) === false) {
-                throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
+        if (is_file($filePath) && unlink($filePath) === false) {
+            throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
+        }
+    }
+
+    public function createLangLayout()
+    {
+        $filePath = $this->createPath($this->appPath, 'api', 'lang', 'layout', $this->currentLang, $this->tableName) . '.php';
+
+        if (!is_file($filePath)) {
+            $listText = __('list');
+            $addText = __('add');
+            $editText = __('edit');
+            $i18nText = __('i18n');
+    
+            $content = file_get_contents(createPath(__DIR__, 'stubs', 'lang-layout') . '.stub');
+            $content = str_replace(
+                ['{%tableName%}', '{%modelTitle%}', '{%listText%}', '{%addText%}', '{%editText%}', '{%i18nText%}'],
+                [$this->tableName, $this->modelTitle, $listText, $addText, $editText, $i18nText],
+                $content
+            );
+    
+            // check parent dir exists
+            $this->checkAndMakeDir(dirname($filePath));
+            // write content
+            if (file_put_contents($filePath, $content) === false) {
+                throw new \Exception(__('could not write file', ['filePath' => $filePath]));
             }
+        } else {
+            throw new \Exception(__('file already exists', ['filePath' => $filePath]));
+        }
+    }
+
+    public function removeLangLayout(): void
+    {
+        $filePath = $this->createPath($this->appPath, 'api', 'lang', 'layout', $this->currentLang, $this->tableName) . '.php';
+
+        if (is_file($filePath) && unlink($filePath) === false) {
+            throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
         }
     }
 

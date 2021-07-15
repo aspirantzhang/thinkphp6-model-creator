@@ -1,0 +1,10 @@
+<?php
+
+return [
+    'unit-test-layout' =>  [
+        'unit-test-list' => 'Unit Testlist:',
+        'unit-test-add' => 'Unit Testadd:',
+        'unit-test-edit' => 'Unit Testedit:',
+        'unit-test-i18n' => 'Unit Testi18n:',
+    ]
+];
