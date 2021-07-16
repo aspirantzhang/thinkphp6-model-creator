@@ -54,8 +54,8 @@ jobs:
       - name: Unit Test
         uses: php-actions/phpunit@v3
         with:
+          php_version: ${{ matrix.php-versions }}
           php_extensions: xdebug
-          bootstrap: tests/bootstrap.php
           configuration: phpunit.xml.dist
           args: --coverage-clover runtime/.phpunit.cache/coverage.xml
         env:
