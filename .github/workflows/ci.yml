@@ -55,7 +55,7 @@ jobs:
         uses: php-actions/phpunit@v3
         with:
           php_version: ${{ matrix.php-versions }}
-          php_extensions: xdebug pdo pdo_mysql mbstring
+          php_extensions: xdebug pdo_mysql
           configuration: phpunit.xml.dist
           args: --coverage-clover runtime/.phpunit.cache/coverage.xml
         env:
