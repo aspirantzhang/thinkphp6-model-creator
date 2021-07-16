@@ -6,7 +6,7 @@ namespace aspirantzhang\thinkphp6ModelCreator;
 
 function base_path(): string
 {
-    return 'runtime';
+    return 'runtime' . DIRECTORY_SEPARATOR . 'file';
 }
 
 function __(string $name, array $vars = [], string $lang = ''): string
