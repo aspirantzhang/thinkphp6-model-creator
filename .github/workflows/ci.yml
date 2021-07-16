@@ -12,6 +12,17 @@ jobs:
 
     name: PHP-${{ matrix.php-versions }} - ${{ matrix.operating-system}}
 
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: model_creator
+          MYSQL_USER: root
+          MYSQL_PASSWORD: dbpass
+        ports:
+          - 33306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
