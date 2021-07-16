@@ -2,9 +2,9 @@
 
 include __DIR__ . '/../vendor/autoload.php';
 
-use think\facade\Db;
+use think\facade\Db as ThinkDb;
 
-Db::setConfig([
+ThinkDb::setConfig([
     // 默认数据连接标识
     'default'     => 'mysql',
     // 数据库连接信息
