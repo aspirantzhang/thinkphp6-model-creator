@@ -10,4 +10,9 @@ class ModelCreator
     {
         return (new File())->init($tableName, $modelTitle, $currentLang);
     }
+
+    public static function db(string $tableName, string $modelTitle, string $currentLang)
+    {
+        return (new Db())->init($tableName, $modelTitle, $currentLang);
+    }
 }

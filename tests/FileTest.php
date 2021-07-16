@@ -8,6 +8,7 @@ function base_path(): string
 {
     return 'runtime';
 }
+
 function __(string $name, array $vars = [], string $lang = ''): string
 {
     return $name . ':' . join('|', $vars);
@@ -38,7 +39,7 @@ function deleteDirectory($dir)
 
 function createPath(string ...$path): string
 {
-        return join(DIRECTORY_SEPARATOR, $path);
+    return join(DIRECTORY_SEPARATOR, $path);
 }
 
 function matchSnapshot(string $filePath, string $snapshotPath)
