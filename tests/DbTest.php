@@ -204,4 +204,19 @@ END
         }
         $this->fail();
     }
+
+    /**
+    * @depends testCreateRuleFailed
+    */
+    public function testAddRulesToGroupFailed()
+    {
+        ThinkDb::execute('DROP TABLE IF EXISTS `auth_group_rule`;');
+        try {
+            (new Db())->addRulesToGroup([100,200], 1);
+        } catch (\Exception $e) {
+            $this->assertEquals($e->getMessage(), 'failed to add rules to group:');
+            return;
+        }
+        $this->fail();
+    }
 }
