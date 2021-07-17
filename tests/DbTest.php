@@ -163,4 +163,45 @@ END
             throw new \Exception($e->getMessage());
         }
     }
+
+    public function testCreateModelFailed()
+    {
+        try {
+            ModelCreator::db('unit-test-2', 'Unit Test 2', 'zh-cn')->createModel();
+        } catch (\Exception $e) {
+            $this->assertEquals($e->getMessage(), 'create model table failed:unit-test-2');
+            return;
+        }
+        $this->fail();
+    }
+
+    /**
+    * @depends testCreateModelFailed
+    */
+    public function testCreateRuleFailed()
+    {
+        ThinkDb::execute('DROP TABLE IF EXISTS `auth_rule`, `auth_rule_i18n`;');
+        try {
+            (new Db())->createRule('Unit Test 3', 'en-us');
+        } catch (\Exception $e) {
+            $this->assertEquals($e->getMessage(), 'failed to create rule:Unit Test 3');
+            return;
+        }
+        $this->fail();
+    }
+
+    /**
+    * @depends testCreateRuleFailed
+    */
+    public function testCreateMenuFailed()
+    {
+        ThinkDb::execute('DROP TABLE IF EXISTS `menu`, `menu_i18n`;');
+        try {
+            (new Db())->createMenu('Unit Test 4', 'en-us', 'testPath');
+        } catch (\Exception $e) {
+            $this->assertEquals($e->getMessage(), 'failed to create menu:Unit Test 4');
+            return;
+        }
+        $this->fail();
+    }
 }
