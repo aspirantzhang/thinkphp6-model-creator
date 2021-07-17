@@ -112,17 +112,17 @@ class Db
         }
     }
 
-    public function createMenu(string $menuTitle, string $lang, string $menuPath, int $parentId = 0)
+    public function createMenu(string $menuTitle, string $lang, string $menuPath, int $parentId = 0, $addition = [])
     {
         $currentTime = date("Y-m-d H:i:s");
         try {
-            $menuId = ThinkDb::name('menu')->insertGetId([
+            $menuId = ThinkDb::name('menu')->insertGetId(array_merge([
                 'parent_id' => $parentId,
                 'icon' => 'icon-project',
                 'path' => $menuPath,
                 'create_time' => $currentTime,
                 'update_time' => $currentTime,
-            ]);
+            ], $addition));
             ThinkDb::name('menu_i18n')->insert([
                 'original_id' => $menuId,
                 'lang_code' => $lang,
@@ -144,7 +144,9 @@ class Db
         $childrenIds = [];
         try {
             foreach ($childrenMenus as $menu) {
-                $childrenIds[] = $this->createMenu($menu['menu_title'], $lang, $menu['path'], $parentMenuId);
+                $addition = $menu;
+                unset($addition['menu_title'], $addition['path']);
+                $childrenIds[] = $this->createMenu($menu['menu_title'], $lang, $menu['path'], $parentMenuId, $addition);
             }
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
