@@ -4,8 +4,52 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f728cbb5f583bc8bcf964bedc3d7b685",
+    "content-hash": "0339d1f9d86c8ebd83e667c119c970be",
     "packages": [
+        {
+            "name": "aspirantzhang/octopus-helper",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aspirantzhang/octopus-helper.git",
+                "reference": "52e019bd972ffeb029c8921137a3875e1b762158"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-helper/zipball/52e019bd972ffeb029c8921137a3875e1b762158",
+                "reference": "52e019bd972ffeb029c8921137a3875e1b762158",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "aspirantzhang",
+                    "email": "admin@aspirantzhang.com"
+                }
+            ],
+            "description": "Provides some common functions for systems built with ThinkPHP6.",
+            "support": {
+                "issues": "https://github.com/aspirantzhang/octopus-helper/issues",
+                "source": "https://github.com/aspirantzhang/octopus-helper/tree/main"
+            },
+            "time": "2021-07-17T11:22:41+00:00"
+        },
         {
             "name": "league/flysystem",
             "version": "1.1.4",
@@ -2787,11 +2831,13 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "aspirantzhang/octopus-helper": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.1.0"
+        "php": ">=7.4.0"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"
