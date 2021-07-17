@@ -53,6 +53,16 @@ class Db
         }
     }
 
+    public function removeModelTable(string $tableName)
+    {
+        try {
+            $i18nTable = $tableName . '_i18n';
+            Db::execute("DROP TABLE IF EXISTS `$tableName`, `$i18nTable`;");
+        } catch (\Throwable $e) {
+            $this->error = __('remove model table failed', ['tableName' => $tableName]);
+        }
+    }
+
     public function createRule(string $ruleTitle, string $lang, int $parentId = 0, string $rulePath = '')
     {
         $currentTime = date("Y-m-d H:i:s");

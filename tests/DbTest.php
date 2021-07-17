@@ -104,6 +104,16 @@ END
         $this->fail();
     }
 
+    public function testRemoveModelTableSuccessfully()
+    {
+        try {
+            (new Db())->removeModelTable('unit-test');
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
     public function testCreateRuleSuccessfully()
     {
         try {
