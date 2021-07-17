@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace aspirantzhang\thinkphp6ModelCreator;
 
-use think\helper\Str;
 use think\facade\Db as ThinkDb;
 
 class Db
@@ -57,8 +56,8 @@ class Db
     {
         try {
             $i18nTable = $tableName . '_i18n';
-            Db::execute("DROP TABLE IF EXISTS `$tableName`, `$i18nTable`;");
-        } catch (\Throwable $e) {
+            ThinkDb::execute("DROP TABLE IF EXISTS `$tableName`, `$i18nTable`;");
+        } catch (\Exception $e) {
             $this->error = __('remove model table failed', ['tableName' => $tableName]);
         }
     }
@@ -83,6 +82,19 @@ class Db
             throw new \Exception(__('failed to create rule', ['ruleTitle' => $ruleTitle]));
         }
         return (int)$ruleId;
+    }
+
+    public function removeRules(int $id)
+    {
+        try {
+            $allRulesData = ThinkDb::table('auth_rule')->where('status', 1)->select()->toArray();
+            $allIds = array_merge([$id], searchDescendantValueAggregation('id', 'id', $id, arrayToTree($allRulesData)));
+            ThinkDb::table('auth_rule')->whereIn('id', $allIds)->delete();
+            ThinkDb::table('auth_rule_i18n')->whereIn('original_id', $allIds)->delete();
+            return true;
+        } catch (\Exception $e) {
+            throw new \Exception(__('failed to remove rules'));
+        }
     }
 
     public function createChildrenRules(int $parentRuleId, string $lang, string $tableName, string $modelTitle)

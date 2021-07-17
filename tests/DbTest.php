@@ -117,17 +117,33 @@ END
     public function testCreateRuleSuccessfully()
     {
         try {
-            (new Db())->createRule('Unit Test', 'en-us');
+            $id = (new Db())->createRule('Unit Test', 'en-us');
             $this->assertTrue(true);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
+        return $id;
     }
-
-    public function testCreateChildrenRulesSuccessfully()
+    /**
+    * @depends testCreateRuleSuccessfully
+    */
+    public function testCreateChildrenRulesSuccessfully($id)
     {
         try {
-            (new Db())->createChildrenRules(1, 'en-us', 'unit-test', 'Unit Test');
+            (new Db())->createChildrenRules($id, 'en-us', 'unit-test', 'Unit Test');
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+        return $id;
+    }
+    /**
+    * @depends testCreateChildrenRulesSuccessfully
+    */
+    public function testRemoveRuleSuccessfully($id)
+    {
+        try {
+            (new Db())->removeRules($id);
             $this->assertTrue(true);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
