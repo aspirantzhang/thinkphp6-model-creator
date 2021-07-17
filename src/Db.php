@@ -25,14 +25,21 @@ class Db
     {
         try {
             $this->createModelTable($this->tableName);
-            $ruleId = $this->createRule($this->modelTitle, $this->currentLang);
-            $childrenIds = $this->createChildrenRules($ruleId, $this->currentLang, $this->tableName, $this->modelTitle);
-            $this->addRulesToGroup([$ruleId, ...$childrenIds]);
-            $menuId = $this->createMenu($this->modelTitle . __('list'), $this->currentLang, '/basic-list/api/' . $this->tableName);
-            $this->createChildrenMenus($menuId, $this->currentLang, $this->tableName, $this->modelTitle);
+            $topRuleId = $this->createRule($this->modelTitle, $this->currentLang);
+            $childrenRuleIds = $this->createChildrenRules($topRuleId, $this->currentLang, $this->tableName, $this->modelTitle);
+            $this->addRulesToGroup([$topRuleId, ...$childrenRuleIds]);
+            $topMenuId = $this->createMenu($this->modelTitle . __('list'), $this->currentLang, '/basic-list/api/' . $this->tableName);
+            $childrenMenuIds = $this->createChildrenMenus($topMenuId, $this->currentLang, $this->tableName, $this->modelTitle);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
+
+        return [
+            'topRuleId' => $topRuleId,
+            'childrenRuleIds' => $childrenRuleIds,
+            'topMenuId' => $topMenuId,
+            'childrenMenuIds' => $childrenMenuIds
+        ];
     }
 
     public function createModelTable(string $tableName)
