@@ -7,8 +7,6 @@ namespace aspirantzhang\thinkphp6ModelCreator;
 use think\facade\Db as ThinkDb;
 use think\Exception;
 
-use function __;
-
 class DbTest extends TestCase
 {
     public static function setUpBeforeClass(): void
@@ -163,46 +161,78 @@ END
     public function testCreateMenuSuccessfully()
     {
         try {
-            (new Db())->createMenu('Unit Test', 'en-us', 'testPath');
+            $id = (new Db())->createMenu('Unit Test', 'en-us', 'testPath');
             $this->assertTrue(true);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
+        return $id;
     }
-
-    public function testCreateChildrenMenusSuccessfully()
+    /**
+    * @depends testCreateMenuSuccessfully
+    */
+    public function testCreateChildrenMenusSuccessfully($id)
     {
         try {
-            (new Db())->createChildrenMenus(1, 'en-us', 'unit-test', 'Unit Test');
+            (new Db())->createChildrenMenus($id, 'en-us', 'unit-test', 'Unit Test');
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+        return $id;
+    }
+    /**
+    * @depends testCreateChildrenMenusSuccessfully
+    */
+    public function testRemoveMenuSuccessfully($id)
+    {
+        try {
+            (new Db())->removeMenus($id);
             $this->assertTrue(true);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }
-
+    /**
+    * @depends testRemoveMenuSuccessfully
+    */
     public function testCreateModelSuccessfully()
     {
         try {
-            ModelCreator::db('unit-test-2', 'Unit Test 2', 'zh-cn')->createModel();
+            $modelData = ModelCreator::db('unit-test-2', 'Unit Test 2', 'zh-cn')->createModel();
             $this->assertTrue(true);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
+        return $modelData;
     }
-
-    public function testCreateModelFailed()
+    /**
+    * @depends testCreateModelSuccessfully
+    */
+    public function testCreateModelFailed($modelData)
     {
         try {
             ModelCreator::db('unit-test-2', 'Unit Test 2', 'zh-cn')->createModel();
         } catch (\Exception $e) {
             $this->assertEquals($e->getMessage(), 'create model table failed:unit-test-2');
-            return;
+            return $modelData;
         }
         $this->fail();
     }
-
     /**
     * @depends testCreateModelFailed
+    */
+    public function testRemoveModelSuccessfully($modelData)
+    {
+        try {
+            ModelCreator::db('unit-test-2', 'Unit Test 2', 'zh-cn')->removeModel($modelData['topRuleId'], $modelData['topMenuId']);
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+    /**
+    * @depends testRemoveModelSuccessfully
     */
     public function testCreateRuleFailed()
     {
@@ -241,6 +271,19 @@ END
             (new Db())->addRulesToGroup([100,200], 1);
         } catch (\Exception $e) {
             $this->assertEquals($e->getMessage(), 'failed to add rules to group:');
+            return;
+        }
+        $this->fail();
+    }
+    /**
+    * @depends testCreateRuleFailed
+    */
+    public function testRemoveModelFailed()
+    {
+        try {
+            ModelCreator::db('not-exist', '', 'zh-cn')->removeModel(0, 0);
+        } catch (\Exception $e) {
+            $this->assertEquals($e->getMessage(), 'failed to remove rules:');
             return;
         }
         $this->fail();

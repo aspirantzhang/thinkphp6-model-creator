@@ -41,6 +41,17 @@ class Db
         ];
     }
 
+    public function removeModel(int $ruleId, int $menuId)
+    {
+        try {
+            $this->removeModelTable($this->tableName);
+            $this->removeRules($ruleId);
+            $this->removeMenus($menuId);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
     public function createModelTable(string $tableName)
     {
         try {
@@ -91,7 +102,7 @@ class Db
             $allIds = array_merge([$id], searchDescendantValueAggregation('id', 'id', $id, arrayToTree($allRulesData)));
             ThinkDb::table('auth_rule')->whereIn('id', $allIds)->delete();
             ThinkDb::table('auth_rule_i18n')->whereIn('original_id', $allIds)->delete();
-            return true;
+            ThinkDb::table('auth_group_rule')->whereIn('rule_id', $allIds)->delete();
         } catch (\Exception $e) {
             throw new \Exception(__('failed to remove rules'));
         }
@@ -155,6 +166,18 @@ class Db
             throw new \Exception(__('failed to create menu', ['menuTitle' => $menuTitle]));
         }
         return (int)$menuId;
+    }
+
+    public function removeMenus(int $id)
+    {
+        try {
+            $allRulesData = ThinkDb::table('menu')->where('status', 1)->select()->toArray();
+            $allIds = array_merge([$id], searchDescendantValueAggregation('id', 'id', $id, arrayToTree($allRulesData)));
+            ThinkDb::table('menu')->whereIn('id', $allIds)->delete();
+            ThinkDb::table('menu_i18n')->whereIn('original_id', $allIds)->delete();
+        } catch (\Exception $e) {
+            throw new \Exception(__('failed to remove menus'));
+        }
     }
 
     public function createChildrenMenus(int $parentMenuId, string $lang, string $tableName, string $modelTitle)
