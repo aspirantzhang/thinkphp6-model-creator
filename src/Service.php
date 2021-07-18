@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace aspirantzhang\thinkphp6ModelCreator;
+namespace aspirantzhang\octopusModelCreator;
 
 use think\Service as BaseService;
 

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace aspirantzhang\thinkphp6ModelCreator\command;
+namespace aspirantzhang\octopusModelCreator\command;
 
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
 use think\console\Output;
-use aspirantzhang\thinkphp6ModelCreator\File;
+use aspirantzhang\octopusModelCreator\File;
 
 class Model extends Command
 {

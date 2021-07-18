@@ -1,6 +1,6 @@
 {
-  "name": "aspirantzhang/thinkphp6-model-creator",
-  "description": "A complete model creator based on thinkphp6.",
+  "name": "aspirantzhang/octopus-model-creator",
+  "description": "A complete model creator based on ThinkPHP6.",
   "type": "library",
   "version": "0.0.1-dev",
   "license": "MIT",
@@ -12,18 +12,18 @@
   ],
   "autoload": {
     "psr-4": {
-      "aspirantzhang\\thinkphp6ModelCreator\\": "src/"
+      "aspirantzhang\\octopusModelCreator\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "aspirantzhang\\thinkphp6ModelCreator\\": "tests"
+      "aspirantzhang\\octopusModelCreator\\": "tests"
     }
   },
   "extra": {
     "think": {
       "services": [
-        "aspirantzhang\\thinkphp6ModelCreator\\Service"
+        "aspirantzhang\\octopusModelCreator\\Service"
       ]
     }
   },

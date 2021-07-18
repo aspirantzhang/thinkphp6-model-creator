@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace aspirantzhang\thinkphp6ModelCreator\command\misc;
+namespace aspirantzhang\octopusModelCreator\command\misc;
 
 use think\console\Command;
 use think\console\Input;

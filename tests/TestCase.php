@@ -1,6 +1,6 @@
 <?php
 
-namespace aspirantzhang\thinkphp6ModelCreator;
+namespace aspirantzhang\octopusModelCreator;
 
 use Mockery as m;
 
