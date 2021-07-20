@@ -1,0 +1,57 @@
+<?php
+
+namespace app\api\validate;
+
+use think\Validate;
+
+class UnitTest extends Validate
+{
+    protected $rule = [
+        'id' => 'require|number',
+        'ids' => 'require|numberArray',
+        'status' => 'numberTag',
+        'page' => 'number',
+        'per_page' => 'number',
+        'create_time' => 'require|dateTimeRange',
+        'nickname' => 'require|length:4,32',
+        'gender' => 'require',
+        'married' => 'require',
+    ];
+
+    protected $message = [
+        'id.require' => 'id#require',
+        'id.number' => 'id#number',
+        'ids.require' => 'ids#require',
+        'ids.numberArray' => 'ids#numberArray',
+        'status.numberTag' => 'status#numberTag',
+        'page.number' => 'page#number',
+        'per_page.number' => 'per_page#number',
+        'create_time.require' => 'create_time#require',
+        'create_time.dateTimeRange' => 'create_time#dateTimeRange',
+        'nickname.require' => 'unit-test@nickname#require',
+        'nickname.length' => 'unit-test@nickname#length:4,32',
+        'gender.require' => 'unit-test@gender#require',
+        'married.require' => 'unit-test@married#require',
+    ];
+
+    protected $scene = [
+        'save' => ['create_time', 'status', 'nickname', 'gender', 'married'],
+        'update' => ['id', 'create_time', 'status', 'nickname', 'gender', 'married'],
+        'read' => ['id'],
+        'delete' => ['ids'],
+        'restore' => ['ids'],
+        'add' => [''],
+        'i18n' => ['id'],
+        'i18n_update' => ['id'],
+    ];
+
+    public function sceneHome()
+    {
+        $this->only(['page', 'per_page', 'id', 'status', 'create_time', 'nickname', 'gender', 'married'])
+            ->remove('nickname', 'require')
+            ->remove('gender', 'require')
+            ->remove('married', 'require')
+            ->remove('id', 'require')
+            ->remove('create_time', 'require');
+    }
+}

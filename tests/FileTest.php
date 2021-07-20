@@ -116,4 +116,103 @@ class FileTest extends TestCase
         $this->assertTrue(is_file($filePath));
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
     }
+
+    public function testCreateValidateFileSuccessfully()
+    {
+        $testStubPath = createPath(__DIR__, 'stubs', '_validate') . '.stub';
+        $mockStubPath = createPath(base_path(), 'api', 'validate', '_validate') . '.stub';
+        makeDir(dirname($mockStubPath));
+        copy($testStubPath, $mockStubPath);
+        $fieldsData = [
+            [
+                "name" => "nickname",
+                "title" => "Nick Name",
+                "type" => "input",
+                "settings" => [
+                    "validate" => [
+                        "require",
+                        "length"
+                    ],
+                    "options" => [
+                        "length" => [
+                            "min" => 4,
+                            "max" => 32
+                        ]
+                    ]
+                ],
+                "allowHome" => true,
+                "allowRead" => true,
+                "allowSave" => true,
+                "allowUpdate" => true,
+                "allowTranslate" => true
+            ],
+            [
+                "name" => "gender",
+                "title" => "Gender",
+                "type" => "radio",
+                "data" => [
+                    [
+                        "title" => "Mx",
+                        "value" => "mx"
+                    ],
+                    [
+                        "title" => "Mr",
+                        "value" => "mr"
+                    ],
+                    [
+                        "title" => "Ms",
+                        "value" => "ms"
+                    ]
+                ],
+                "settings" => [
+                    "validate" => [
+                        "require"
+                    ]
+                ],
+                "allowHome" => true,
+                "allowRead" => true,
+                "allowSave" => true,
+                "allowUpdate" => true
+            ],
+            [
+                "name" => "married",
+                "title" => "Married",
+                "type" => "switch",
+                "hideInColumn" => true,
+                "data" => [
+                    [
+                        "title" => "Yes",
+                        "value" => 1
+                    ],
+                    [
+                        "title" => "No",
+                        "value" => 0
+                    ]
+                ],
+                "settings" => [
+                    "display" => [
+                        "listSorter"
+                    ],
+                    "validate" => [
+                        "require"
+                    ]
+                ],
+                "allowHome" => true,
+                "allowRead" => true,
+                "allowUpdate" => true,
+                "allowSave" => true
+            ]
+        ];
+        
+        try {
+            ModelCreator::file('unit-test', 'Unit Test', 'en-us')->createValidateFile($fieldsData);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+
+        $filePath = createPath(base_path(), 'api', 'validate', 'UnitTest') . '.php';
+        $snapshotPath = createPath(__DIR__, '__snapshots__', 'validate', 'UnitTest') . '.php.modified.snap';
+        $this->assertTrue(is_file($filePath));
+        $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
+    }
 }

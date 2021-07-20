@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace aspirantzhang\octopusModelCreator;
 
 use think\helper\Str;
+use aspirantzhang\octopusModelCreator\lib\Validate;
 
 class File
 {
@@ -167,6 +168,62 @@ END;
 
         if (is_file($filePath) && unlink($filePath) === false) {
             throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
+        }
+    }
+
+    public function createValidateFile($fieldsData)
+    {
+        $validateData = (new Validate($this->tableName, $fieldsData))->getData();
+
+        $filePath = createPath(base_path(), 'api', 'validate', $this->modelName) . '.php';
+        $stubPath = createPath(base_path(), 'api', 'validate', '_validate') . '.stub';
+
+        $ruleText = '';
+        foreach ($validateData['rules'] as $ruleKey => $ruleValue) {
+            $ruleText .= "        '" . strtr($ruleKey, [$this->tableName . '@' => '']) . "' => '" . $ruleValue . "',\n";
+        }
+        $ruleText = substr($ruleText, 0, -1);
+
+        $messageText = '';
+        foreach ($validateData['messages'] as $msgKey => $msgValue) {
+            if (strpos($msgKey, ':')) {
+                $msgKey = substr($msgKey, 0, strpos($msgKey, ':'));
+            }
+            $messageText .= "        '" . $msgKey . "' => '" . $msgValue . "',\n";
+        }
+        $messageText = substr($messageText, 0, -1);
+
+        $sceneSave = $validateData['scenes']['save'] ? '\'' . implode('\', \'', $validateData['scenes']['save']) . '\'' : '';
+        $sceneUpdate = $validateData['scenes']['update'] ? '\'' . implode('\', \'', $validateData['scenes']['update']) . '\'' : '';
+        $sceneHome = $validateData['scenes']['home'] ? '\'' . implode('\', \'', $validateData['scenes']['home']) . '\'' : '';
+
+        $sceneHomeExclude = '';
+        foreach ($validateData['scenes']['homeExclude'] as $exclude) {
+            $sceneHomeExclude .= "\n" . '            ->remove(\'' . $exclude . '\', \'require\')';
+        }
+
+        $content = file_get_contents($stubPath);
+        $content = str_replace([
+            '{%modelName%}',
+            '{%rule%}',
+            '{%message%}',
+            '{%sceneSave%}',
+            '{%sceneUpdate%}',
+            '{%sceneHome%}',
+            '{%sceneHomeExclude%}',
+        ], [
+            $this->modelName,
+            $ruleText,
+            $messageText,
+            $sceneSave,
+            $sceneUpdate,
+            $sceneHome,
+            $sceneHomeExclude,
+        ], $content);
+
+        makeDir(dirname($filePath));
+        if (file_put_contents($filePath, $content) === false) {
+            throw new \Exception(__('could not write file', ['filePath' => $filePath]));
         }
     }
 }
