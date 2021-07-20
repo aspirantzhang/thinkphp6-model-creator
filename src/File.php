@@ -48,7 +48,7 @@ class File
 
     public function createBasicFile(string $type): void
     {
-        $filePath = $this->createPath($this->appPath, 'api', $type, $this->modelName) . '.php';
+        $filePath = createPath($this->appPath, 'api', $type, $this->modelName) . '.php';
 
         if (!is_file($filePath)) {
             // read from template
@@ -56,7 +56,7 @@ class File
             // replace keyword
             $content = str_replace(['{%modelName%}', '{%instanceName%}', '{%tableName%}', '{%routeName%}'], [$this->modelName, $this->instanceName, $this->tableName, $this->routeName], $content);
             // check parent dir exists
-            $this->checkAndMakeDir(dirname($filePath));
+            makeDir(dirname($filePath));
             // write content
             if (file_put_contents($filePath, $content) === false) {
                 throw new \Exception(__('could not write file', ['filePath' => $filePath]));
@@ -86,7 +86,7 @@ class File
 
     public function removeBasicFile(string $type): void
     {
-        $filePath = $this->createPath($this->appPath, 'api', $type, $this->modelName) . '.php';
+        $filePath = createPath($this->appPath, 'api', $type, $this->modelName) . '.php';
 
         if (is_file($filePath) && unlink($filePath) === false) {
             throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
@@ -95,7 +95,7 @@ class File
 
     public function createLangLayout()
     {
-        $filePath = $this->createPath($this->appPath, 'api', 'lang', 'layout', $this->currentLang, $this->tableName) . '.php';
+        $filePath = createPath($this->appPath, 'api', 'lang', 'layout', $this->currentLang, $this->tableName) . '.php';
 
         if (!is_file($filePath)) {
             $listText = __('list');
@@ -103,7 +103,7 @@ class File
             $editText = __('edit');
             $i18nText = __('i18n');
     
-            $content = file_get_contents($this->createPath(__DIR__, 'stubs', 'lang-layout') . '.stub');
+            $content = file_get_contents(createPath(__DIR__, 'stubs', 'lang-layout') . '.stub');
             $content = str_replace(
                 ['{%tableName%}', '{%modelTitle%}', '{%listText%}', '{%addText%}', '{%editText%}', '{%i18nText%}'],
                 [$this->tableName, $this->modelTitle, $listText, $addText, $editText, $i18nText],
@@ -111,7 +111,7 @@ class File
             );
     
             // check parent dir exists
-            $this->checkAndMakeDir(dirname($filePath));
+            makeDir(dirname($filePath));
             // write content
             if (file_put_contents($filePath, $content) === false) {
                 throw new \Exception(__('could not write file', ['filePath' => $filePath]));
@@ -123,22 +123,10 @@ class File
 
     public function removeLangLayout(): void
     {
-        $filePath = $this->createPath($this->appPath, 'api', 'lang', 'layout', $this->currentLang, $this->tableName) . '.php';
+        $filePath = createPath($this->appPath, 'api', 'lang', 'layout', $this->currentLang, $this->tableName) . '.php';
 
         if (is_file($filePath) && unlink($filePath) === false) {
             throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
         }
-    }
-
-    protected function checkAndMakeDir(string $dirname): void
-    {
-        if (!is_dir($dirname)) {
-            mkdir($dirname, 0755, true);
-        }
-    }
-
-    protected function createPath(string ...$path): string
-    {
-        return join(DIRECTORY_SEPARATOR, $path);
     }
 }
