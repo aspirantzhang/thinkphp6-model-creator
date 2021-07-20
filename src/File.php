@@ -68,12 +68,15 @@ class File
 
     public function remove(array $fileTypes = null)
     {
-        $fileTypes = $fileTypes ?: ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate', 'langLayout'];
+        $fileTypes = $fileTypes ?: ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate', 'langLayout', 'langField'];
         try {
             foreach ($fileTypes as $type) {
                 switch ($type) {
                     case 'langLayout':
                         $this->removeLangLayout();
+                        break;
+                    case 'langField':
+                        $this->removeLangField();
                         break;
                     default:
                         $this->removeBasicFile($type);
@@ -155,6 +158,15 @@ END;
         // write content
         if (file_put_contents($filePath, $content) === false) {
             throw new \Exception(__('could not write file', ['filePath' => $filePath]));
+        }
+    }
+
+    public function removeLangField(): void
+    {
+        $filePath = createPath($this->appPath, 'api', 'lang', 'field', $this->currentLang, $this->tableName) . '.php';
+
+        if (is_file($filePath) && unlink($filePath) === false) {
+            throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
         }
     }
 }

@@ -90,7 +90,9 @@ END
             throw new \Exception($e->getMessage());
         }
     }
-
+    /**
+    * @depends testCreateModelTableSuccessfully
+    */
     public function testCreateModelTableFailed()
     {
         try {
