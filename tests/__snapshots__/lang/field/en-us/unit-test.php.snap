@@ -1,0 +1,8 @@
+<?php
+
+return [
+    'unit-test' => [
+        'foo' => 'bar',
+        'foo2' => 'bar2',
+    ]
+];

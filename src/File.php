@@ -129,4 +129,32 @@ class File
             throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
         }
     }
+
+    public function createLangField(array $fieldsData)
+    {
+        $data = '';
+        foreach ($fieldsData as $field) {
+            $data = $data . "        '" . $field['name'] . "' => '" . $field['title'] . "',\n";
+        }
+        $data = substr($data, 0, -1);
+        $content = <<<END
+<?php
+
+return [
+    '$this->tableName' => [
+$data
+    ]
+];
+
+END;
+
+        $filePath = createPath($this->appPath, 'api', 'lang', 'field', $this->currentLang, $this->tableName) . '.php';
+
+        // check parent dir exists
+        makeDir(dirname($filePath));
+        // write content
+        if (file_put_contents($filePath, $content) === false) {
+            throw new \Exception(__('could not write file', ['filePath' => $filePath]));
+        }
+    }
 }

@@ -97,4 +97,23 @@ class FileTest extends TestCase
         }
         $this->fail();
     }
+
+    public function testLangFieldSuccessfully()
+    {
+        $fields = [
+            [
+                'name' => 'foo',
+                'title' => 'bar',
+            ],
+            [
+                'name' => 'foo2',
+                'title' => 'bar2',
+            ],
+        ];
+        ModelCreator::file('unit-test', 'Unit Test', 'en-us')->createLangField($fields);
+        $filePath = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'unit-test') . '.php';
+        $snapshotPath = createPath(__DIR__, '__snapshots__', 'lang', 'field', 'en-us', 'unit-test') . '.php.snap';
+        $this->assertTrue(is_file($filePath));
+        $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
+    }
 }
