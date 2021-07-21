@@ -238,4 +238,48 @@ END;
             throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
         }
     }
+
+    private function getValidateText($langKey)
+    {
+        $fieldName = substr($langKey, 0, strpos($langKey, '#'));
+        $fieldName = strtr($fieldName, ['@' => '.']);
+        $ruleName = substr($langKey, strpos($langKey, '#') + 1);
+        $option = '';
+        if (strpos($ruleName, ':')) {
+            $ruleName = substr($ruleName, 0, strpos($ruleName, ':'));
+            $option = substr($langKey, strpos($langKey, ':') + 1);
+            if ($option) {
+                $option = strtr($option, [',' => ' - ']);
+            }
+        }
+        return __('validate.' . $ruleName, ['field' => __($fieldName), 'option' => $option]);
+    }
+
+    public function createValidateI18n($fieldsData)
+    {
+        $validateData = (new Validate($this->tableName, $fieldsData))->getData();
+
+        $exclude = ['id.require', 'id.number', 'ids.require', 'ids.numberArray', 'status.numberTag', 'page.number', 'per_page.number', 'create_time.require', 'create_time.dateTimeRange'];
+        $msgs = array_diff_key($validateData['messages'], array_flip($exclude));
+
+        $content = '';
+        foreach ($msgs as $langKey) {
+            $content .= '    \'' . $langKey . '\' => \'' . $this->getValidateText($langKey) . "',\n";
+        }
+        $content = substr($content, 0, -1);
+        $content = <<<END
+<?php
+
+return [
+$content
+];
+
+END;
+
+        $filePath = createPath($this->appPath, 'api', 'lang', 'validator', $this->currentLang, $this->tableName) . '.php';
+        makeDir(dirname($filePath));
+        if (file_put_contents($filePath, $content) === false) {
+            throw new \Exception(__('could not write file', ['filePath' => $filePath]));
+        }
+    }
 }
