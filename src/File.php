@@ -69,7 +69,7 @@ class File
 
     public function remove(array $fileTypes = null)
     {
-        $fileTypes = $fileTypes ?: ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate', 'langLayout', 'langField'];
+        $fileTypes = $fileTypes ?: ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate', 'langLayout', 'langField', 'validateModified'];
         try {
             foreach ($fileTypes as $type) {
                 switch ($type) {
@@ -78,6 +78,9 @@ class File
                         break;
                     case 'langField':
                         $this->removeLangField();
+                        break;
+                    case 'validateModified':
+                        $this->removeValidateFile();
                         break;
                     default:
                         $this->removeBasicFile($type);
@@ -175,8 +178,8 @@ END;
     {
         $validateData = (new Validate($this->tableName, $fieldsData))->getData();
 
-        $filePath = createPath(base_path(), 'api', 'validate', $this->modelName) . '.php';
-        $stubPath = createPath(base_path(), 'api', 'validate', '_validate') . '.stub';
+        $filePath = createPath($this->appPath, 'api', 'validate', $this->modelName) . '.php';
+        $stubPath = createPath($this->appPath, 'api', 'validate', '_validate') . '.stub';
 
         $ruleText = '';
         foreach ($validateData['rules'] as $ruleKey => $ruleValue) {
@@ -224,6 +227,15 @@ END;
         makeDir(dirname($filePath));
         if (file_put_contents($filePath, $content) === false) {
             throw new \Exception(__('could not write file', ['filePath' => $filePath]));
+        }
+    }
+
+    public function removeValidateFile(): void
+    {
+        $filePath = createPath($this->appPath, 'api', 'validate', $this->modelName) . '.php';
+
+        if (is_file($filePath) && unlink($filePath) === false) {
+            throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
         }
     }
 }
