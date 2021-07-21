@@ -51,11 +51,14 @@ class FileTest extends TestCase
         $langLayoutPath = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'unit-test') . '.php';
         $this->assertFalse(is_file($langLayoutPath));
         // lang field
-        $langLayoutPath = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'unit-test') . '.php';
-        $this->assertFalse(is_file($langLayoutPath));
+        $langFieldPath = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'unit-test') . '.php';
+        $this->assertFalse(is_file($langFieldPath));
         // validate modified
-        $langLayoutPath = createPath(base_path(), 'api', 'validate', 'UnitTest') . '.php';
-        $this->assertFalse(is_file($langLayoutPath));
+        $langValidatorPath = createPath(base_path(), 'api', 'validate', 'UnitTest') . '.php';
+        $this->assertFalse(is_file($langValidatorPath));
+        // lang validator i18n
+        $langValidatorI18nPath = createPath(base_path(), 'api', 'lang', 'validator', 'en-us', 'unit-test') . '.php';
+        $this->assertFalse(is_file($langValidatorI18nPath));
     }
 
     
