@@ -11,6 +11,11 @@ function base_path(): string
     return 'runtime' . DIRECTORY_SEPARATOR . 'file';
 }
 
+function root_path(): string
+{
+    return 'runtime' . DIRECTORY_SEPARATOR . 'file';
+}
+
 function __(string $name, array $vars = [], string $lang = ''): string
 {
     return $name . ':' . join('|', $vars);
@@ -259,7 +264,7 @@ class FileTest extends TestCase
             throw new \Exception($e->getMessage());
         }
 
-        $filePath = createPath(base_path(), 'config', 'api', 'allowFields', 'UnitTest') . '.php';
+        $filePath = createPath(root_path(), 'config', 'api', 'allowFields', 'UnitTest') . '.php';
         $snapshotPath = createPath(__DIR__, '__snapshots__', 'config', 'api', 'allowFields', 'UnitTest') . '.php.snap';
         $this->assertTrue(is_file($filePath));
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));

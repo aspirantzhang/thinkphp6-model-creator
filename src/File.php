@@ -10,6 +10,7 @@ use aspirantzhang\octopusModelCreator\lib\Validate;
 class File
 {
     protected $appPath;
+    protected $rootPath;
     protected $tableName;
     protected $routeName;
     protected $modelName;
@@ -26,6 +27,7 @@ class File
         $this->modelTitle = $modelTitle;
         $this->currentLang = $currentLang;
         $this->appPath = base_path();
+        $this->rootPath = root_path();
         return $this;
     }
 
@@ -336,8 +338,8 @@ END;
         $allowUpdateText = $allowUpdate ? '\'' . implode('\', \'', $allowUpdate) . '\'' : '';
         $allowTranslateText = $allowTranslate ? '\'' . implode('\', \'', $allowTranslate) . '\'' : '';
 
-        $filePath = createPath($this->appPath, 'config', 'api', 'allowFields', $this->modelName) . '.php';
-        $stubPath = createPath($this->appPath, 'config', 'api', 'allowFields', '_allowFields') . '.stub';
+        $filePath = createPath($this->rootPath, 'config', 'api', 'allowFields', $this->modelName) . '.php';
+        $stubPath = createPath($this->rootPath, 'config', 'api', 'allowFields', '_allowFields') . '.stub';
 
         $content = file_get_contents($stubPath);
         $content = str_replace([
@@ -364,7 +366,7 @@ END;
 
     public function removeAllowConfig(): void
     {
-        $filePath = createPath($this->appPath, 'config', 'api', 'allowFields', $this->modelName) . '.php';
+        $filePath = createPath($this->rootPath, 'config', 'api', 'allowFields', $this->modelName) . '.php';
 
         if (is_file($filePath) && unlink($filePath) === false) {
             throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
