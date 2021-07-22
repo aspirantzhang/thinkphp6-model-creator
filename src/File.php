@@ -294,4 +294,67 @@ END;
             throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
         }
     }
+
+    public function createAllowConfig($fieldsData)
+    {
+        $allowHome = [];
+        $allowRead = [];
+        $allowSave = [];
+        $allowUpdate = [];
+        $allowTranslate = [];
+        
+        foreach ($fieldsData as $field) {
+            // home
+            if ($field['allowHome'] ?? false) {
+                array_push($allowHome, $field['name']);
+            }
+            // read
+            if ($field['allowRead'] ?? false) {
+                array_push($allowRead, $field['name']);
+            }
+            // save
+            if ($field['allowSave'] ?? false) {
+                array_push($allowSave, $field['name']);
+            }
+            // update
+            if ($field['allowUpdate'] ?? false) {
+                array_push($allowUpdate, $field['name']);
+            }
+            // translate
+            if ($field['allowTranslate'] ?? false) {
+                array_push($allowTranslate, $field['name']);
+            }
+        }
+
+        $allowHomeText = $allowHome ? '\'' . implode('\', \'', $allowHome) . '\'' : '';
+        $allowReadText = $allowRead ? '\'' . implode('\', \'', $allowRead) . '\'' : '';
+        $allowSaveText = $allowSave ? '\'' . implode('\', \'', $allowSave) . '\'' : '';
+        $allowUpdateText = $allowUpdate ? '\'' . implode('\', \'', $allowUpdate) . '\'' : '';
+        $allowTranslateText = $allowTranslate ? '\'' . implode('\', \'', $allowTranslate) . '\'' : '';
+
+        $filePath = createPath($this->appPath, 'config', 'api', 'allowFields', $this->modelName) . '.php';
+        $stubPath = createPath($this->appPath, 'config', 'api', 'allowFields', '_allowFields') . '.stub';
+
+        $content = file_get_contents($stubPath);
+        $content = str_replace([
+            '{%allowHome%}',
+            '{%allowRead%}',
+            '{%allowSave%}',
+            '{%allowUpdate%}',
+            '{%allowTranslate%}',
+        ], [
+            $allowHomeText,
+            $allowReadText,
+            $allowSaveText,
+            $allowUpdateText,
+            $allowTranslateText,
+        ], $content);
+        
+        // check parent dir exists
+        makeDir(dirname($filePath));
+        // write content
+        if (file_put_contents($filePath, $content) === false) {
+            throw new \Exception(__('could not write file', ['filePath' => $filePath]));
+        }
+    }
 }

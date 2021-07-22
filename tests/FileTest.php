@@ -18,6 +18,87 @@ function __(string $name, array $vars = [], string $lang = ''): string
 
 class FileTest extends TestCase
 {
+    protected $fieldsData = [
+        [
+            "name" => "nickname",
+            "title" => "Nick Name",
+            "type" => "input",
+            "settings" => [
+                "validate" => [
+                    "require",
+                    "length"
+                ],
+                "options" => [
+                    "length" => [
+                        "min" => 4,
+                        "max" => 32
+                    ]
+                ]
+            ],
+            "allowHome" => true,
+            "allowRead" => true,
+            "allowSave" => true,
+            "allowUpdate" => true,
+            "allowTranslate" => true
+        ],
+        [
+            "name" => "gender",
+            "title" => "Gender",
+            "type" => "radio",
+            "data" => [
+                [
+                    "title" => "Mx",
+                    "value" => "mx"
+                ],
+                [
+                    "title" => "Mr",
+                    "value" => "mr"
+                ],
+                [
+                    "title" => "Ms",
+                    "value" => "ms"
+                ]
+            ],
+            "settings" => [
+                "validate" => [
+                    "require"
+                ]
+            ],
+            "allowHome" => true,
+            "allowRead" => true,
+            "allowSave" => true,
+            "allowUpdate" => true
+        ],
+        [
+            "name" => "married",
+            "title" => "Married",
+            "type" => "switch",
+            "hideInColumn" => true,
+            "data" => [
+                [
+                    "title" => "Yes",
+                    "value" => 1
+                ],
+                [
+                    "title" => "No",
+                    "value" => 0
+                ]
+            ],
+            "settings" => [
+                "display" => [
+                    "listSorter"
+                ],
+                "validate" => [
+                    "require"
+                ]
+            ],
+            "allowHome" => true,
+            "allowRead" => true,
+            "allowUpdate" => true,
+            "allowSave" => true
+        ]
+    ];
+
     public function testFileCreatedSuccessfully()
     {
         deleteDir(base_path());
@@ -134,89 +215,9 @@ class FileTest extends TestCase
         $mockStubPath = createPath(base_path(), 'api', 'validate', '_validate') . '.stub';
         makeDir(dirname($mockStubPath));
         copy($testStubPath, $mockStubPath);
-        $fieldsData = [
-            [
-                "name" => "nickname",
-                "title" => "Nick Name",
-                "type" => "input",
-                "settings" => [
-                    "validate" => [
-                        "require",
-                        "length"
-                    ],
-                    "options" => [
-                        "length" => [
-                            "min" => 4,
-                            "max" => 32
-                        ]
-                    ]
-                ],
-                "allowHome" => true,
-                "allowRead" => true,
-                "allowSave" => true,
-                "allowUpdate" => true,
-                "allowTranslate" => true
-            ],
-            [
-                "name" => "gender",
-                "title" => "Gender",
-                "type" => "radio",
-                "data" => [
-                    [
-                        "title" => "Mx",
-                        "value" => "mx"
-                    ],
-                    [
-                        "title" => "Mr",
-                        "value" => "mr"
-                    ],
-                    [
-                        "title" => "Ms",
-                        "value" => "ms"
-                    ]
-                ],
-                "settings" => [
-                    "validate" => [
-                        "require"
-                    ]
-                ],
-                "allowHome" => true,
-                "allowRead" => true,
-                "allowSave" => true,
-                "allowUpdate" => true
-            ],
-            [
-                "name" => "married",
-                "title" => "Married",
-                "type" => "switch",
-                "hideInColumn" => true,
-                "data" => [
-                    [
-                        "title" => "Yes",
-                        "value" => 1
-                    ],
-                    [
-                        "title" => "No",
-                        "value" => 0
-                    ]
-                ],
-                "settings" => [
-                    "display" => [
-                        "listSorter"
-                    ],
-                    "validate" => [
-                        "require"
-                    ]
-                ],
-                "allowHome" => true,
-                "allowRead" => true,
-                "allowUpdate" => true,
-                "allowSave" => true
-            ]
-        ];
-        
+
         try {
-            ModelCreator::file('unit-test', 'Unit Test', 'en-us')->createValidateFile($fieldsData);
+            ModelCreator::file('unit-test', 'Unit Test', 'en-us')->createValidateFile($this->fieldsData);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -229,99 +230,37 @@ class FileTest extends TestCase
 
     public function testCreateValidateI18nSuccessfully()
     {
-        $fieldsData = [
-            [
-                "name" => "nickname",
-                "title" => "Nick Name",
-                "type" => "input",
-                "settings" => [
-                    "validate" => [
-                        "require",
-                        "length"
-                    ],
-                    "options" => [
-                        "length" => [
-                            "min" => 4,
-                            "max" => 32
-                        ]
-                    ]
-                ],
-                "allowHome" => true,
-                "allowRead" => true,
-                "allowSave" => true,
-                "allowUpdate" => true,
-                "allowTranslate" => true
-            ],
-            [
-                "name" => "gender",
-                "title" => "Gender",
-                "type" => "radio",
-                "data" => [
-                    [
-                        "title" => "Mx",
-                        "value" => "mx"
-                    ],
-                    [
-                        "title" => "Mr",
-                        "value" => "mr"
-                    ],
-                    [
-                        "title" => "Ms",
-                        "value" => "ms"
-                    ]
-                ],
-                "settings" => [
-                    "validate" => [
-                        "require"
-                    ]
-                ],
-                "allowHome" => true,
-                "allowRead" => true,
-                "allowSave" => true,
-                "allowUpdate" => true
-            ],
-            [
-                "name" => "married",
-                "title" => "Married",
-                "type" => "switch",
-                "hideInColumn" => true,
-                "data" => [
-                    [
-                        "title" => "Yes",
-                        "value" => 1
-                    ],
-                    [
-                        "title" => "No",
-                        "value" => 0
-                    ]
-                ],
-                "settings" => [
-                    "display" => [
-                        "listSorter"
-                    ],
-                    "validate" => [
-                        "require"
-                    ]
-                ],
-                "allowHome" => true,
-                "allowRead" => true,
-                "allowUpdate" => true,
-                "allowSave" => true
-            ]
-        ];
-        
         try {
             $langFieldPath = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'unit-test') . '.php';
             if (file_exists($langFieldPath)) {
                 Lang::load($langFieldPath);
             }
-            ModelCreator::file('unit-test', 'Unit Test', 'en-us')->createValidateI18n($fieldsData);
+            ModelCreator::file('unit-test', 'Unit Test', 'en-us')->createValidateI18n($this->fieldsData);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
 
         $filePath = createPath(base_path(), 'api', 'lang', 'validator', 'en-us', 'unit-test') . '.php';
         $snapshotPath = createPath(__DIR__, '__snapshots__', 'lang', 'validator', 'en-us', 'unit-test') . '.php.snap';
+        $this->assertTrue(is_file($filePath));
+        $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
+    }
+
+    public function testCreateAllowConfigSuccessfully()
+    {
+        $testStubPath = createPath(__DIR__, 'stubs', '_allowFields') . '.stub';
+        $mockStubPath = createPath(base_path(), 'config', 'api', 'allowFields', '_allowFields') . '.stub';
+        makeDir(dirname($mockStubPath));
+        copy($testStubPath, $mockStubPath);
+
+        try {
+            ModelCreator::file('unit-test', 'Unit Test', 'en-us')->createAllowConfig($this->fieldsData);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+
+        $filePath = createPath(base_path(), 'config', 'api', 'allowFields', 'UnitTest') . '.php';
+        $snapshotPath = createPath(__DIR__, '__snapshots__', 'config', 'api', 'allowFields', 'UnitTest') . '.php.snap';
         $this->assertTrue(is_file($filePath));
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
     }
