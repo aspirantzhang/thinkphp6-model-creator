@@ -69,7 +69,8 @@ class File
 
     public function remove(array $fileTypes = null)
     {
-        $fileTypes = $fileTypes ?: ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate', 'langLayout', 'langField', 'validateModified','validateI18n'];
+        $fileTypes = $fileTypes ?: ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate',
+                                    'langLayout', 'langField', 'validateModified','validateI18n', 'allowFields'];
         try {
             foreach ($fileTypes as $type) {
                 switch ($type) {
@@ -84,6 +85,9 @@ class File
                         break;
                     case 'validateI18n':
                         $this->removeValidateI18n();
+                        break;
+                    case 'allowFields':
+                        $this->removeAllowConfig();
                         break;
                     default:
                         $this->removeBasicFile($type);
@@ -355,6 +359,15 @@ END;
         // write content
         if (file_put_contents($filePath, $content) === false) {
             throw new \Exception(__('could not write file', ['filePath' => $filePath]));
+        }
+    }
+
+    public function removeAllowConfig(): void
+    {
+        $filePath = createPath($this->appPath, 'config', 'api', 'allowFields', $this->modelName) . '.php';
+
+        if (is_file($filePath) && unlink($filePath) === false) {
+            throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
         }
     }
 }
