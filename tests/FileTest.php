@@ -272,8 +272,6 @@ class FileTest extends TestCase
 
     public function testUpdateSuccessfully()
     {
-        // deleteDir(base_path());
-        // ModelCreator::file('unit-test', 'Unit Test', 'en-us')->create();
         ModelCreator::file('unit-test', 'Unit Test', 'en-us')->remove(['langField', 'validateModified','validateI18n', 'allowFields']);
 
         $testStubPath = createPath(__DIR__, 'stubs', '_validate') . '.stub';
