@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace aspirantzhang\octopusModelCreator;
 
 use think\helper\Str;
+use think\facade\Lang;
 use aspirantzhang\octopusModelCreator\lib\Validate;
 
 class File
@@ -371,5 +372,17 @@ END;
         if (is_file($filePath) && unlink($filePath) === false) {
             throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
         }
+    }
+
+    public function update(array $fieldsData)
+    {
+        $this->createLangField($fieldsData);
+        $this->createValidateFile($fieldsData);
+        $langFieldPath = createPath(base_path(), 'api', 'lang', 'field', $this->currentLang, $this->tableName) . '.php';
+        if (file_exists($langFieldPath)) {
+            Lang::load($langFieldPath);
+        }
+        $this->createValidateI18n($fieldsData);
+        $this->createAllowConfig($fieldsData);
     }
 }

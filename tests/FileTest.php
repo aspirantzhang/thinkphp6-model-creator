@@ -269,4 +269,33 @@ class FileTest extends TestCase
         $this->assertTrue(is_file($filePath));
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
     }
+
+    public function testUpdateSuccessfully()
+    {
+        // deleteDir(base_path());
+        // ModelCreator::file('unit-test', 'Unit Test', 'en-us')->create();
+        ModelCreator::file('unit-test', 'Unit Test', 'en-us')->remove(['langField', 'validateModified','validateI18n', 'allowFields']);
+
+        $testStubPath = createPath(__DIR__, 'stubs', '_validate') . '.stub';
+        $mockStubPath = createPath(base_path(), 'api', 'validate', '_validate') . '.stub';
+        makeDir(dirname($mockStubPath));
+        copy($testStubPath, $mockStubPath);
+
+        $testStubPath = createPath(__DIR__, 'stubs', '_allowFields') . '.stub';
+        $mockStubPath = createPath(base_path(), 'config', 'api', 'allowFields', '_allowFields') . '.stub';
+        makeDir(dirname($mockStubPath));
+        copy($testStubPath, $mockStubPath);
+
+        ModelCreator::file('unit-test', 'Unit Test', 'en-us')->update($this->fieldsData);
+
+        $filesPath = [
+            createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'unit-test') . '.php',
+            createPath(base_path(), 'api', 'validate', 'UnitTest') . '.php',
+            createPath(base_path(), 'api', 'lang', 'validator', 'en-us', 'unit-test') . '.php',
+            createPath(root_path(), 'config', 'api', 'allowFields', 'UnitTest') . '.php'
+        ];
+        foreach ($filesPath as $path) {
+            $this->assertTrue(is_file($path));
+        }
+    }
 }
