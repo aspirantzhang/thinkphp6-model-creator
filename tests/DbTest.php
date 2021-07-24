@@ -103,6 +103,189 @@ END
         }
         $this->fail();
     }
+    /**
+    * @depends testCreateModelTableFailed
+    */
+    public function testFieldsHandler()
+    {
+        $fieldsData = [
+            [
+                "name" => "nickname",
+                "title" => "Nick Name",
+                "type" => "input",
+                "settings" => [
+                    "validate" => [
+                        "require",
+                        "length"
+                    ],
+                    "options" => [
+                        "length" => [
+                            "min" => 4,
+                            "max" => 32
+                        ]
+                    ]
+                ],
+                "allowHome" => true,
+                "allowRead" => true,
+                "allowSave" => true,
+                "allowUpdate" => true,
+                "allowTranslate" => true
+            ],
+            [
+                "name" => "gender",
+                "title" => "Gender",
+                "type" => "radio",
+                "data" => [
+                    [
+                        "title" => "Mx",
+                        "value" => "mx"
+                    ],
+                    [
+                        "title" => "Mr",
+                        "value" => "mr"
+                    ],
+                    [
+                        "title" => "Ms",
+                        "value" => "ms"
+                    ]
+                ],
+                "settings" => [
+                    "validate" => [
+                        "require"
+                    ]
+                ],
+                "allowHome" => true,
+                "allowRead" => true,
+                "allowSave" => true,
+                "allowUpdate" => true
+            ],
+            [
+                "name" => "married",
+                "title" => "Married",
+                "type" => "switch",
+                "hideInColumn" => true,
+                "data" => [
+                    [
+                        "title" => "Yes",
+                        "value" => 1
+                    ],
+                    [
+                        "title" => "No",
+                        "value" => 0
+                    ]
+                ],
+                "settings" => [
+                    "display" => [
+                        "listSorter"
+                    ],
+                    "validate" => [
+                        "require"
+                    ]
+                ],
+                "allowHome" => true,
+                "allowRead" => true,
+                "allowUpdate" => true,
+                "allowSave" => true
+            ]
+        ];
+        $fieldsDataUpdate = [
+            [
+                "name" => "nickname",
+                "title" => "Nick Name",
+                "type" => "longtext",
+                "settings" => [
+                    "validate" => [
+                        "require",
+                        "length"
+                    ],
+                    "options" => [
+                        "length" => [
+                            "min" => 4,
+                            "max" => 32
+                        ]
+                    ]
+                ],
+                "allowHome" => true,
+                "allowRead" => true,
+                "allowSave" => true,
+                "allowUpdate" => true,
+                "allowTranslate" => true
+            ],
+            [
+                "name" => "gender",
+                "title" => "Gender",
+                "type" => "radio",
+                "data" => [
+                    [
+                        "title" => "Mx",
+                        "value" => "mx"
+                    ],
+                    [
+                        "title" => "Mr",
+                        "value" => "mr"
+                    ],
+                    [
+                        "title" => "Ms",
+                        "value" => "ms"
+                    ]
+                ],
+                "settings" => [
+                    "validate" => [
+                        "require"
+                    ]
+                ],
+                "allowHome" => true,
+                "allowRead" => true,
+                "allowSave" => true,
+                "allowUpdate" => true
+            ],
+            [
+                "name" => "married",
+                "title" => "Married",
+                "type" => "switch",
+                "hideInColumn" => true,
+                "data" => [
+                    [
+                        "title" => "Yes",
+                        "value" => 1
+                    ],
+                    [
+                        "title" => "No",
+                        "value" => 0
+                    ]
+                ],
+                "settings" => [
+                    "display" => [
+                        "listSorter"
+                    ],
+                    "validate" => [
+                        "require"
+                    ]
+                ],
+                "allowHome" => true,
+                "allowRead" => true,
+                "allowUpdate" => true,
+                "allowSave" => true
+            ],
+            [
+                "name" => "age",
+                "title" => "Age",
+                "type" => "number",
+            ],
+            [
+                "name" => "foo_time",
+                "title" => "Foo Time",
+                "type" => "datetime",
+            ],
+        ];
+        try {
+            ModelCreator::db('unit-test', '', 'zh-cn')->fieldsHandler(['nickname', 'gender', 'married'], $fieldsData, []);
+            ModelCreator::db('unit-test', '', 'zh-cn')->fieldsHandler(['nickname', 'gender', 'age', 'foo_time'], $fieldsDataUpdate, []);
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
 
     public function testRemoveModelTableSuccessfully()
     {
@@ -289,188 +472,5 @@ END
             return;
         }
         $this->fail();
-    }
-    /**
-    * @depends testRemoveModelFailed
-    */
-    public function testFieldsHandler()
-    {
-        $fieldsData = [
-            [
-                "name" => "nickname",
-                "title" => "Nick Name",
-                "type" => "input",
-                "settings" => [
-                    "validate" => [
-                        "require",
-                        "length"
-                    ],
-                    "options" => [
-                        "length" => [
-                            "min" => 4,
-                            "max" => 32
-                        ]
-                    ]
-                ],
-                "allowHome" => true,
-                "allowRead" => true,
-                "allowSave" => true,
-                "allowUpdate" => true,
-                "allowTranslate" => true
-            ],
-            [
-                "name" => "gender",
-                "title" => "Gender",
-                "type" => "radio",
-                "data" => [
-                    [
-                        "title" => "Mx",
-                        "value" => "mx"
-                    ],
-                    [
-                        "title" => "Mr",
-                        "value" => "mr"
-                    ],
-                    [
-                        "title" => "Ms",
-                        "value" => "ms"
-                    ]
-                ],
-                "settings" => [
-                    "validate" => [
-                        "require"
-                    ]
-                ],
-                "allowHome" => true,
-                "allowRead" => true,
-                "allowSave" => true,
-                "allowUpdate" => true
-            ],
-            [
-                "name" => "married",
-                "title" => "Married",
-                "type" => "switch",
-                "hideInColumn" => true,
-                "data" => [
-                    [
-                        "title" => "Yes",
-                        "value" => 1
-                    ],
-                    [
-                        "title" => "No",
-                        "value" => 0
-                    ]
-                ],
-                "settings" => [
-                    "display" => [
-                        "listSorter"
-                    ],
-                    "validate" => [
-                        "require"
-                    ]
-                ],
-                "allowHome" => true,
-                "allowRead" => true,
-                "allowUpdate" => true,
-                "allowSave" => true
-            ]
-        ];
-        $fieldsDataUpdate = [
-            [
-                "name" => "nickname",
-                "title" => "Nick Name",
-                "type" => "longtext",
-                "settings" => [
-                    "validate" => [
-                        "require",
-                        "length"
-                    ],
-                    "options" => [
-                        "length" => [
-                            "min" => 4,
-                            "max" => 32
-                        ]
-                    ]
-                ],
-                "allowHome" => true,
-                "allowRead" => true,
-                "allowSave" => true,
-                "allowUpdate" => true,
-                "allowTranslate" => true
-            ],
-            [
-                "name" => "gender",
-                "title" => "Gender",
-                "type" => "radio",
-                "data" => [
-                    [
-                        "title" => "Mx",
-                        "value" => "mx"
-                    ],
-                    [
-                        "title" => "Mr",
-                        "value" => "mr"
-                    ],
-                    [
-                        "title" => "Ms",
-                        "value" => "ms"
-                    ]
-                ],
-                "settings" => [
-                    "validate" => [
-                        "require"
-                    ]
-                ],
-                "allowHome" => true,
-                "allowRead" => true,
-                "allowSave" => true,
-                "allowUpdate" => true
-            ],
-            [
-                "name" => "married",
-                "title" => "Married",
-                "type" => "switch",
-                "hideInColumn" => true,
-                "data" => [
-                    [
-                        "title" => "Yes",
-                        "value" => 1
-                    ],
-                    [
-                        "title" => "No",
-                        "value" => 0
-                    ]
-                ],
-                "settings" => [
-                    "display" => [
-                        "listSorter"
-                    ],
-                    "validate" => [
-                        "require"
-                    ]
-                ],
-                "allowHome" => true,
-                "allowRead" => true,
-                "allowUpdate" => true,
-                "allowSave" => true
-            ],
-            [
-                "name" => "age",
-                "title" => "Age",
-                "type" => "number",
-            ],
-            [
-                "name" => "foo_time",
-                "title" => "Foo Time",
-                "type" => "datetime",
-            ],
-        ];
-        try {
-            ModelCreator::db('unit-test', '', 'zh-cn')->fieldsHandler(['nickname', 'gender', 'married'], $fieldsData, []);
-            ModelCreator::db('unit-test', '', 'zh-cn')->fieldsHandler(['nickname', 'gender', 'age', 'foo_time'], $fieldsDataUpdate, []);
-            $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
     }
 }
