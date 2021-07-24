@@ -263,7 +263,7 @@ class Db
         }
 
         foreach ($delete as $field) {
-            $method = 'DROP IF EXISTS';
+            $method = 'DROP COLUMN';
             if (!in_array($field, $reservedFields)) {
                 $statements[] = " $method `$field`";
             }
@@ -271,11 +271,10 @@ class Db
 
         $alterTableSql = 'ALTER TABLE `' . $this->tableName . '` ' . implode(',', $statements) . ';';
 
-        echo $alterTableSql;
-        ThinkDb::query($alterTableSql);
-        // try {
-        // } catch (\Exception $e) {
-        //     throw new \Exception(__('change table structure failed', ['tableName' => $this->tableName]));
-        // }
+        try {
+            ThinkDb::query($alterTableSql);
+        } catch (\Exception $e) {
+            throw new \Exception(__('change table structure failed', ['tableName' => $this->tableName]));
+        }
     }
 }
