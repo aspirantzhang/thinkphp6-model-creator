@@ -396,9 +396,20 @@ END
                 "type" => "datetime",
             ],
         ];
+        $reservedFields = [
+            'id',
+            'create_time',
+            'update_time',
+            'delete_time',
+            'status',
+            '_id',
+            'original_id',
+            'lang_code',
+            'translate_time'
+        ];
         try {
-            ModelCreator::db('unit-test-2', 'Unit Test 2', 'zh-cn')->fieldsHandler(['nickname', 'gender', 'married'], $fieldsData, []);
-            ModelCreator::db('unit-test-2', 'Unit Test 2', 'zh-cn')->fieldsHandler(['nickname', 'gender', 'age', 'foo_time'], $fieldsDataUpdate, []);
+            ModelCreator::db('unit-test-2', 'Unit Test 2', 'zh-cn')->fieldsHandler(['nickname', 'gender', 'married'], $fieldsData, $reservedFields);
+            ModelCreator::db('unit-test-2', 'Unit Test 2', 'zh-cn')->fieldsHandler(['nickname', 'gender', 'age', 'foo_time'], $fieldsDataUpdate, $reservedFields);
             $this->assertTrue(true);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
