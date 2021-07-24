@@ -77,7 +77,7 @@ CREATE TABLE `auth_group_rule` (
  UNIQUE KEY `group_rule_id` (`group_id`,`rule_id`),
  KEY `group_id` (`group_id`),
  KEY `rule_id` (`rule_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 END
         );
     }
@@ -103,10 +103,128 @@ END
         }
         $this->fail();
     }
+
+    public function testRemoveModelTableSuccessfully()
+    {
+        try {
+            (new Db())->removeModelTable('unit-test');
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    public function testCreateRuleSuccessfully()
+    {
+        try {
+            $id = (new Db())->createRule('Unit Test', 'en-us');
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+        return $id;
+    }
     /**
-    * @depends testCreateModelTableFailed
+    * @depends testCreateRuleSuccessfully
     */
-    public function testFieldsHandler()
+    public function testCreateChildrenRulesSuccessfully($id)
+    {
+        try {
+            (new Db())->createChildrenRules($id, 'en-us', 'unit-test', 'Unit Test');
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+        return $id;
+    }
+    /**
+    * @depends testCreateChildrenRulesSuccessfully
+    */
+    public function testRemoveRuleSuccessfully($id)
+    {
+        try {
+            (new Db())->removeRules($id);
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    public function testAddRulesToGroupSuccessfully()
+    {
+        try {
+            (new Db())->addRulesToGroup([100,200], 1);
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    public function testCreateMenuSuccessfully()
+    {
+        try {
+            $id = (new Db())->createMenu('Unit Test', 'en-us', 'testPath');
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+        return $id;
+    }
+    /**
+    * @depends testCreateMenuSuccessfully
+    */
+    public function testCreateChildrenMenusSuccessfully($id)
+    {
+        try {
+            (new Db())->createChildrenMenus($id, 'en-us', 'unit-test', 'Unit Test');
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+        return $id;
+    }
+    /**
+    * @depends testCreateChildrenMenusSuccessfully
+    */
+    public function testRemoveMenuSuccessfully($id)
+    {
+        try {
+            (new Db())->removeMenus($id);
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+    /**
+    * @depends testRemoveMenuSuccessfully
+    */
+    public function testCreateModelSuccessfully()
+    {
+        try {
+            $modelData = ModelCreator::db('unit-test-2', 'Unit Test 2', 'zh-cn')->createModel();
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+        return $modelData;
+    }
+    /**
+    * @depends testCreateModelSuccessfully
+    */
+    public function testCreateModelFailed($modelData)
+    {
+        try {
+            ModelCreator::db('unit-test-2', 'Unit Test 2', 'zh-cn')->createModel();
+        } catch (\Exception $e) {
+            $this->assertEquals($e->getMessage(), 'create model table failed:unit-test-2');
+            return $modelData;
+        }
+        $this->fail();
+    }
+    /**
+    * @depends testCreateModelFailed
+    */
+    public function testFieldsHandler($modelData)
     {
         $fieldsData = [
             [
@@ -279,112 +397,8 @@ END
             ],
         ];
         try {
-            ModelCreator::db('unit-test', '', 'zh-cn')->fieldsHandler(['nickname', 'gender', 'married'], $fieldsData, []);
-            ModelCreator::db('unit-test', '', 'zh-cn')->fieldsHandler(['nickname', 'gender', 'age', 'foo_time'], $fieldsDataUpdate, []);
-            $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
-    }
-
-    public function testRemoveModelTableSuccessfully()
-    {
-        try {
-            (new Db())->removeModelTable('unit-test');
-            $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
-    }
-
-    public function testCreateRuleSuccessfully()
-    {
-        try {
-            $id = (new Db())->createRule('Unit Test', 'en-us');
-            $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
-        return $id;
-    }
-    /**
-    * @depends testCreateRuleSuccessfully
-    */
-    public function testCreateChildrenRulesSuccessfully($id)
-    {
-        try {
-            (new Db())->createChildrenRules($id, 'en-us', 'unit-test', 'Unit Test');
-            $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
-        return $id;
-    }
-    /**
-    * @depends testCreateChildrenRulesSuccessfully
-    */
-    public function testRemoveRuleSuccessfully($id)
-    {
-        try {
-            (new Db())->removeRules($id);
-            $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
-    }
-
-    public function testAddRulesToGroupSuccessfully()
-    {
-        try {
-            (new Db())->addRulesToGroup([100,200], 1);
-            $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
-    }
-
-    public function testCreateMenuSuccessfully()
-    {
-        try {
-            $id = (new Db())->createMenu('Unit Test', 'en-us', 'testPath');
-            $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
-        return $id;
-    }
-    /**
-    * @depends testCreateMenuSuccessfully
-    */
-    public function testCreateChildrenMenusSuccessfully($id)
-    {
-        try {
-            (new Db())->createChildrenMenus($id, 'en-us', 'unit-test', 'Unit Test');
-            $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
-        return $id;
-    }
-    /**
-    * @depends testCreateChildrenMenusSuccessfully
-    */
-    public function testRemoveMenuSuccessfully($id)
-    {
-        try {
-            (new Db())->removeMenus($id);
-            $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
-    }
-    /**
-    * @depends testRemoveMenuSuccessfully
-    */
-    public function testCreateModelSuccessfully()
-    {
-        try {
-            $modelData = ModelCreator::db('unit-test-2', 'Unit Test 2', 'zh-cn')->createModel();
+            ModelCreator::db('unit-test-2', 'Unit Test 2', 'zh-cn')->fieldsHandler(['nickname', 'gender', 'married'], $fieldsData, []);
+            ModelCreator::db('unit-test-2', 'Unit Test 2', 'zh-cn')->fieldsHandler(['nickname', 'gender', 'age', 'foo_time'], $fieldsDataUpdate, []);
             $this->assertTrue(true);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
@@ -392,20 +406,7 @@ END
         return $modelData;
     }
     /**
-    * @depends testCreateModelSuccessfully
-    */
-    public function testCreateModelFailed($modelData)
-    {
-        try {
-            ModelCreator::db('unit-test-2', 'Unit Test 2', 'zh-cn')->createModel();
-        } catch (\Exception $e) {
-            $this->assertEquals($e->getMessage(), 'create model table failed:unit-test-2');
-            return $modelData;
-        }
-        $this->fail();
-    }
-    /**
-    * @depends testCreateModelFailed
+    * @depends testFieldsHandler
     */
     public function testRemoveModelSuccessfully($modelData)
     {
