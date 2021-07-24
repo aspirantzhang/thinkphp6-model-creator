@@ -271,10 +271,11 @@ class Db
 
         $alterTableSql = 'ALTER TABLE `' . $this->tableName . '` ' . implode(',', $statements) . ';';
 
-        try {
-            ThinkDb::query($alterTableSql);
-        } catch (\Exception $e) {
-            throw new \Exception(__('change table structure failed', ['tableName' => $this->tableName]));
-        }
+        echo $alterTableSql;
+        ThinkDb::query($alterTableSql);
+        // try {
+        // } catch (\Exception $e) {
+        //     throw new \Exception(__('change table structure failed', ['tableName' => $this->tableName]));
+        // }
     }
 }
