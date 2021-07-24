@@ -219,11 +219,15 @@ class Db
 
         $statements = [];
         foreach ($fieldsData as $field) {
+            $type = '';
+            $typeAddon = '';
+            $default = '';
+            
             switch ($field['type']) {
                 case 'longtext':
                     $type = 'LONGTEXT';
                     $typeAddon = '';
-                    $default = 'DEFAULT \'\'';
+                    $default = '';
                     break;
                 case 'number':
                     $type = 'INT';
@@ -267,11 +271,10 @@ class Db
 
         $alterTableSql = 'ALTER TABLE `' . $this->tableName . '` ' . implode(',', $statements) . ';';
 
-        echo $alterTableSql;
-        ThinkDb::query($alterTableSql);
-        // try {
-        // } catch (\Exception $e) {
-        //     throw new \Exception(__('change table structure failed', ['tableName' => $this->tableName]));
-        // }
+        try {
+            ThinkDb::query($alterTableSql);
+        } catch (\Exception $e) {
+            throw new \Exception(__('change table structure failed', ['tableName' => $this->tableName]));
+        }
     }
 }
