@@ -267,6 +267,7 @@ class Db
 
         $alterTableSql = 'ALTER TABLE `' . $this->tableName . '` ' . implode(',', $statements) . ';';
 
+        echo $alterTableSql;
         ThinkDb::query($alterTableSql);
         // try {
         // } catch (\Exception $e) {
