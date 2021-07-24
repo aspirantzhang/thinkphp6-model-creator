@@ -140,11 +140,11 @@ class FileTest extends TestCase
         $langFieldPath = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'unit-test') . '.php';
         $this->assertFalse(is_file($langFieldPath));
         // validate modified
-        $langValidatorPath = createPath(base_path(), 'api', 'validate', 'UnitTest') . '.php';
-        $this->assertFalse(is_file($langValidatorPath));
-        // lang validator i18n
-        $langValidatorI18nPath = createPath(base_path(), 'api', 'lang', 'validator', 'en-us', 'unit-test') . '.php';
-        $this->assertFalse(is_file($langValidatorI18nPath));
+        $langValidatePath = createPath(base_path(), 'api', 'validate', 'UnitTest') . '.php';
+        $this->assertFalse(is_file($langValidatePath));
+        // lang validate i18n
+        $langValidateI18nPath = createPath(base_path(), 'api', 'lang', 'validate', 'en-us', 'unit-test') . '.php';
+        $this->assertFalse(is_file($langValidateI18nPath));
     }
 
     
@@ -245,8 +245,8 @@ class FileTest extends TestCase
             throw new \Exception($e->getMessage());
         }
 
-        $filePath = createPath(base_path(), 'api', 'lang', 'validator', 'en-us', 'unit-test') . '.php';
-        $snapshotPath = createPath(__DIR__, '__snapshots__', 'lang', 'validator', 'en-us', 'unit-test') . '.php.snap';
+        $filePath = createPath(base_path(), 'api', 'lang', 'validate', 'en-us', 'unit-test') . '.php';
+        $snapshotPath = createPath(__DIR__, '__snapshots__', 'lang', 'validate', 'en-us', 'unit-test') . '.php.snap';
         $this->assertTrue(is_file($filePath));
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
     }
@@ -289,7 +289,7 @@ class FileTest extends TestCase
         $filesPath = [
             createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'unit-test') . '.php',
             createPath(base_path(), 'api', 'validate', 'UnitTest') . '.php',
-            createPath(base_path(), 'api', 'lang', 'validator', 'en-us', 'unit-test') . '.php',
+            createPath(base_path(), 'api', 'lang', 'validate', 'en-us', 'unit-test') . '.php',
             createPath(root_path(), 'config', 'api', 'allowFields', 'UnitTest') . '.php'
         ];
         foreach ($filesPath as $path) {

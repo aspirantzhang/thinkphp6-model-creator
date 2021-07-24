@@ -286,7 +286,7 @@ $content
 
 END;
 
-        $filePath = createPath($this->appPath, 'api', 'lang', 'validator', $this->currentLang, $this->tableName) . '.php';
+        $filePath = createPath($this->appPath, 'api', 'lang', 'validate', $this->currentLang, $this->tableName) . '.php';
         makeDir(dirname($filePath));
         if (file_put_contents($filePath, $content) === false) {
             throw new \Exception(__('could not write file', ['filePath' => $filePath]));
@@ -295,7 +295,7 @@ END;
 
     public function removeValidateI18n(): void
     {
-        $filePath = createPath($this->appPath, 'api', 'lang', 'validator', $this->currentLang, $this->tableName) . '.php';
+        $filePath = createPath($this->appPath, 'api', 'lang', 'validate', $this->currentLang, $this->tableName) . '.php';
 
         if (is_file($filePath) && unlink($filePath) === false) {
             throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
