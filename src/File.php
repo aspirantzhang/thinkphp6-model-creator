@@ -112,7 +112,7 @@ class File
 
     public function createLangLayout()
     {
-        $filePath = createPath($this->appPath, 'api', 'lang', 'layout', $this->currentLang, $this->tableName) . '.php';
+        $filePath = createPath($this->appPath, 'api', 'lang', 'layout', $this->currentLang, $this->modelName) . '.php';
 
         if (!is_file($filePath)) {
             $listText = __('list');
@@ -140,7 +140,7 @@ class File
 
     public function removeLangLayout(): void
     {
-        $filePath = createPath($this->appPath, 'api', 'lang', 'layout', $this->currentLang, $this->tableName) . '.php';
+        $filePath = createPath($this->appPath, 'api', 'lang', 'layout', $this->currentLang, $this->modelName) . '.php';
 
         if (is_file($filePath) && unlink($filePath) === false) {
             throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
@@ -165,7 +165,7 @@ $data
 
 END;
 
-        $filePath = createPath($this->appPath, 'api', 'lang', 'field', $this->currentLang, $this->tableName) . '.php';
+        $filePath = createPath($this->appPath, 'api', 'lang', 'field', $this->currentLang, $this->modelName) . '.php';
 
         // check parent dir exists
         makeDir(dirname($filePath));
@@ -177,7 +177,7 @@ END;
 
     public function removeLangField(): void
     {
-        $filePath = createPath($this->appPath, 'api', 'lang', 'field', $this->currentLang, $this->tableName) . '.php';
+        $filePath = createPath($this->appPath, 'api', 'lang', 'field', $this->currentLang, $this->modelName) . '.php';
 
         if (is_file($filePath) && unlink($filePath) === false) {
             throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
@@ -286,7 +286,7 @@ $content
 
 END;
 
-        $filePath = createPath($this->appPath, 'api', 'lang', 'validate', $this->currentLang, $this->tableName) . '.php';
+        $filePath = createPath($this->appPath, 'api', 'lang', 'validate', $this->currentLang, $this->modelName) . '.php';
         makeDir(dirname($filePath));
         if (file_put_contents($filePath, $content) === false) {
             throw new \Exception(__('could not write file', ['filePath' => $filePath]));
@@ -295,7 +295,7 @@ END;
 
     public function removeValidateI18n(): void
     {
-        $filePath = createPath($this->appPath, 'api', 'lang', 'validate', $this->currentLang, $this->tableName) . '.php';
+        $filePath = createPath($this->appPath, 'api', 'lang', 'validate', $this->currentLang, $this->modelName) . '.php';
 
         if (is_file($filePath) && unlink($filePath) === false) {
             throw new \Exception(__('could not remove file', ['filePath' => $filePath]));
@@ -378,7 +378,7 @@ END;
     {
         $this->createLangField($fieldsData);
         $this->createValidateFile($fieldsData);
-        $langFieldPath = createPath(base_path(), 'api', 'lang', 'field', $this->currentLang, $this->tableName) . '.php';
+        $langFieldPath = createPath(base_path(), 'api', 'lang', 'field', $this->currentLang, $this->modelName) . '.php';
         if (file_exists($langFieldPath)) {
             Lang::load($langFieldPath);
         }
