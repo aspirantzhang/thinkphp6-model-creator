@@ -118,8 +118,8 @@ class FileTest extends TestCase
             $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
         }
         // lang layout
-        $langLayoutPath = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'unit-test') . '.php';
-        $langLayoutSnapshotPath = createPath(__DIR__, '__snapshots__', 'lang', 'layout', 'en-us', 'unit-test') . '.php.snap';
+        $langLayoutPath = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'UnitTest') . '.php';
+        $langLayoutSnapshotPath = createPath(__DIR__, '__snapshots__', 'lang', 'layout', 'en-us', 'UnitTest') . '.php.snap';
         $this->assertTrue(is_file($langLayoutPath));
         $this->assertTrue(matchSnapshot($langLayoutPath, $langLayoutSnapshotPath));
     }
@@ -134,16 +134,16 @@ class FileTest extends TestCase
             $this->assertFalse(is_file($filePath));
         }
         // lang layout
-        $langLayoutPath = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'unit-test') . '.php';
+        $langLayoutPath = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'UnitTest') . '.php';
         $this->assertFalse(is_file($langLayoutPath));
         // lang field
-        $langFieldPath = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'unit-test') . '.php';
+        $langFieldPath = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'UnitTest') . '.php';
         $this->assertFalse(is_file($langFieldPath));
         // validate modified
         $langValidatePath = createPath(base_path(), 'api', 'validate', 'UnitTest') . '.php';
         $this->assertFalse(is_file($langValidatePath));
         // lang validate i18n
-        $langValidateI18nPath = createPath(base_path(), 'api', 'lang', 'validate', 'en-us', 'unit-test') . '.php';
+        $langValidateI18nPath = createPath(base_path(), 'api', 'lang', 'validate', 'en-us', 'UnitTest') . '.php';
         $this->assertFalse(is_file($langValidateI18nPath));
     }
 
@@ -176,8 +176,8 @@ class FileTest extends TestCase
     {
         deleteDir(base_path());
         ModelCreator::file('unit-test', 'Unit Test', 'en-us')->createLangLayout();
-        $filePath = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'unit-test') . '.php';
-        $snapshotPath = createPath(__DIR__, '__snapshots__', 'lang', 'layout', 'en-us', 'unit-test') . '.php.snap';
+        $filePath = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'UnitTest') . '.php';
+        $snapshotPath = createPath(__DIR__, '__snapshots__', 'lang', 'layout', 'en-us', 'UnitTest') . '.php.snap';
         $this->assertTrue(is_file($filePath));
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
     }
@@ -189,7 +189,7 @@ class FileTest extends TestCase
         try {
             ModelCreator::file('unit-test', 'Unit Test', 'en-us')->createLangLayout();
         } catch (\Exception $e) {
-            $this->assertEquals($e->getMessage(), 'file already exists:' . createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'unit-test') . '.php');
+            $this->assertEquals($e->getMessage(), 'file already exists:' . createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'UnitTest') . '.php');
             return;
         }
         $this->fail();
@@ -208,8 +208,8 @@ class FileTest extends TestCase
             ],
         ];
         ModelCreator::file('unit-test', 'Unit Test', 'en-us')->createLangField($fields);
-        $filePath = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'unit-test') . '.php';
-        $snapshotPath = createPath(__DIR__, '__snapshots__', 'lang', 'field', 'en-us', 'unit-test') . '.php.snap';
+        $filePath = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'UnitTest') . '.php';
+        $snapshotPath = createPath(__DIR__, '__snapshots__', 'lang', 'field', 'en-us', 'UnitTest') . '.php.snap';
         $this->assertTrue(is_file($filePath));
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
     }
@@ -236,7 +236,7 @@ class FileTest extends TestCase
     public function testCreateValidateI18nSuccessfully()
     {
         try {
-            $langFieldPath = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'unit-test') . '.php';
+            $langFieldPath = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'UnitTest') . '.php';
             if (file_exists($langFieldPath)) {
                 Lang::load($langFieldPath);
             }
@@ -245,8 +245,8 @@ class FileTest extends TestCase
             throw new \Exception($e->getMessage());
         }
 
-        $filePath = createPath(base_path(), 'api', 'lang', 'validate', 'en-us', 'unit-test') . '.php';
-        $snapshotPath = createPath(__DIR__, '__snapshots__', 'lang', 'validate', 'en-us', 'unit-test') . '.php.snap';
+        $filePath = createPath(base_path(), 'api', 'lang', 'validate', 'en-us', 'UnitTest') . '.php';
+        $snapshotPath = createPath(__DIR__, '__snapshots__', 'lang', 'validate', 'en-us', 'UnitTest') . '.php.snap';
         $this->assertTrue(is_file($filePath));
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
     }
@@ -287,9 +287,9 @@ class FileTest extends TestCase
         ModelCreator::file('unit-test', 'Unit Test', 'en-us')->update($this->fieldsData);
 
         $filesPath = [
-            createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'unit-test') . '.php',
+            createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'UnitTest') . '.php',
             createPath(base_path(), 'api', 'validate', 'UnitTest') . '.php',
-            createPath(base_path(), 'api', 'lang', 'validate', 'en-us', 'unit-test') . '.php',
+            createPath(base_path(), 'api', 'lang', 'validate', 'en-us', 'UnitTest') . '.php',
             createPath(root_path(), 'config', 'api', 'allowFields', 'UnitTest') . '.php'
         ];
         foreach ($filesPath as $path) {
