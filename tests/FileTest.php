@@ -6,21 +6,6 @@ namespace aspirantzhang\octopusModelCreator;
 
 use think\facade\Lang;
 
-function base_path(): string
-{
-    return 'runtime' . DIRECTORY_SEPARATOR . 'file';
-}
-
-function root_path(): string
-{
-    return 'runtime' . DIRECTORY_SEPARATOR . 'file';
-}
-
-function __(string $name, array $vars = [], string $lang = ''): string
-{
-    return $name . ':' . join('|', $vars);
-}
-
 class FileTest extends TestCase
 {
     protected $fieldsData = [
