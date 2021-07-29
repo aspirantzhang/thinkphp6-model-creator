@@ -7,46 +7,55 @@ namespace aspirantzhang\octopusModelCreator\lib\file;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use think\Exception;
+use think\helper\Str;
 
-class BasicModel
+class BasicModel extends FileCommon
 {
     protected $fileSystem;
+    protected $fileTypes = ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate'];
+    protected $tableName;
+    protected $routeName;
+    protected $modelName;
+    protected $instanceName;
+    protected $appPath;
+    protected $stubPath;
 
     public function __construct()
     {
         $this->fileSystem = new Filesystem();
+        $this->appPath = base_path();
+        $this->stubPath = createPath(dirname(__DIR__, 2), 'stubs');
     }
 
-    public function replaceAndWrite(string $sourcePath, string $targetPath, callable $callback)
+    public function init($tableName, $modelTitle)
     {
+        $this->tableName = $tableName;
+        $this->routeName = $tableName;
+        $this->modelName = Str::studly($tableName);
+        $this->instanceName = Str::camel($tableName);
+        $this->modelTitle = $modelTitle;
+        return $this;
+    }
+
+    public function createBasicModelFile(array $fileTypes = null)
+    {
+        $fileTypes = $fileTypes ?? $this->fileTypes;
+        $replaceCondition = [
+            '{%tableName%}' => $this->tableName,
+            '{%routeName%}' => $this->routeName,
+            '{%modelName%}' => $this->modelName,
+            '{%instanceName%}' => $this->instanceName,
+        ];
         try {
-            $content = $this->getContent($sourcePath);
-            if (is_callable($callback)) {
-                $content = call_user_func($callback, $content);
+            foreach ($fileTypes as $type) {
+                $sourcePath = createPath($this->stubPath, 'BasicModel', $type) . '.stub';
+                $targetPath = createPath($this->appPath, 'api', $type, $this->modelName) . '.php';
+                $this->replaceAndWrite($sourcePath, $targetPath, function ($content) use ($replaceCondition) {
+                    return strtr($content, $replaceCondition);
+                });
             }
-            $this->writeFile($targetPath, $content);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
-    }
-
-    public function writeFile(string $path, string $content)
-    {
-        try {
-            $this->fileSystem->dumpFile($path, $content);
-        } catch (IOExceptionInterface $e) {
-            throw new Exception(__('unable to write file content', ['filePath' => $path]));
-        }
-    }
-
-    public function getContent(string $path): string
-    {
-        if (
-            $this->fileSystem->exists($path) &&
-            false !== ($result = file_get_contents($path))
-        ) {
-            return $result;
-        }
-        throw new Exception(__('unable to get file content', ['filePath' => $path]));
     }
 }
