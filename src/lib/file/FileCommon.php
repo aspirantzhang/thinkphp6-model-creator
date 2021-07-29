@@ -8,6 +8,12 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use think\Exception;
 
+if (!function_exists('base_path')) {
+    function base_path()
+    {
+        return createPath(dirname(__DIR__, 3), 'runtime');
+    }
+}
 class FileCommon
 {
     protected $fileSystem;
