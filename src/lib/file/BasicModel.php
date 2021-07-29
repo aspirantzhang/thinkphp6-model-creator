@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace aspirantzhang\octopusModelCreator\lib\file;
 
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use think\Exception;
 use think\helper\Str;
@@ -57,5 +56,14 @@ class BasicModel extends FileCommon
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
+    }
+
+    public function removeBasicModelFile(array $fileTypes = null)
+    {
+        $fileTypes = $fileTypes ?? $this->fileTypes;
+        $filePaths = array_map(function ($type) {
+            return createPath($this->appPath, 'api', $type, $this->modelName) . '.php';
+        }, $fileTypes);
+        $this->fileSystem->remove($filePaths);
     }
 }
