@@ -68,4 +68,10 @@ class AllowField extends FileCommon
             throw new Exception($e->getMessage());
         }
     }
+
+    public function removeLayoutLangFile()
+    {
+        $targetPath = createPath($this->rootPath, 'config', 'api', 'allowFields', $this->modelName) . '.php';
+        $this->fileSystem->remove($targetPath);
+    }
 }

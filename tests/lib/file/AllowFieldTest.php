@@ -113,4 +113,13 @@ class AllowFieldTest extends \aspirantzhang\octopusModelCreator\TestCase
         $snapshotPath = createPath($this->snapPath, 'UnitTest') . '.php.snap';
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
     }
+    /**
+    * @depends testCreateAllowFieldsFile
+    */
+    public function testRemoveAllowFieldsFile()
+    {
+        $this->allowField->init('unit-test', 'Unit Test')->removeLayoutLangFile();
+        $filePath = createPath(root_path(), 'config', 'api', 'allowFields', 'UnitTest') . '.php';
+        $this->assertFalse($this->fileSystem->exists($filePath));
+    }
 }
