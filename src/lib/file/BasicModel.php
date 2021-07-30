@@ -4,37 +4,11 @@ declare(strict_types=1);
 
 namespace aspirantzhang\octopusModelCreator\lib\file;
 
-use Symfony\Component\Filesystem\Filesystem;
 use think\Exception;
-use think\helper\Str;
 
 class BasicModel extends FileCommon
 {
-    protected $fileSystem;
     protected $fileTypes = ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate'];
-    protected $tableName;
-    protected $routeName;
-    protected $modelName;
-    protected $instanceName;
-    protected $appPath;
-    protected $stubPath;
-
-    public function __construct()
-    {
-        $this->fileSystem = new Filesystem();
-        $this->appPath = base_path();
-        $this->stubPath = createPath(dirname(__DIR__, 2), 'stubs');
-    }
-
-    public function init($tableName, $modelTitle)
-    {
-        $this->tableName = $tableName;
-        $this->routeName = $tableName;
-        $this->modelName = Str::studly($tableName);
-        $this->instanceName = Str::camel($tableName);
-        $this->modelTitle = $modelTitle;
-        return $this;
-    }
 
     public function createBasicModelFile(array $fileTypes = null)
     {

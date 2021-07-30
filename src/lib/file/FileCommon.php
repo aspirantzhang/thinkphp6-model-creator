@@ -7,6 +7,7 @@ namespace aspirantzhang\octopusModelCreator\lib\file;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use think\Exception;
+use think\helper\Str;
 
 if (!function_exists('base_path')) {
     function base_path()
@@ -17,10 +18,29 @@ if (!function_exists('base_path')) {
 class FileCommon
 {
     protected $fileSystem;
+    protected $stubPath;
+    protected $appPath;
+    protected $tableName;
+    protected $routeName;
+    protected $modelName;
+    protected $modelTitle;
+    protected $instanceName;
 
     public function __construct()
     {
         $this->fileSystem = new Filesystem();
+        $this->appPath = base_path();
+        $this->stubPath = createPath(dirname(__DIR__, 2), 'stubs');
+    }
+
+    public function init($tableName, $modelTitle)
+    {
+        $this->tableName = $tableName;
+        $this->routeName = $tableName;
+        $this->modelName = Str::studly($tableName);
+        $this->instanceName = Str::camel($tableName);
+        $this->modelTitle = $modelTitle;
+        return $this;
     }
 
     public function replaceAndWrite(string $sourcePath, string $targetPath, callable $callback)
