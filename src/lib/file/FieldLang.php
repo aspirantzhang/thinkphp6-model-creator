@@ -38,4 +38,11 @@ class FieldLang extends FileCommon
             throw new Exception($e->getMessage());
         }
     }
+
+    public function removeFieldLangFile(string $currentLang = null)
+    {
+        $currentLang = $currentLang ?? Lang::getLangSet();
+        $targetPath = createPath($this->appPath, 'api', 'lang', 'field', $currentLang, $this->modelName) . '.php';
+        $this->fileSystem->remove($targetPath);
+    }
 }

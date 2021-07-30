@@ -118,4 +118,18 @@ class FieldLangTest extends \aspirantzhang\octopusModelCreator\TestCase
         $snapshotPath = createPath($this->snapPath, 'UnitTest') . '.php.snap';
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
     }
+
+    /**
+    * @depends testCreateFieldLangFile
+    */
+    public function testRemoveFieldLangFile()
+    {
+        $this->fieldLang->init('unit-test', 'Unit Test')->removeFieldLangFile();
+        $filePath = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'UnitTest') . '.php';
+        $this->assertFalse($this->fileSystem->exists($filePath));
+        // specific lang
+        $this->fieldLang->init('unit-test', 'Unit Test')->removeFieldLangFile('de-de');
+        $filePath = createPath(base_path(), 'api', 'lang', 'field', 'de-de', 'UnitTest') . '.php';
+        $this->assertFalse($this->fileSystem->exists($filePath));
+    }
 }
