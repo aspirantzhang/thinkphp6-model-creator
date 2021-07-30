@@ -37,4 +37,18 @@ class LayoutLangTest extends \aspirantzhang\octopusModelCreator\TestCase
         $filePath = createPath(base_path(), 'api', 'lang', 'layout', 'de-de', 'UnitTest') . '.php';
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
     }
+
+    /**
+    * @depends testLayoutLangFile
+    */
+    public function testRemoveLayoutLangFile()
+    {
+        $this->layoutLang->init('unit-test', 'Unit Test')->removeLayoutLangFile();
+        $filePath = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'UnitTest') . '.php';
+        $this->assertFalse($this->fileSystem->exists($filePath));
+        // specific lang
+        $this->layoutLang->init('unit-test', 'Unit Test')->removeLayoutLangFile('de-de');
+        $filePath = createPath(base_path(), 'api', 'lang', 'layout', 'de-de', 'UnitTest') . '.php';
+        $this->assertFalse($this->fileSystem->exists($filePath));
+    }
 }

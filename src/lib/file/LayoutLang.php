@@ -60,34 +60,10 @@ class LayoutLang extends FileCommon
         }
     }
 
-    // public function createBasicModelFile(array $fileTypes = null)
-    // {
-    //     $fileTypes = $fileTypes ?? $this->fileTypes;
-    //     $replaceCondition = [
-    //         '{%tableName%}' => $this->tableName,
-    //         '{%routeName%}' => $this->routeName,
-    //         '{%modelName%}' => $this->modelName,
-    //         '{%instanceName%}' => $this->instanceName,
-    //     ];
-    //     try {
-    //         foreach ($fileTypes as $type) {
-    //             $sourcePath = createPath($this->stubPath, 'BasicModel', $type) . '.stub';
-    //             $targetPath = createPath($this->appPath, 'api', $type, $this->modelName) . '.php';
-    //             $this->replaceAndWrite($sourcePath, $targetPath, function ($content) use ($replaceCondition) {
-    //                 return strtr($content, $replaceCondition);
-    //             });
-    //         }
-    //     } catch (Exception $e) {
-    //         throw new Exception($e->getMessage());
-    //     }
-    // }
-
-    // public function removeBasicModelFile(array $fileTypes = null)
-    // {
-    //     $fileTypes = $fileTypes ?? $this->fileTypes;
-    //     $filePaths = array_map(function ($type) {
-    //         return createPath($this->appPath, 'api', $type, $this->modelName) . '.php';
-    //     }, $fileTypes);
-    //     $this->fileSystem->remove($filePaths);
-    // }
+    public function removeLayoutLangFile(string $currentLang = null)
+    {
+        $currentLang = $currentLang ?? Lang::getLangSet();
+        $targetPath = createPath($this->appPath, 'api', 'lang', 'layout', $currentLang, $this->modelName) . '.php';
+        $this->fileSystem->remove($targetPath);
+    }
 }
