@@ -17,6 +17,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             }
             return $name;
         });
+        $langMock->shouldReceive('getLangSet')->andReturn('en-us');
         $langMock->shouldReceive('load')->andReturn();
 
         // $configMock = m::mock('alias:think\facade\Config');
