@@ -9,8 +9,6 @@ use think\facade\Lang;
 
 class LayoutLang extends FileCommon
 {
-    protected $fileTypes = ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate'];
-
     public function createLayoutLangFile(string $currentLang = null)
     {
         $currentLang = $currentLang ?? Lang::getLangSet();
