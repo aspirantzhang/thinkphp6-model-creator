@@ -4,17 +4,12 @@ declare(strict_types=1);
 
 namespace aspirantzhang\octopusModelCreator\lib\file;
 
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-use Symfony\Component\Filesystem\Filesystem;
-use think\Exception;
-
-class LayoutLangTest extends \aspirantzhang\octopusModelCreator\TestCase
+class LayoutLangTest extends BaseCase
 {
     protected $layoutLang;
     protected $snapPath;
     protected $prodStubPath;
     protected $testStubPath;
-    protected $fileSystem;
 
     protected function setUp(): void
     {
@@ -22,7 +17,6 @@ class LayoutLangTest extends \aspirantzhang\octopusModelCreator\TestCase
         $this->testStubPath = createPath(dirname(__DIR__, 2), 'stubs', 'lib', 'file', 'LayoutLang', '');
         $this->prodStubPath = createPath(dirname(__DIR__, 3), 'src', 'stubs', 'LayoutLang');
         $this->layoutLang = new LayoutLang();
-        $this->fileSystem = new Filesystem();
         parent::setUp();
     }
 
