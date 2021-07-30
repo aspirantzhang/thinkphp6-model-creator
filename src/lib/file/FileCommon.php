@@ -15,11 +15,18 @@ if (!function_exists('base_path')) {
         return createPath(dirname(__DIR__, 3), 'runtime');
     }
 }
+if (!function_exists('root_path')) {
+    function root_path()
+    {
+        return createPath(dirname(__DIR__, 3), 'runtime');
+    }
+}
 class FileCommon
 {
     protected $fileSystem;
     protected $stubPath;
     protected $appPath;
+    protected $rootPath;
     protected $tableName;
     protected $routeName;
     protected $modelName;
@@ -30,6 +37,7 @@ class FileCommon
     {
         $this->fileSystem = new Filesystem();
         $this->appPath = base_path();
+        $this->rootPath = root_path();
         $this->stubPath = createPath(dirname(__DIR__, 2), 'stubs');
     }
 
