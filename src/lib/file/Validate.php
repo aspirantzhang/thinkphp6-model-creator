@@ -89,6 +89,14 @@ class Validate extends FileCommon
         }
     }
 
+    public function getMessages(array $fieldsData)
+    {
+        $this->fieldsData = $fieldsData;
+        $this->buildRules();
+        $this->buildMessages();
+        return $this->messages;
+    }
+
     private function getMessagesText(): string
     {
         $this->buildMessages();

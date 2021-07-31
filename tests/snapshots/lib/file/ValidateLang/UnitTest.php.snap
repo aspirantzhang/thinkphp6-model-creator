@@ -1,0 +1,8 @@
+<?php
+
+return [
+    'unit-test@nickname#require' => 'validate.require: field=unit-test.nickname;option=',
+    'unit-test@nickname#length:4,32' => 'validate.length: field=unit-test.nickname;option=4 - 32',
+    'unit-test@gender#require' => 'validate.require: field=unit-test.gender;option=',
+    'unit-test@married#require' => 'validate.require: field=unit-test.married;option=',
+];
