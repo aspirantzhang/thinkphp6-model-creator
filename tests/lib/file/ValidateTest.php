@@ -27,4 +27,14 @@ class ValidateTest extends BaseCase
         $snapshotPath = createPath($this->snapPath, 'UnitTest') . '.php.snap';
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
     }
+
+    /**
+    * @depends testCreateValidateFile
+    */
+    public function testRemoveValidateFile()
+    {
+        $this->validate->init('unit-test', 'Unit Test')->removeValidateFile();
+        $filePath = createPath(base_path(), 'api', 'validate', 'UnitTest') . '.php';
+        $this->assertFalse($this->fileSystem->exists($filePath));
+    }
 }

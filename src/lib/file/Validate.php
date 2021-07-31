@@ -136,7 +136,7 @@ class Validate extends FileCommon
         return [$saveText, $updateText, $homeText, $excludeText];
     }
 
-    public function createValidateFile($fieldsData)
+    public function createValidateFile(array $fieldsData)
     {
         $this->fieldsData = $fieldsData;
 
@@ -164,5 +164,11 @@ class Validate extends FileCommon
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
+    }
+
+    public function removeValidateFile()
+    {
+        $targetPath = createPath($this->appPath, 'api', 'validate', $this->modelName) . '.php';
+        $this->fileSystem->remove($targetPath);
     }
 }
