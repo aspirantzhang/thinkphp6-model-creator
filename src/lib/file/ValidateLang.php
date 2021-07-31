@@ -25,7 +25,7 @@ class ValidateLang extends FileCommon
         return __('validate.' . $ruleName, ['field' => __($fieldName), 'option' => $option]);
     }
 
-    public function createValidateLang(array $fieldsData, string $currentLang = null)
+    public function createValidateLangFile(array $fieldsData, string $currentLang = null)
     {
         $validateMessages = (new Validate())->init($this->tableName, $this->modelTitle)->getMessages($fieldsData);
 
@@ -50,5 +50,12 @@ class ValidateLang extends FileCommon
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
+    }
+
+    public function removeValidateLangFile(string $currentLang = null)
+    {
+        $currentLang = $currentLang ?? Lang::getLangSet();
+        $targetPath = createPath($this->appPath, 'api', 'lang', 'validate', $currentLang, $this->modelName) . '.php';
+        $this->fileSystem->remove($targetPath);
     }
 }
