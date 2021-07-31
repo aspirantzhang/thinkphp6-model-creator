@@ -40,26 +40,32 @@ class Validate extends FileCommon
 
     private function buildRules()
     {
+        /**
+        *  'news@nickname' => 'require|length:0,32'
+        *   fullFieldName  => $ruleConditionSetString
+        *  ruleCondition = ruleName:ruleOption
+        */
         foreach ($this->fieldsData as $field) {
             $fieldName = $field['name'];
-            $ruleString = '';
             if (!empty($field['settings']['validate'])) {
-                foreach ($field['settings']['validate'] as $validateName) {
-                    switch ($validateName) {
+                $ruleConditionSetString = '';
+                foreach ($field['settings']['validate'] as $ruleName) {
+                    switch ($ruleName) {
                         case 'length':
                             $min = $field['settings']['options']['length']['min'] ?? 0;
                             $max = $field['settings']['options']['length']['max'] ?? 32;
-                            $ruleString .= $validateName . ':' . (int)$min . ',' . (int)$max . '|';
+                            $ruleConditionSetString .= $ruleName . ':' . (int)$min . ',' . (int)$max . '|';
                             break;
                         default:
-                            $ruleString .= $validateName . '|';
+                            $ruleConditionSetString .= $ruleName . '|';
                             break;
                     }
                 }
-                $ruleString = substr($ruleString, 0, -1);
+                // delete last symbol '|'
+                $ruleConditionSetString = substr($ruleConditionSetString, 0, -1);
                 // +prefix
-                $ruleName = $this->tableName . '@' . $fieldName;
-                $this->rules[$ruleName] = $ruleString;
+                $fieldName = $this->tableName . '@' . $fieldName;
+                $this->rules[$fieldName] = $ruleConditionSetString;
             }
         }
     }
@@ -76,15 +82,24 @@ class Validate extends FileCommon
 
     private function buildMessages()
     {
-        foreach ($this->rules as $name => $rule) {
-            $keyFieldName = strtr($name, [$this->tableName . '@' => '']);
-            if (strpos($rule, '|')) {
-                $ruleArr = explode('|', $rule);
-                foreach ($ruleArr as $subRule) {
-                    $this->messages[$keyFieldName . '.' . $subRule] = $name . '#' . $subRule;
+        /**
+         * $this->rule : news@nickname => require|length:0,32
+         * extract rule: nickname.require + nickname.length:0,32
+         *  nickname.length  =>  news@nickname#length:0,32
+         *      $fieldRule   =>  $messageCondition
+         * fieldRule = fieldName.ruleName
+         * messageCondition = fullFieldName#ruleCondition
+         */
+        foreach ($this->rules as $fullFieldName => $ruleConditionSet) {
+            $fieldName = strtr($fullFieldName, [$this->tableName . '@' => '']);
+            if (strpos($ruleConditionSet, '|')) {
+                // have multiple condition
+                $ruleConditionArray = explode('|', $ruleConditionSet);
+                foreach ($ruleConditionArray as $ruleCondition) {
+                    $this->messages[$fieldName . '.' . $ruleCondition] = $fullFieldName . '#' . $ruleCondition;
                 }
             } else {
-                $this->messages[$keyFieldName . '.' . $rule] = $name . '#' . $rule;
+                $this->messages[$fieldName . '.' . $ruleConditionSet] = $fullFieldName . '#' . $ruleConditionSet;
             }
         }
     }
@@ -131,7 +146,7 @@ class Validate extends FileCommon
         }
     }
 
-    private function getScenesTextArray()
+    private function getScenesTextArray(): array
     {
         $this->buildScenes();
         $saveText = $this->scenes['save'] ? '\'' . implode('\', \'', $this->scenes['save']) . '\'' : '';
