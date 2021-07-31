@@ -2,20 +2,19 @@
 
 declare(strict_types=1);
 
-namespace aspirantzhang\octopusModelCreator\lib;
+namespace aspirantzhang\octopusModelCreator\lib\file;
 
-class Validate
+use think\Exception;
+
+class Validate extends FileCommon
 {
-    protected $tableName;
-    protected $fieldsData;
     protected $rules;
     protected $messages;
     protected $scenes;
+    protected $fieldsData;
 
-    public function __construct(string $tableName, array $fieldsData)
+    public function __construct()
     {
-        $this->tableName = $tableName;
-        $this->fieldsData = $fieldsData;
         $this->rules = [
             'id' => 'require|number',
             'ids' => 'require|numberArray',
@@ -36,9 +35,10 @@ class Validate
             'home' => [],
             'homeExclude' => []
         ];
+        parent::__construct();
     }
 
-    protected function buildRules()
+    private function buildRules()
     {
         foreach ($this->fieldsData as $field) {
             $fieldName = $field['name'];
@@ -64,7 +64,17 @@ class Validate
         }
     }
 
-    protected function buildMessages()
+    private function getRulesText(): string
+    {
+        $this->buildRules();
+        $ruleText = '';
+        foreach ($this->rules as $ruleKey => $ruleValue) {
+            $ruleText .= "        '" . strtr($ruleKey, [$this->tableName . '@' => '']) . "' => '" . $ruleValue . "',\n";
+        }
+        return substr($ruleText, 0, -1);
+    }
+
+    private function buildMessages()
     {
         foreach ($this->rules as $name => $rule) {
             $keyFieldName = strtr($name, [$this->tableName . '@' => '']);
@@ -79,7 +89,20 @@ class Validate
         }
     }
 
-    protected function buildScenes()
+    private function getMessagesText(): string
+    {
+        $this->buildMessages();
+        $messageText = '';
+        foreach ($this->messages as $msgKey => $msgValue) {
+            if (strpos($msgKey, ':')) {
+                $msgKey = substr($msgKey, 0, strpos($msgKey, ':'));
+            }
+            $messageText .= "        '" . $msgKey . "' => '" . $msgValue . "',\n";
+        }
+        return substr($messageText, 0, -1);
+    }
+
+    private function buildScenes()
     {
         foreach ($this->fieldsData as $field) {
             if (isset($field['settings']['validate']) && !empty($field['settings']['validate'])) {
@@ -100,15 +123,46 @@ class Validate
         }
     }
 
-    public function getData()
+    private function getScenesTextArray()
     {
-        $this->buildRules();
-        $this->buildMessages();
         $this->buildScenes();
-        return [
-            'rules' => $this->rules,
-            'messages' => $this->messages,
-            'scenes' => $this->scenes
+        $saveText = $this->scenes['save'] ? '\'' . implode('\', \'', $this->scenes['save']) . '\'' : '';
+        $updateText = $this->scenes['update'] ? '\'' . implode('\', \'', $this->scenes['update']) . '\'' : '';
+        $homeText = $this->scenes['home'] ? '\'' . implode('\', \'', $this->scenes['home']) . '\'' : '';
+        $excludeText = '';
+        foreach ($this->scenes['homeExclude'] as $exclude) {
+            $excludeText .= "\n" . '            ->remove(\'' . $exclude . '\', \'require\')';
+        }
+        return [$saveText, $updateText, $homeText, $excludeText];
+    }
+
+    public function createValidateFile($fieldsData)
+    {
+        $this->fieldsData = $fieldsData;
+
+        $targetPath = createPath($this->appPath, 'api', 'validate', $this->modelName) . '.php';
+        $sourcePath = createPath($this->stubPath, 'Validate', 'default') . '.stub';
+
+        $ruleText = $this->getRulesText();
+        $messageText = $this->getMessagesText();
+        list($sceneSaveText, $sceneUpdateText, $sceneHomeText, $sceneHomeExcludeText) = $this->getScenesTextArray();
+
+        $replaceCondition = [
+            '{%modelName%}' => $this->modelName,
+            '{%ruleText%}' => $ruleText,
+            '{%messageText%}' => $messageText,
+            '{%sceneSaveText%}' => $sceneSaveText,
+            '{%sceneUpdateText%}' => $sceneUpdateText,
+            '{%sceneHomeText%}' => $sceneHomeText,
+            '{%sceneHomeExcludeText%}' => $sceneHomeExcludeText,
         ];
+
+        try {
+            $this->replaceAndWrite($sourcePath, $targetPath, function ($content) use ($replaceCondition) {
+                return strtr($content, $replaceCondition);
+            });
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 }
