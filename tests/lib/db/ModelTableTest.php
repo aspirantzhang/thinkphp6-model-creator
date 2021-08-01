@@ -11,10 +11,10 @@ class ModelTableTest extends BaseCase
         parent::setUp();
     }
 
-    public function testCreateModelTableSuccessfully()
+    public function testCreateModelTable()
     {
         try {
-            (new ModelTable())->init('unit-test', 'Unit Test')->createModelTable();
+            (new ModelTable())->init('unit-test-1', 'Unit Test 1')->createModelTable();
             $this->assertTrue(true);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
@@ -22,16 +22,29 @@ class ModelTableTest extends BaseCase
     }
 
     /**
-    * @depends testCreateModelTableSuccessfully
+    * @depends testCreateModelTable
     */
     public function testCreateModelTableFailed()
     {
         try {
-            (new ModelTable())->init('unit-test', 'Unit Test')->createModelTable();
+            (new ModelTable())->init('unit-test-1', 'Unit Test 1')->createModelTable();
         } catch (\Exception $e) {
-            $this->assertEquals($e->getMessage(), 'create model table failed: tableName=unit-test');
+            $this->assertEquals($e->getMessage(), 'create model table failed: tableName=unit-test-1');
             return;
         }
         $this->fail();
+    }
+
+    /**
+    * @depends testCreateModelTableFailed
+    */
+    public function testRemoveModelTable()
+    {
+        try {
+            (new ModelTable())->init('unit-test-1', 'Unit Test 1')->removeModelTable();
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 }

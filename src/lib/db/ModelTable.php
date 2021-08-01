@@ -18,4 +18,14 @@ class ModelTable extends DbCommon
             throw new \Exception(__('create model table failed', ['tableName' => $this->tableName]));
         }
     }
+
+    public function removeModelTable()
+    {
+        try {
+            $i18nTable = $this->tableName . '_i18n';
+            Db::execute("DROP TABLE IF EXISTS `$this->tableName`, `$i18nTable`;");
+        } catch (\Exception $e) {
+            $this->error = __('remove model table failed', ['tableName' => $this->tableName]);
+        }
+    }
 }
