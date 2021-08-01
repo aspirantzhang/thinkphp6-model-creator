@@ -31,4 +31,29 @@ class Rule extends DbCommon
         }
         return (int)$ruleId;
     }
+
+    public function createChildrenRules(int $parentRuleId, string $tableName, string $modelTitle, string $lang = null)
+    {
+        $lang = $lang ?? Lang::getLangSet();
+        $childrenRules = [
+            ['rule_title' => $modelTitle . __('rule_title_home'), 'rule_path' => 'api/' . $tableName . '/home'],
+            ['rule_title' => $modelTitle . __('rule_title_add'), 'rule_path' => 'api/' . $tableName . '/add'],
+            ['rule_title' => $modelTitle . __('rule_title_save'), 'rule_path' => 'api/' . $tableName . '/save'],
+            ['rule_title' => $modelTitle . __('rule_title_read'), 'rule_path' => 'api/' . $tableName . '/read'],
+            ['rule_title' => $modelTitle . __('rule_title_update'), 'rule_path' => 'api/' . $tableName . '/update'],
+            ['rule_title' => $modelTitle . __('rule_title_delete'), 'rule_path' => 'api/' . $tableName . '/delete'],
+            ['rule_title' => $modelTitle . __('rule_title_restore'), 'rule_path' => 'api/' . $tableName . '/restore'],
+            ['rule_title' => $modelTitle . __('rule_title_i18n'), 'rule_path' => 'api/' . $tableName . '/i18n'],
+            ['rule_title' => $modelTitle . __('rule_title_i18nUpdate'), 'rule_path' => 'api/' . $tableName . '/i18n_update'],
+        ];
+        $childrenIds = [];
+        try {
+            foreach ($childrenRules as $rule) {
+                $childrenIds[] = $this->createRule($rule['rule_title'], $parentRuleId, $rule['rule_path'], $lang);
+            }
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+        return $childrenIds;
+    }
 }

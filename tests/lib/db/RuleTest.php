@@ -21,4 +21,18 @@ class RuleTest extends BaseCase
         }
         return $id;
     }
+
+    /**
+    * @depends testCreateRule
+    */
+    public function testCreateChildrenRules($id)
+    {
+        try {
+            (new Rule())->createChildrenRules($id, 'rule-test', 'Rule Test');
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+        return $id;
+    }
 }
