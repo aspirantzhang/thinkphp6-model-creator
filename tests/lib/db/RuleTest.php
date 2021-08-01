@@ -14,7 +14,7 @@ class RuleTest extends BaseCase
     public function testCreateRule()
     {
         try {
-            $id = (new Rule())->createRule('Rule Test');
+            $id = (new Rule())->init('rule-test', 'Rule Test')->createRule();
             $this->assertTrue(true);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
@@ -28,7 +28,7 @@ class RuleTest extends BaseCase
     public function testCreateChildrenRules($id)
     {
         try {
-            (new Rule())->createChildrenRules($id, 'rule-test', 'Rule Test');
+            (new Rule())->init('rule-test', 'Rule Test')->createChildrenRules($id);
             $this->assertTrue(true);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
