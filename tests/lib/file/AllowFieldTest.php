@@ -32,7 +32,7 @@ class AllowFieldTest extends BaseCase
     */
     public function testRemoveAllowFieldsFile()
     {
-        $this->allowField->init('unit-test', 'Unit Test')->removeLayoutLangFile();
+        $this->allowField->init('unit-test', 'Unit Test')->removeAllowFieldsFile();
         $filePath = createPath(root_path(), 'config', 'api', 'allowFields', 'UnitTest') . '.php';
         $this->assertFalse($this->fileSystem->exists($filePath));
     }

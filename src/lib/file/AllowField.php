@@ -69,7 +69,7 @@ class AllowField extends FileCommon
         }
     }
 
-    public function removeLayoutLangFile()
+    public function removeAllowFieldsFile()
     {
         $targetPath = createPath($this->rootPath, 'config', 'api', 'allowFields', $this->modelName) . '.php';
         $this->fileSystem->remove($targetPath);

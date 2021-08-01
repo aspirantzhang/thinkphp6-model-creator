@@ -6,9 +6,9 @@ namespace aspirantzhang\octopusModelCreator;
 
 class ModelCreator
 {
-    public static function file(string $tableName, string $modelTitle, string $currentLang)
+    public static function file(string $tableName, string $modelTitle = '')
     {
-        return (new File())->init($tableName, $modelTitle, $currentLang);
+        return (new File())->init($tableName, $modelTitle);
     }
 
     public static function db(string $tableName, string $modelTitle, string $currentLang)

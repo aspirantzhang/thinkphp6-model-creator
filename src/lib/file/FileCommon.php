@@ -9,18 +9,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use think\Exception;
 use think\helper\Str;
 
-if (!function_exists('base_path')) {
-    function base_path()
-    {
-        return createPath(dirname(__DIR__, 3), 'runtime');
-    }
-}
-if (!function_exists('root_path')) {
-    function root_path()
-    {
-        return createPath(dirname(__DIR__, 3), 'runtime');
-    }
-}
 class FileCommon
 {
     protected $fileSystem;

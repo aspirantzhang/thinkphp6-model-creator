@@ -4,16 +4,24 @@ declare(strict_types=1);
 
 namespace aspirantzhang\octopusModelCreator\lib\file;
 
-use Symfony\Component\Filesystem\Filesystem;
-
+if (!function_exists('base_path')) {
+    function base_path()
+    {
+        return createPath(dirname(__DIR__, 3), 'runtime');
+    }
+}
+if (!function_exists('root_path')) {
+    function root_path()
+    {
+        return createPath(dirname(__DIR__, 3), 'runtime');
+    }
+}
 class BaseCase extends \aspirantzhang\octopusModelCreator\TestCase
 {
-    protected $fileSystem;
     protected $fieldsData;
 
     protected function setUp(): void
     {
-        $this->fileSystem = new Filesystem();
         $this->fieldsData = [
             [
                 "name" => "nickname",
