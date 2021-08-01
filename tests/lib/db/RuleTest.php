@@ -35,4 +35,16 @@ class RuleTest extends BaseCase
         }
         return $id;
     }
+    /**
+    * @depends testCreateChildrenRules
+    */
+    public function testRemoveRuleSuccessfully($id)
+    {
+        try {
+            (new Rule())->removeRules($id);
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
 }

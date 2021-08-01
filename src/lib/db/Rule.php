@@ -56,4 +56,17 @@ class Rule extends DbCommon
         }
         return $childrenIds;
     }
+
+    public function removeRules(int $id)
+    {
+        try {
+            $allRulesData = Db::table('auth_rule')->where('status', 1)->select()->toArray();
+            $allIds = array_merge([$id], searchDescendantValueAggregation('id', 'id', $id, arrayToTree($allRulesData)));
+            Db::table('auth_rule')->whereIn('id', $allIds)->delete();
+            Db::table('auth_rule_i18n')->whereIn('original_id', $allIds)->delete();
+            Db::table('auth_group_rule')->whereIn('rule_id', $allIds)->delete();
+        } catch (\Exception $e) {
+            throw new \Exception(__('failed to remove rules'));
+        }
+    }
 }
