@@ -33,9 +33,26 @@ class FileTest extends TestCase
             $this->assertTrue($this->fileSystem->exists($filePath));
         }
     }
-    
+
     /**
     * @depends testCreate
+    */
+    public function testUpdate()
+    {
+        ModelCreator::file('new-model', 'New Model')->update($this->fieldsData);
+        $filePaths = [];
+        $filePaths[] = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'NewModel') . '.php';
+        $filePaths[] = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'NewModel') . '.php';
+        $filePaths[] = createPath(base_path(), 'api', 'validate', 'NewModel') . '.php';
+        $filePaths[] = createPath(base_path(), 'api', 'lang', 'validate', 'en-us', 'NewModel') . '.php';
+        $filePaths[] = createPath(root_path(), 'config', 'api', 'allowFields', 'NewModel') . '.php';
+        foreach ($filePaths as $filePath) {
+            $this->assertTrue($this->fileSystem->exists($filePath));
+        }
+    }
+    
+    /**
+    * @depends testUpdate
     */
     public function testRemove()
     {

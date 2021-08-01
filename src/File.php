@@ -33,6 +33,19 @@ class File
         }
     }
 
+    public function update($fieldsData)
+    {
+        try {
+            (new FieldLang())->init($this->tableName, $this->modelTitle)->createFieldLangFile($fieldsData);
+            (new LayoutLang())->init($this->tableName, $this->modelTitle)->createLayoutLangFile();
+            (new Validate())->init($this->tableName, $this->modelTitle)->createValidateFile($fieldsData);
+            (new ValidateLang())->init($this->tableName, $this->modelTitle)->createValidateLangFile($fieldsData);
+            (new AllowField())->init($this->tableName, $this->modelTitle)->createAllowFieldsFile($fieldsData);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
     public function remove()
     {
         try {
