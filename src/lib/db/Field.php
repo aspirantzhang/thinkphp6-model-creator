@@ -18,7 +18,7 @@ class Field extends DbCommon
         return $existingFields;
     }
  
-    public function fieldsHandler(array $processedFields, array $fieldsData, array $reservedFields)
+    public function fieldsHandler(array $fieldsData, array $processedFields, array $reservedFields)
     {
         $existingFields = $this->getExistingFields($this->tableName);
         // group by types

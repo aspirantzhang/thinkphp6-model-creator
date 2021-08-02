@@ -43,4 +43,16 @@ class Db
             'childrenMenuIds' => $childrenMenuIds
         ];
     }
+
+    public function update(array $fieldsData, array $mainTableFields, array $reservedFields, array $i18nTableFields = [])
+    {
+        try {
+            (new Field())->init($this->tableName, $this->modelTitle)->fieldsHandler($fieldsData, $mainTableFields, $reservedFields);
+            if (!empty($i18nTableFields)) {
+                (new Field())->init($this->tableName . '_i18n', $this->modelTitle)->fieldsHandler($fieldsData, $i18nTableFields, $reservedFields);
+            }
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
 }
