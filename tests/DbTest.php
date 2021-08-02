@@ -2,16 +2,18 @@
 
 declare(strict_types=1);
 
-namespace aspirantzhang\octopusModelCreator\lib\db;
+namespace aspirantzhang\octopusModelCreator;
 
-use think\facade\Db;
+use think\Exception;
+use think\facade\Db as ThinkDb;
+use aspirantzhang\octopusModelCreator\TestCase;
 
-class BaseCase extends \aspirantzhang\octopusModelCreator\TestCase
+class DbTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {
-        Db::execute('DROP TABLE IF EXISTS `auth_rule`, `auth_rule_i18n`, `menu`, `menu_i18n`, `auth_group_rule`, `unit-test`, `unit-test_i18n`, `unit-test-2`, `unit-test-2_i18n`, `field-test`, `field-test_i18n`, `db-test`, `db-test_i18n`;');
-        Db::execute(<<<END
+        ThinkDb::execute('DROP TABLE IF EXISTS `auth_rule`, `auth_rule_i18n`, `menu`, `menu_i18n`, `auth_group_rule`, `unit-test`, `unit-test_i18n`, `unit-test-2`, `unit-test-2_i18n`, `field-test`, `field-test_i18n`, `db-test`, `db-test_i18n`;');
+        ThinkDb::execute(<<<END
 CREATE TABLE `auth_rule` (
  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
  `parent_id` int(11) unsigned NOT NULL DEFAULT 0,
@@ -26,7 +28,7 @@ CREATE TABLE `auth_rule` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 END
         );
-        Db::execute(<<<END
+        ThinkDb::execute(<<<END
 CREATE TABLE `auth_rule_i18n` (
  `_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
  `original_id` int(11) unsigned NOT NULL,
@@ -38,7 +40,7 @@ CREATE TABLE `auth_rule_i18n` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 END
         );
-        Db::execute(<<<END
+        ThinkDb::execute(<<<END
 CREATE TABLE `menu` (
  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
  `parent_id` int(11) unsigned NOT NULL DEFAULT 0,
@@ -55,7 +57,7 @@ CREATE TABLE `menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 END
         );
-        Db::execute(<<<END
+        ThinkDb::execute(<<<END
 CREATE TABLE `menu_i18n` (
  `_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
  `original_id` int(11) unsigned NOT NULL,
@@ -67,7 +69,7 @@ CREATE TABLE `menu_i18n` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 END
         );
-        Db::execute(<<<END
+        ThinkDb::execute(<<<END
 CREATE TABLE `auth_group_rule` (
  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
  `group_id` int(11) unsigned NOT NULL,
@@ -79,5 +81,15 @@ CREATE TABLE `auth_group_rule` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 END
         );
+    }
+
+    public function testCreate()
+    {
+        try {
+                ModelCreator::db('db-test', 'DB Test')->create();
+                $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 }
