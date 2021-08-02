@@ -86,17 +86,18 @@ END
     public function testCreate()
     {
         try {
-            ModelCreator::db('db-test', 'DB Test')->create();
+            $modelData = ModelCreator::db('db-test', 'DB Test')->create();
             $this->assertTrue(true);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
+        return $modelData;
     }
 
     /**
     * @depends testCreate
     */
-    public function testUpdate()
+    public function testUpdate($modelData)
     {
         $fieldsData = [
             [
@@ -196,5 +197,20 @@ END
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
+        return $modelData;
+    }
+
+    /**
+    * @depends testUpdate
+    */
+    public function testRemove($modelData)
+    {
+        try {
+            $modelData = ModelCreator::db('db-test', 'DB Test')->remove($modelData['topRuleId'], $modelData['topMenuId']);
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+        return $modelData;
     }
 }

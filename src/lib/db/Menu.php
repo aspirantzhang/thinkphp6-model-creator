@@ -11,7 +11,7 @@ class Menu extends DbCommon
 {
     public function createMenu(string $menuPath, string $menuTitle = null, int $parentId = 0, string $lang = null, $addition = []): int
     {
-        $menuTitle = $menuTitle ?? $this->modelTitle;
+        $menuTitle = $menuTitle ?? $this->modelTitle . __('list');
         $currentTime = date("Y-m-d H:i:s");
         $lang = $lang ?? Lang::getLangSet();
         try {

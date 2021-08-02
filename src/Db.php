@@ -55,4 +55,15 @@ class Db
             throw new \Exception($e->getMessage());
         }
     }
+
+    public function remove(int $ruleId, int $menuId)
+    {
+        try {
+            (new Rule())->removeRules($ruleId);
+            (new Menu())->removeMenus($menuId);
+            (new Table())->init($this->tableName, $this->modelTitle)->removeModelTable();
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
 }
