@@ -11,7 +11,7 @@ class ModelCreator
         return (new File())->init($tableName, $modelTitle);
     }
 
-    public static function db(string $tableName, string $modelTitle)
+    public static function db(string $tableName, string $modelTitle = '')
     {
         return (new Db())->init($tableName, $modelTitle);
     }
