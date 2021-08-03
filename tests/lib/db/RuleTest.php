@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace aspirantzhang\octopusModelCreator\lib\db;
 
+use think\Exception;
+
 class RuleTest extends BaseCase
 {
     protected function setUp(): void
@@ -16,8 +18,8 @@ class RuleTest extends BaseCase
         try {
             $id = (new Rule())->init('rule-test', 'Rule Test')->createRule();
             $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
         return $id;
     }
@@ -30,8 +32,8 @@ class RuleTest extends BaseCase
         try {
             (new Rule())->init('rule-test', 'Rule Test')->createChildrenRules($id);
             $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
         return $id;
     }
@@ -43,8 +45,8 @@ class RuleTest extends BaseCase
         try {
             (new Rule())->removeRules($id);
             $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 }

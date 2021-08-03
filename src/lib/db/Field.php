@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace aspirantzhang\octopusModelCreator\lib\db;
 
 use think\facade\Db;
+use think\Exception;
 
 class Field extends DbCommon
 {
@@ -82,8 +83,8 @@ class Field extends DbCommon
 
         try {
             Db::query($alterTableSql);
-        } catch (\Exception $e) {
-            throw new \Exception(__('change table structure failed', ['tableName' => $this->tableName]));
+        } catch (Exception $e) {
+            throw new Exception(__('change table structure failed', ['tableName' => $this->tableName]));
         }
     }
 }

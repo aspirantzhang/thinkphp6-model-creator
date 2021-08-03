@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace aspirantzhang\octopusModelCreator\lib\db;
 
+use think\Exception;
+
 class FieldTest extends BaseCase
 {
     protected function setUp(): void
@@ -200,8 +202,8 @@ class FieldTest extends BaseCase
             (new Field())->init('field-test', 'Field Test')->fieldsHandler($fieldsData, ['nickname', 'gender', 'married'], $reservedFields);
             (new Field())->init('field-test', 'Field Test')->fieldsHandler($fieldsDataUpdate, ['nickname', 'gender', 'age', 'foo_time'], $reservedFields);
             $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace aspirantzhang\octopusModelCreator\lib\db;
 
+use think\Exception;
+
 class MenuTest extends BaseCase
 {
     protected function setUp(): void
@@ -16,8 +18,8 @@ class MenuTest extends BaseCase
         try {
             $id = (new Menu())->init('menu-test', 'Menu Test')->createMenu('menu_path');
             $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
         return $id;
     }
@@ -30,8 +32,8 @@ class MenuTest extends BaseCase
         try {
             (new Menu())->init('menu-test', 'Menu Test')->createChildrenMenus($id);
             $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
         return $id;
     }
@@ -43,8 +45,8 @@ class MenuTest extends BaseCase
         try {
             (new Menu())->removeMenus($id);
             $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 }

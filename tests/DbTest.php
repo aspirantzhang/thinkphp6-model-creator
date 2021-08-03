@@ -88,8 +88,8 @@ END
         try {
             $modelData = ModelCreator::db('db-test', 'DB Test')->create();
             $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
         return $modelData;
     }
@@ -194,8 +194,8 @@ END
         try {
             ModelCreator::db('db-test', 'DB Test')->update($fieldsData, ['gender', 'married'], $reservedFields, ['nickname']);
             $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
         return $modelData;
     }
@@ -208,8 +208,8 @@ END
         try {
             $modelData = ModelCreator::db('db-test', 'DB Test')->remove($modelData['topRuleId'], $modelData['topMenuId']);
             $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
         return $modelData;
     }

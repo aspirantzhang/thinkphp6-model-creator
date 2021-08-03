@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace aspirantzhang\octopusModelCreator\lib\db;
 
+use think\Exception;
+
 class GroupRuleTest extends BaseCase
 {
     protected function setUp(): void
@@ -16,8 +18,8 @@ class GroupRuleTest extends BaseCase
         try {
             (new GroupRule())->addRulesToGroup([100,101], 1);
             $this->assertTrue(true);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -25,7 +27,7 @@ class GroupRuleTest extends BaseCase
     {
         try {
             (new GroupRule())->addRulesToGroup([100,101], 1);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals($e->getMessage(), 'failed to add rules to group');
             return;
         }

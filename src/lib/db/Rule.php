@@ -6,6 +6,7 @@ namespace aspirantzhang\octopusModelCreator\lib\db;
 
 use think\facade\Db;
 use think\facade\Lang;
+use think\Exception;
 
 class Rule extends DbCommon
 {
@@ -27,8 +28,8 @@ class Rule extends DbCommon
                 'rule_title' => $ruleTitle,
                 'translate_time' => $currentTime
             ]);
-        } catch (\Exception $e) {
-            throw new \Exception(__('failed to create rule', ['ruleTitle' => $ruleTitle]));
+        } catch (Exception $e) {
+            throw new Exception(__('failed to create rule', ['ruleTitle' => $ruleTitle]));
         }
         return (int)$ruleId;
     }
@@ -52,8 +53,8 @@ class Rule extends DbCommon
             foreach ($childrenRules as $rule) {
                 $childrenIds[] = $this->createRule($rule['rule_title'], $parentRuleId, $rule['rule_path'], $lang);
             }
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
         return $childrenIds;
     }
@@ -66,8 +67,8 @@ class Rule extends DbCommon
             Db::table('auth_rule')->whereIn('id', $allIds)->delete();
             Db::table('auth_rule_i18n')->whereIn('original_id', $allIds)->delete();
             Db::table('auth_group_rule')->whereIn('rule_id', $allIds)->delete();
-        } catch (\Exception $e) {
-            throw new \Exception(__('failed to remove rules'));
+        } catch (Exception $e) {
+            throw new Exception(__('failed to remove rules'));
         }
     }
 }

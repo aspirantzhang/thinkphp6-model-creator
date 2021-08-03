@@ -6,6 +6,7 @@ namespace aspirantzhang\octopusModelCreator\lib\db;
 
 use think\facade\Db;
 use think\facade\Lang;
+use think\Exception;
 
 class Menu extends DbCommon
 {
@@ -28,8 +29,8 @@ class Menu extends DbCommon
                 'menu_title' => $menuTitle,
                 'translate_time' => $currentTime
             ]);
-        } catch (\Exception $e) {
-            throw new \Exception(__('failed to create menu', ['menuTitle' => $menuTitle]));
+        } catch (Exception $e) {
+            throw new Exception(__('failed to create menu', ['menuTitle' => $menuTitle]));
         }
         return (int)$menuId;
     }
@@ -48,8 +49,8 @@ class Menu extends DbCommon
                 unset($addition['menu_title'], $addition['path']);
                 $childrenIds[] = $this->createMenu($menu['path'], $menu['menu_title'], $parentMenuId, $lang, $addition);
             }
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
         return $childrenIds;
     }
@@ -61,8 +62,8 @@ class Menu extends DbCommon
             $allIds = array_merge([$id], searchDescendantValueAggregation('id', 'id', $id, arrayToTree($allRulesData)));
             Db::table('menu')->whereIn('id', $allIds)->delete();
             Db::table('menu_i18n')->whereIn('original_id', $allIds)->delete();
-        } catch (\Exception $e) {
-            throw new \Exception(__('failed to remove menus'));
+        } catch (Exception $e) {
+            throw new Exception(__('failed to remove menus'));
         }
     }
 }

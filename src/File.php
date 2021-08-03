@@ -28,8 +28,8 @@ class File
     {
         try {
             (new BasicModel())->init($this->tableName, $this->modelTitle)->createBasicModelFile();
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -41,8 +41,8 @@ class File
             (new Validate())->init($this->tableName, $this->modelTitle)->createValidateFile($fieldsData);
             (new ValidateLang())->init($this->tableName, $this->modelTitle)->createValidateLangFile($fieldsData);
             (new AllowField())->init($this->tableName, $this->modelTitle)->createAllowFieldsFile($fieldsData);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -55,8 +55,8 @@ class File
             (new Validate())->init($this->tableName, $this->modelTitle)->removeValidateFile();
             (new ValidateLang())->init($this->tableName, $this->modelTitle)->removeValidateLangFile();
             (new AllowField())->init($this->tableName, $this->modelTitle)->removeAllowFieldsFile();
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 }
