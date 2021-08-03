@@ -11,8 +11,6 @@ class Service extends BaseService
     public function boot()
     {
         $this->commands([
-            'make:buildModel' => command\Model::class,
-            'make:removeModel' => command\Remove::class,
             'misc:deleteTable' => command\misc\DeleteTable::class
         ]);
     }

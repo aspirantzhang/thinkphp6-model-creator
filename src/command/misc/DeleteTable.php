@@ -37,5 +37,7 @@ class DeleteTable extends Command
         Db::execute("DROP TABLE IF EXISTS `unit_test`");
 
         $output->writeln('<info>...Done.</info>');
+
+        return null;
     }
 }
