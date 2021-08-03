@@ -21,7 +21,7 @@ class Field extends DbCommon
  
     public function fieldsHandler(array $fieldsData, array $processedFields, array $reservedFields)
     {
-        $existingFields = $this->getExistingFields($this->tableName);
+        $existingFields = $this->getExistingFields();
         // group by types
         $delete = array_diff($existingFields, $processedFields);
         $add = array_diff($processedFields, $existingFields);

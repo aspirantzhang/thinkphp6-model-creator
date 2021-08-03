@@ -26,7 +26,7 @@ class Table extends DbCommon
             $i18nTable = $this->tableName . '_i18n';
             Db::execute("DROP TABLE IF EXISTS `$this->tableName`, `$i18nTable`;");
         } catch (Exception $e) {
-            $this->error = __('remove model table failed', ['tableName' => $this->tableName]);
+            throw new Exception(__('remove model table failed', ['tableName' => $this->tableName]));
         }
     }
 }

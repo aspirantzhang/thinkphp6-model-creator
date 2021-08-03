@@ -11,6 +11,7 @@ class DbCommon
     protected $tableName;
     protected $routeName;
     protected $modelName;
+    protected $instanceName;
     protected $modelTitle;
 
     public function init($tableName, $modelTitle)
