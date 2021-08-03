@@ -1,0 +1,9 @@
+<?php
+
+return [
+    'allowHome' => [{%allowHomeText%}],
+    'allowRead' => [{%allowReadText%}],
+    'allowSave' => [{%allowSaveText%}],
+    'allowUpdate' => [{%allowUpdateText%}],
+    'allowTranslate' => [{%allowTranslateText%}],
+];

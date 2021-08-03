@@ -2,19 +2,125 @@
 
 namespace aspirantzhang\octopusModelCreator;
 
+use Symfony\Component\Filesystem\Filesystem;
 use Mockery as m;
 
+if (!function_exists('base_path')) {
+    function base_path()
+    {
+        return createPath(dirname(__DIR__), 'runtime');
+    }
+}
+if (!function_exists('root_path')) {
+    function root_path()
+    {
+        return createPath(dirname(__DIR__), 'runtime');
+    }
+}
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
+    protected $fileSystem;
+    protected $fieldsData;
+
     protected function setUp(): void
     {
+        $this->fileSystem = new Filesystem();
+        $this->fieldsData = [
+            [
+                "name" => "nickname",
+                "title" => "Nick Name",
+                "type" => "input",
+                "settings" => [
+                    "validate" => [
+                        "require",
+                        "length"
+                    ],
+                    "options" => [
+                        "length" => [
+                            "min" => 4,
+                            "max" => 32
+                        ]
+                    ]
+                ],
+                "allowHome" => true,
+                "allowRead" => true,
+                "allowSave" => true,
+                "allowUpdate" => true,
+                "allowTranslate" => true
+            ],
+            [
+                "name" => "gender",
+                "title" => "Gender",
+                "type" => "radio",
+                "data" => [
+                    [
+                        "title" => "Mx",
+                        "value" => "mx"
+                    ],
+                    [
+                        "title" => "Mr",
+                        "value" => "mr"
+                    ],
+                    [
+                        "title" => "Ms",
+                        "value" => "ms"
+                    ]
+                ],
+                "settings" => [
+                    "validate" => [
+                        "require"
+                    ]
+                ],
+                "allowHome" => true,
+                "allowRead" => true,
+                "allowSave" => true,
+                "allowUpdate" => true
+            ],
+            [
+                "name" => "married",
+                "title" => "Married",
+                "type" => "switch",
+                "hideInColumn" => true,
+                "data" => [
+                    [
+                        "title" => "Yes",
+                        "value" => 1
+                    ],
+                    [
+                        "title" => "No",
+                        "value" => 0
+                    ]
+                ],
+                "settings" => [
+                    "display" => [
+                        "listSorter"
+                    ],
+                    "validate" => [
+                        "require"
+                    ]
+                ],
+                "allowHome" => true,
+                "allowRead" => true,
+                "allowUpdate" => true,
+                "allowSave" => true
+            ]
+        ];
         $langMock = m::mock('alias:think\facade\Lang');
-        $langMock->shouldReceive('get')->andReturn('Valid translation');
+        $langMock->shouldReceive('get')->andReturnUsing(function (string $name, array $vars = [], string $lang = '') {
+            if (!empty($vars)) {
+                return $name . ': ' . implode(';', array_map(function ($key, $value) {
+                    return $key . '=' . $value;
+                }, array_keys($vars), $vars));
+            }
+            return $name;
+        });
+        $langMock->shouldReceive('getLangSet')->andReturn('en-us');
         $langMock->shouldReceive('load')->andReturn();
 
-        $configMock = m::mock('alias:think\facade\Config');
-        $configMock->shouldReceive('get')->andReturn('Valid Config');
+        // $configMock = m::mock('alias:think\facade\Config');
+        // $configMock->shouldReceive('get')->andReturn('Valid Config');
     }
+    
     protected function tearDown(): void
     {
     }

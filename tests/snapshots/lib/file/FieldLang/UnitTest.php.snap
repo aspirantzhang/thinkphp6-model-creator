@@ -1,0 +1,9 @@
+<?php
+
+return [
+    'unit-test' => [
+        'nickname' => 'Nick Name',
+        'gender' => 'Gender',
+        'married' => 'Married',
+    ],
+];

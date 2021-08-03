@@ -32,10 +32,12 @@
     "php": ">=7.4.0",
     "topthink/framework": "^6.0",
     "topthink/think-helper": "^3.1",
-    "aspirantzhang/octopus-helper": "dev-main"
+    "aspirantzhang/octopus-helper": "dev-main",
+    "symfony/filesystem": "^5.3"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
-    "mockery/mockery": "^1.4"
+    "mockery/mockery": "^1.4",
+    "phpstan/phpstan": "^0.12.93"
   }
 }

@@ -1,0 +1,9 @@
+parameters:
+  level: 5
+  paths:
+    - src
+  ignoreErrors:
+    - '#Call to an undefined static method think\\facade\\Db::query\(\)#'
+    - '#Call to an undefined static method think\\facade\\Db::execute\(\)#'
+    - '#Function base_path not found.#'
+    - '#Function root_path not found.#'
