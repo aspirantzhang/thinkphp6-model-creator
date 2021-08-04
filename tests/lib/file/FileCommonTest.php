@@ -9,12 +9,12 @@ use think\Exception;
 class FileCommonTest extends BaseCase
 {
     protected $fileCommon;
-    protected $basePath;
+    protected $stubPath;
     protected $runtimePath;
 
     protected function setUp(): void
     {
-        $this->basePath = createPath(dirname(__DIR__, 2), 'stubs', 'lib', 'file', 'FileCommon', '');
+        $this->stubPath = createPath(dirname(__DIR__, 2), 'stubs', 'lib', 'file', 'FileCommon', '');
         $this->runtimePath = createPath(dirname(__DIR__, 3), 'runtime', 'file', 'FileCommon', '');
         $this->fileCommon = new FileCommon();
         parent::setUp();
@@ -22,11 +22,11 @@ class FileCommonTest extends BaseCase
 
     public function testReplaceAndWrite()
     {
-        $sourcePath = $this->basePath . 'replaceAndWrite.stub';
-        $snapshotPath = $this->basePath . 'replaceAndWrite.snap';
+        $sourcePath = $this->stubPath . 'replaceAndWrite.stub';
+        $snapshotPath = $this->stubPath . 'replaceAndWrite.snap';
         $targetPath = $this->runtimePath . 'replaceAndWrite.php';
         $this->fileCommon->replaceAndWrite($sourcePath, $targetPath, function ($content) {
-            return strtr($content, ['{%a%}' => 'foo','{%b%}' => 'bar']);
+            return strtr($content, ['{{ a }}' => 'foo','{{ b }}' => 'bar']);
         });
         $this->assertTrue(matchSnapshot($targetPath, $snapshotPath));
 
@@ -38,5 +38,17 @@ class FileCommonTest extends BaseCase
             return;
         }
         $this->fail();
+    }
+
+    public function testReadArrayFromFile()
+    {
+        $result = $this->fileCommon->readArrayFromFile($this->stubPath . 'readArrayFromFile.php');
+        $this->assertEqualsCanonicalizing($result, ['foo' => 'bar']);
+    }
+
+    public function testReadLangConfig()
+    {
+        $result = $this->fileCommon->readLangConfig('layout');
+        $this->assertEquals($result['layout.default.list'], ' List');
     }
 }

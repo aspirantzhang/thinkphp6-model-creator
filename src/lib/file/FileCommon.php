@@ -7,6 +7,7 @@ namespace aspirantzhang\octopusModelCreator\lib\file;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use think\Exception;
+use think\facade\Lang;
 use think\helper\Str;
 
 class FileCommon
@@ -15,6 +16,7 @@ class FileCommon
     protected $stubPath;
     protected $appPath;
     protected $rootPath;
+    protected $langPath;
     protected $tableName;
     protected $routeName;
     protected $modelName;
@@ -27,6 +29,7 @@ class FileCommon
         $this->appPath = base_path();
         $this->rootPath = root_path();
         $this->stubPath = createPath(dirname(__DIR__, 2), 'stubs');
+        $this->langPath = createPath(dirname(__DIR__, 2), 'lang');
     }
 
     public function init($tableName, $modelTitle)
@@ -70,5 +73,25 @@ class FileCommon
             return $result;
         }
         throw new Exception(__('unable to get file content', ['filePath' => $path]));
+    }
+
+    public function readArrayFromFile(string $filePath): array
+    {
+        $result = include $filePath;
+        return $result;
+    }
+
+    public function readLangConfig(string $type, string $lang = null)
+    {
+        $lang = $lang ?? Lang::getLangSet();
+        $defaultPath = createPath($this->langPath, $type, $lang, 'default') . '.php';
+        if ($this->fileSystem->exists($defaultPath)) {
+            return $this->readArrayFromFile($defaultPath);
+        }
+        $productionPath = createPath($this->appPath, 'api', 'lang', $type, $lang, 'default') . '.php';
+        if ($this->fileSystem->exists($productionPath)) {
+            return $this->readArrayFromFile($productionPath);
+        }
+        return [];
     }
 }
