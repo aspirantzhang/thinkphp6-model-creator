@@ -1,0 +1,10 @@
+<?php
+
+return [
+    'unit-test-layout' =>  [
+        'unit-test-list' => 'Unit Test列表',
+        'unit-test-add' => 'Unit Test新增',
+        'unit-test-edit' => 'Unit Test编辑',
+        'unit-test-i18n' => 'Unit Test国际化',
+    ]
+];

@@ -2,9 +2,9 @@
 
 return [
     'unit-test-layout' =>  [
-        'unit-test-list' => 'Unit Testlayout.default.list',
-        'unit-test-add' => 'Unit Testlayout.default.add',
-        'unit-test-edit' => 'Unit Testlayout.default.edit',
-        'unit-test-i18n' => 'Unit Testlayout.default.i18n',
+        'unit-test-list' => 'Unit Test List',
+        'unit-test-add' => 'Unit Test Add',
+        'unit-test-edit' => 'Unit Test Edit',
+        'unit-test-i18n' => 'Unit Test Internationalization',
     ]
 ];

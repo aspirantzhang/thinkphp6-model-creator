@@ -27,8 +27,9 @@ class LayoutLangTest extends BaseCase
         $snapshotPath = createPath($this->snapPath, 'UnitTest') . '.php.snap';
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
         // specific lang
-        $this->layoutLang->init('unit-test', 'Unit Test')->createLayoutLangFile('de-de');
-        $filePath = createPath(base_path(), 'api', 'lang', 'layout', 'de-de', 'UnitTest') . '.php';
+        $this->layoutLang->init('unit-test', 'Unit Test')->createLayoutLangFile('zh-cn');
+        $filePath = createPath(base_path(), 'api', 'lang', 'layout', 'zh-cn', 'UnitTest') . '.php';
+        $snapshotPath = createPath($this->snapPath, 'UnitTest.zh-cn') . '.php.snap';
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
     }
 
