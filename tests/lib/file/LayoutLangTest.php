@@ -22,6 +22,10 @@ class LayoutLangTest extends BaseCase
 
     public function testLayoutLangFile()
     {
+        // delete custom file
+        $customPath = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'default') . '.php';
+        $this->fileSystem->remove([$customPath]);
+
         $this->layoutLang->init('unit-test', 'Unit Test')->createLayoutLangFile();
         $filePath = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'UnitTest') . '.php';
         $snapshotPath = createPath($this->snapPath, 'UnitTest') . '.php.snap';
