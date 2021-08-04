@@ -84,13 +84,13 @@ class FileCommon
     public function readLangConfig(string $type, string $lang = null)
     {
         $lang = $lang ?? Lang::getLangSet();
+        $customPath = createPath($this->appPath, 'api', 'lang', $type, $lang, 'default') . '.php';
+        if ($this->fileSystem->exists($customPath)) {
+            return $this->readArrayFromFile($customPath);
+        }
         $defaultPath = createPath($this->langPath, $type, $lang, 'default') . '.php';
         if ($this->fileSystem->exists($defaultPath)) {
             return $this->readArrayFromFile($defaultPath);
-        }
-        $productionPath = createPath($this->appPath, 'api', 'lang', $type, $lang, 'default') . '.php';
-        if ($this->fileSystem->exists($productionPath)) {
-            return $this->readArrayFromFile($productionPath);
         }
         return [];
     }
