@@ -1,9 +1,0 @@
-<?php
-
-return [
-    'allowHome' => ['nickname', 'gender', 'married'],
-    'allowRead' => ['nickname', 'gender', 'married'],
-    'allowSave' => ['nickname', 'gender', 'married'],
-    'allowUpdate' => ['nickname', 'gender', 'married'],
-    'allowTranslate' => ['nickname'],
-];

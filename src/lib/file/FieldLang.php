@@ -23,8 +23,8 @@ class FieldLang extends FileCommon
         $currentLang = $currentLang ?? Lang::getLangSet();
         $data = $this->buildFieldText($fieldsData);
         $replaceCondition = [
-            '{%tableName%}' => $this->tableName,
-            '{%data%}' => $data,
+            '{{ tableName }}' => $this->tableName,
+            '{{ data }}' => $data,
         ];
 
         $targetPath = createPath($this->appPath, 'api', 'lang', 'field', $currentLang, $this->modelName) . '.php';

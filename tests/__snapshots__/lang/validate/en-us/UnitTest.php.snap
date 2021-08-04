@@ -1,8 +1,0 @@
-<?php
-
-return [
-    'unit-test@nickname#require' => 'validate.require:unit-test.nickname:|',
-    'unit-test@nickname#length:4,32' => 'validate.length:unit-test.nickname:|4 - 32',
-    'unit-test@gender#require' => 'validate.require:unit-test.gender:|',
-    'unit-test@married#require' => 'validate.require:unit-test.married:|',
-];

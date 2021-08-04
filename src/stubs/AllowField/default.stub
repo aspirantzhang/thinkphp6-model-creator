@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'allowHome' => [{%allowHomeText%}],
-    'allowRead' => [{%allowReadText%}],
-    'allowSave' => [{%allowSaveText%}],
-    'allowUpdate' => [{%allowUpdateText%}],
-    'allowTranslate' => [{%allowTranslateText%}],
+    'allowHome' => [{{ allowHomeText }}],
+    'allowRead' => [{{ allowReadText }}],
+    'allowSave' => [{{ allowSaveText }}],
+    'allowUpdate' => [{{ allowUpdateText }}],
+    'allowTranslate' => [{{ allowTranslateText }}],
 ];

@@ -52,11 +52,11 @@ class AllowField extends FileCommon
     {
         list($allowHomeText, $allowReadText, $allowSaveText, $allowUpdateText, $allowTranslateText) = $this->buildAllowText($fieldsData);
         $replaceCondition = [
-            '{%allowHomeText%}' => $allowHomeText,
-            '{%allowReadText%}' => $allowReadText,
-            '{%allowSaveText%}' => $allowSaveText,
-            '{%allowUpdateText%}' => $allowUpdateText,
-            '{%allowTranslateText%}' => $allowTranslateText,
+            '{{ allowHomeText }}' => $allowHomeText,
+            '{{ allowReadText }}' => $allowReadText,
+            '{{ allowSaveText }}' => $allowSaveText,
+            '{{ allowUpdateText }}' => $allowUpdateText,
+            '{{ allowTranslateText }}' => $allowTranslateText,
         ];
         $targetPath = createPath($this->rootPath, 'config', 'api', 'allowFields', $this->modelName) . '.php';
         $sourcePath = createPath($this->stubPath, 'AllowField', 'default') . '.stub';

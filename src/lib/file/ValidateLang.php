@@ -59,7 +59,7 @@ class ValidateLang extends FileCommon
         $sourcePath = createPath($this->stubPath, 'ValidateLang', 'default') . '.stub';
         $data = $this->buildValidateData($fieldsData);
         $replaceCondition = [
-            '{%data%}' => $data,
+            '{{ data }}' => $data,
         ];
         try {
             $this->replaceAndWrite($sourcePath, $targetPath, function ($content) use ($replaceCondition) {

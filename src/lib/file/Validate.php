@@ -171,13 +171,13 @@ class Validate extends FileCommon
         list($sceneSaveText, $sceneUpdateText, $sceneHomeText, $sceneHomeExcludeText) = $this->getScenesTextArray();
 
         $replaceCondition = [
-            '{%modelName%}' => $this->modelName,
-            '{%ruleText%}' => $ruleText,
-            '{%messageText%}' => $messageText,
-            '{%sceneSaveText%}' => $sceneSaveText,
-            '{%sceneUpdateText%}' => $sceneUpdateText,
-            '{%sceneHomeText%}' => $sceneHomeText,
-            '{%sceneHomeExcludeText%}' => $sceneHomeExcludeText,
+            '{{ modelName }}' => $this->modelName,
+            '{{ ruleText }}' => $ruleText,
+            '{{ messageText }}' => $messageText,
+            '{{ sceneSaveText }}' => $sceneSaveText,
+            '{{ sceneUpdateText }}' => $sceneUpdateText,
+            '{{ sceneHomeText }}' => $sceneHomeText,
+            '{{ sceneHomeExcludeText }}' => $sceneHomeExcludeText,
         ];
 
         try {

@@ -1,10 +1,10 @@
 <?php
 
 return [
-    '{%tableName%}-layout' =>  [
-        '{%tableName%}-list' => '{%modelTitle%}{%listText%}',
-        '{%tableName%}-add' => '{%modelTitle%}{%addText%}',
-        '{%tableName%}-edit' => '{%modelTitle%}{%editText%}',
-        '{%tableName%}-i18n' => '{%modelTitle%}{%i18nText%}',
+    '{{ tableName }}-layout' =>  [
+        '{{ tableName }}-list' => '{{ modelTitle }}{{ listText }}',
+        '{{ tableName }}-add' => '{{ modelTitle }}{{ addText }}',
+        '{{ tableName }}-edit' => '{{ modelTitle }}{{ editText }}',
+        '{{ tableName }}-i18n' => '{{ modelTitle }}{{ i18nText }}',
     ]
 ];

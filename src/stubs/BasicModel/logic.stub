@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace app\api\logic;
 
-use app\api\view\{%modelName%} as {%modelName%}View;
+use app\api\view\{{ modelName }} as {{ modelName }}View;
 
-class {%modelName%} extends {%modelName%}View
+class {{ modelName }} extends {{ modelName }}View
 {
 
 }

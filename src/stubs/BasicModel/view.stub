@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace app\api\view;
 
-use app\api\model\{%modelName%} as {%modelName%}Model;
+use app\api\model\{{ modelName }} as {{ modelName }}Model;
 
-class {%modelName%} extends {%modelName%}Model
+class {{ modelName }} extends {{ modelName }}Model
 {
 
 }

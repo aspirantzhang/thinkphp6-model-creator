@@ -6,14 +6,14 @@ namespace app\api\model;
 
 use aspirantzhang\TPAntdBuilder\Builder;
 
-class {%modelName%} extends Common
+class {{ modelName }} extends Common
 {
     // Allow fields
     protected $readonly = ['id'];
     protected $unique = [];
 
     // Relation
-    
+
     // Accessor
 
     // Mutator

@@ -14,10 +14,10 @@ class BasicModel extends FileCommon
     {
         $fileTypes = $fileTypes ?? $this->fileTypes;
         $replaceCondition = [
-            '{%tableName%}' => $this->tableName,
-            '{%routeName%}' => $this->routeName,
-            '{%modelName%}' => $this->modelName,
-            '{%instanceName%}' => $this->instanceName,
+            '{{ tableName }}' => $this->tableName,
+            '{{ routeName }}' => $this->routeName,
+            '{{ modelName }}' => $this->modelName,
+            '{{ instanceName }}' => $this->instanceName,
         ];
         try {
             foreach ($fileTypes as $type) {
