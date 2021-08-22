@@ -30,14 +30,10 @@ class FileCommonTest extends BaseCase
         });
         $this->assertTrue(matchSnapshot($targetPath, $snapshotPath));
 
-        try {
-            $this->fileCommon->replaceAndWrite($sourcePath . '.notExist', $targetPath, function () {
-            });
-        } catch (Exception $e) {
-            $this->assertEquals($e->getMessage(), 'unable to get file content: filePath=' . createPath($sourcePath . '.notExist'));
-            return;
-        }
-        $this->fail();
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('unable to get file content: filePath=' . createPath($sourcePath . '.notExist'));
+        $this->fileCommon->replaceAndWrite($sourcePath . '.notExist', $targetPath, function () {
+        });
     }
 
     public function testReadArrayFromFile()

@@ -15,12 +15,8 @@ class RuleTest extends BaseCase
 
     public function testCreateRule()
     {
-        try {
-            $id = (new Rule())->init('rule-test', 'Rule Test')->createRule();
-            $this->assertTrue(true);
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
+        $id = (new Rule())->init('rule-test', 'Rule Test')->createRule();
+        $this->assertTrue(true);
         return $id;
     }
 
@@ -29,12 +25,8 @@ class RuleTest extends BaseCase
     */
     public function testCreateChildrenRules($id)
     {
-        try {
-            (new Rule())->init('rule-test', 'Rule Test')->createChildrenRules($id);
-            $this->assertTrue(true);
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
+        (new Rule())->init('rule-test', 'Rule Test')->createChildrenRules($id);
+        $this->assertTrue(true);
         return $id;
     }
     /**
@@ -42,11 +34,7 @@ class RuleTest extends BaseCase
     */
     public function testRemoveRuleSuccessfully($id)
     {
-        try {
-            (new Rule())->removeRules($id);
-            $this->assertTrue(true);
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
+        (new Rule())->removeRules($id);
+        $this->assertTrue(true);
     }
 }

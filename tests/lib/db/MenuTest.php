@@ -15,12 +15,8 @@ class MenuTest extends BaseCase
 
     public function testCreateMenu()
     {
-        try {
-            $id = (new Menu())->init('menu-test', 'Menu Test')->createMenu('menu_path');
-            $this->assertTrue(true);
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
+        $id = (new Menu())->init('menu-test', 'Menu Test')->createMenu('menu_path');
+        $this->assertTrue(true);
         return $id;
     }
 
@@ -29,12 +25,8 @@ class MenuTest extends BaseCase
     */
     public function testCreateChildrenMenus($id)
     {
-        try {
-            (new Menu())->init('menu-test', 'Menu Test')->createChildrenMenus($id);
-            $this->assertTrue(true);
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
+        (new Menu())->init('menu-test', 'Menu Test')->createChildrenMenus($id);
+        $this->assertTrue(true);
         return $id;
     }
     /**
@@ -42,11 +34,7 @@ class MenuTest extends BaseCase
     */
     public function testRemoveMenuSuccessfully($id)
     {
-        try {
-            (new Menu())->removeMenus($id);
-            $this->assertTrue(true);
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
+        (new Menu())->removeMenus($id);
+        $this->assertTrue(true);
     }
 }

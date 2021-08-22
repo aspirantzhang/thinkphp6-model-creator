@@ -34,13 +34,9 @@ class BasicModelTest extends BaseCase
             $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
         }
 
-        try {
-            $this->basicModel->init('unit-test', 'Unit Test')->createBasicModelFile(['notExist']);
-        } catch (Exception $e) {
-            $this->assertEquals($e->getMessage(), 'unable to get file content: filePath=' . createPath($this->prodStubPath, 'notExist.stub'));
-            return;
-        }
-        $this->fail();
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('unable to get file content: filePath=' . createPath($this->prodStubPath, 'notExist.stub'));
+        $this->basicModel->init('unit-test', 'Unit Test')->createBasicModelFile(['notExist']);
     }
 
     public function testRemoveBasicModelFile()

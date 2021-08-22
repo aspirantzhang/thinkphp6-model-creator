@@ -198,12 +198,8 @@ class FieldTest extends BaseCase
             'lang_code',
             'translate_time'
         ];
-        try {
-            (new Field())->init('field-test', 'Field Test')->fieldsHandler($fieldsData, ['nickname', 'gender', 'married'], $reservedFields);
-            (new Field())->init('field-test', 'Field Test')->fieldsHandler($fieldsDataUpdate, ['nickname', 'gender', 'age', 'foo_time'], $reservedFields);
-            $this->assertTrue(true);
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
+        (new Field())->init('field-test', 'Field Test')->fieldsHandler($fieldsData, ['nickname', 'gender', 'married'], $reservedFields);
+        (new Field())->init('field-test', 'Field Test')->fieldsHandler($fieldsDataUpdate, ['nickname', 'gender', 'age', 'foo_time'], $reservedFields);
+        $this->assertTrue(true);
     }
 }

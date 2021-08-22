@@ -85,12 +85,8 @@ END
 
     public function testCreate()
     {
-        try {
-            $modelData = ModelCreator::db('db-test', 'DB Test')->create();
-            $this->assertTrue(true);
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
+        $modelData = ModelCreator::db('db-test', 'DB Test')->create();
+        $this->assertTrue(true);
         return $modelData;
     }
 
@@ -191,12 +187,8 @@ END
             'translate_time'
         ];
 
-        try {
-            ModelCreator::db('db-test', 'DB Test')->update($fieldsData, ['gender', 'married'], $reservedFields, ['nickname']);
-            $this->assertTrue(true);
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
+        ModelCreator::db('db-test', 'DB Test')->update($fieldsData, ['gender', 'married'], $reservedFields, ['nickname']);
+        $this->assertTrue(true);
         return $modelData;
     }
 
@@ -205,12 +197,8 @@ END
     */
     public function testRemove($modelData)
     {
-        try {
-            $modelData = ModelCreator::db('db-test', 'DB Test')->remove($modelData['topRuleId'], $modelData['topMenuId']);
-            $this->assertTrue(true);
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
+        $modelData = ModelCreator::db('db-test', 'DB Test')->remove($modelData['topRuleId'], $modelData['topMenuId']);
+        $this->assertTrue(true);
         return $modelData;
     }
 }
