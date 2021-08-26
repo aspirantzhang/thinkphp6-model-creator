@@ -14,7 +14,7 @@ class LayoutLang extends FileCommon
         $lang = $lang ?? Lang::getLangSet();
         $targetPath = createPath($this->appPath, 'api', 'lang', 'layout', $lang, $this->modelName) . '.php';
         $sourcePath = $this->getStubPath('LayoutLang');
-        $i18n = $this->readLangConfig('layout', $lang);
+        $i18n = $this->getDefaultLang('layout', $lang);
         $replaceCondition = [
             '{{ tableName }}' => $this->tableName,
             '{{ modelTitle }}' => $this->modelTitle,

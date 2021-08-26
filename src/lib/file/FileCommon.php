@@ -90,7 +90,7 @@ class FileCommon
         return createPath($this->stubPath, $type, $fileName) . '.stub';
     }
 
-    public function readLangConfig(string $type, string $lang = null)
+    public function getDefaultLang(string $type, string $lang = null)
     {
         $lang = $lang ?? Lang::getLangSet();
         $customPath = createPath($this->appPath, 'api', 'lang', $type, $lang, 'default') . '.php';
