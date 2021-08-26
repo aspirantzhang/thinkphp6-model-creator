@@ -10,7 +10,7 @@ use think\facade\Lang;
 class ValidateLang extends FileCommon
 {
     /**
-     * field lang should be load in advance
+     * ATTENTION: field lang should be load in advance
      */
     private function getRuleText(string $fieldRule)
     {
@@ -25,12 +25,16 @@ class ValidateLang extends FileCommon
             $ruleName = substr($ruleName, 0, strpos($ruleName, ':'));
             $option = substr($fieldRule, strpos($fieldRule, ':') + 1);
             if ($option) {
-                // 0,32 -> 0-32
+                // 0,32 -> 0 - 32
                 $option = strtr($option, [',' => ' - ']);
             }
         }
-        // read validate.rule translation
-        return __('validate.' . $ruleName, ['field' => __($fieldName), 'option' => $option]);
+        $ruleLang = $this->getDefaultLang('validate');
+        if (isset($ruleLang['default.' . $ruleName])) {
+            return strtr($ruleLang['default.' . $ruleName], ['field' => __($fieldName), 'option' => $option]);
+        } else {
+            return 'custom' . $ruleName;
+        }
     }
 
     private function buildValidateData(array $fieldsData)
