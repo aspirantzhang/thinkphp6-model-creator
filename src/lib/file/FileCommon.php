@@ -81,6 +81,15 @@ class FileCommon
         return $result;
     }
 
+    public function getStubPath(string $type, string $fileName = 'default')
+    {
+        $customPath = createPath($this->appPath, 'api', 'stubs', $type, $fileName) . '.stub';
+        if ($this->fileSystem->exists($customPath)) {
+            return $customPath;
+        }
+        return createPath($this->stubPath, $type, $fileName) . '.stub';
+    }
+
     public function readLangConfig(string $type, string $lang = null)
     {
         $lang = $lang ?? Lang::getLangSet();

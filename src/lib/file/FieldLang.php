@@ -28,7 +28,7 @@ class FieldLang extends FileCommon
         ];
 
         $targetPath = createPath($this->appPath, 'api', 'lang', 'field', $currentLang, $this->modelName) . '.php';
-        $sourcePath = createPath($this->stubPath, 'FieldLang', 'default') . '.stub';
+        $sourcePath = $this->getStubPath('FieldLang');
 
         try {
             $this->replaceAndWrite($sourcePath, $targetPath, function ($content) use ($replaceCondition) {

@@ -59,7 +59,7 @@ class AllowField extends FileCommon
             '{{ allowTranslateText }}' => $allowTranslateText,
         ];
         $targetPath = createPath($this->rootPath, 'config', 'api', 'allowFields', $this->modelName) . '.php';
-        $sourcePath = createPath($this->stubPath, 'AllowField', 'default') . '.stub';
+        $sourcePath = $this->getStubPath('AllowField');
         try {
             $this->replaceAndWrite($sourcePath, $targetPath, function ($content) use ($replaceCondition) {
                 return strtr($content, $replaceCondition);

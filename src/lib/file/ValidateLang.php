@@ -56,7 +56,7 @@ class ValidateLang extends FileCommon
     {
         $currentLang = $currentLang ?? Lang::getLangSet();
         $targetPath = createPath($this->appPath, 'api', 'lang', 'validate', $currentLang, $this->modelName) . '.php';
-        $sourcePath = createPath($this->stubPath, 'ValidateLang', 'default') . '.stub';
+        $sourcePath = $this->getStubPath('ValidateLang');
         // load field lang
         $fieldLangFile = createPath(base_path(), 'api', 'lang', 'field', $currentLang, $this->modelName) . '.php';
         if (file_exists($fieldLangFile)) {
