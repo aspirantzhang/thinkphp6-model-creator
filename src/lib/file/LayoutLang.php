@@ -18,10 +18,10 @@ class LayoutLang extends FileCommon
         $replaceCondition = [
             '{{ tableName }}' => $this->tableName,
             '{{ modelTitle }}' => $this->modelTitle,
-            '{{ listText }}' => $i18n['layout.default.list'] ?? 'layout.default.list',
-            '{{ addText }}' => $i18n['layout.default.add'] ?? 'layout.default.add',
-            '{{ editText }}' => $i18n['layout.default.edit'] ?? 'layout.default.edit',
-            '{{ i18nText }}' => $i18n['layout.default.i18n'] ?? 'layout.default.i18n',
+            '{{ listText }}' => $i18n['default.list'] ?? 'default.list',
+            '{{ addText }}' => $i18n['default.add'] ?? 'default.add',
+            '{{ editText }}' => $i18n['default.edit'] ?? 'default.edit',
+            '{{ i18nText }}' => $i18n['default.i18n'] ?? 'default.i18n',
         ];
         try {
             $this->replaceAndWrite($sourcePath, $targetPath, function ($content) use ($replaceCondition) {

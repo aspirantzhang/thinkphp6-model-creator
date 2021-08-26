@@ -46,12 +46,12 @@ class FileCommonTest extends BaseCase
     {
         // default config
         $result = $this->fileCommon->readLangConfig('layout');
-        $this->assertEquals($result['layout.default.list'], ' List');
+        $this->assertEquals($result['default.list'], ' List');
         // custom config
         $stubPath = $this->stubPath . 'readLangConfig.php.stub';
         $customPath = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'default') . '.php';
         $this->fileSystem->copy($stubPath, $customPath);
         $result = $this->fileCommon->readLangConfig('layout');
-        $this->assertEquals($result['layout.default.list'], 'custom');
+        $this->assertEquals($result['default.list'], 'custom');
     }
 }

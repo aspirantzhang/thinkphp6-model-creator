@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'layout.default.list' => '列表',
-    'layout.default.add' => '新增',
-    'layout.default.edit' => '编辑',
-    'layout.default.i18n' => '国际化',
+    'default.list' => '列表',
+    'default.add' => '新增',
+    'default.edit' => '编辑',
+    'default.i18n' => '国际化',
 ];
