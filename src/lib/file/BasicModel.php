@@ -21,8 +21,8 @@ class BasicModel extends FileCommon
         ];
         try {
             foreach ($fileTypes as $type) {
-                $sourcePath = createPath($this->stubPath, 'BasicModel', $type) . '.stub';
                 $targetPath = createPath($this->appPath, 'api', $type, $this->modelName) . '.php';
+                $sourcePath = $this->getStubPath('BasicModel', $type);
                 $this->replaceAndWrite($sourcePath, $targetPath, function ($content) use ($replaceCondition) {
                     return strtr($content, $replaceCondition);
                 });

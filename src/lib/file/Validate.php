@@ -164,7 +164,7 @@ class Validate extends FileCommon
         $this->fieldsData = $fieldsData;
 
         $targetPath = createPath($this->appPath, 'api', 'validate', $this->modelName) . '.php';
-        $sourcePath = createPath($this->stubPath, 'Validate', 'default') . '.stub';
+        $sourcePath = $this->getStubPath('Validate');
 
         $ruleText = $this->getRulesText();
         $messageText = $this->getMessagesText();

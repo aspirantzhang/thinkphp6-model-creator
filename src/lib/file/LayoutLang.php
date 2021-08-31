@@ -13,15 +13,15 @@ class LayoutLang extends FileCommon
     {
         $lang = $lang ?? Lang::getLangSet();
         $targetPath = createPath($this->appPath, 'api', 'lang', 'layout', $lang, $this->modelName) . '.php';
-        $sourcePath = createPath($this->stubPath, 'LayoutLang', 'default') . '.stub';
-        $i18n = $this->readLangConfig('layout', $lang);
+        $sourcePath = $this->getStubPath('LayoutLang');
+        $i18n = $this->getDefaultLang('layout', $lang);
         $replaceCondition = [
             '{{ tableName }}' => $this->tableName,
             '{{ modelTitle }}' => $this->modelTitle,
-            '{{ listText }}' => $i18n['layout.default.list'] ?? 'layout.default.list',
-            '{{ addText }}' => $i18n['layout.default.add'] ?? 'layout.default.add',
-            '{{ editText }}' => $i18n['layout.default.edit'] ?? 'layout.default.edit',
-            '{{ i18nText }}' => $i18n['layout.default.i18n'] ?? 'layout.default.i18n',
+            '{{ listText }}' => $i18n['default.list'] ?? 'default.list',
+            '{{ addText }}' => $i18n['default.add'] ?? 'default.add',
+            '{{ editText }}' => $i18n['default.edit'] ?? 'default.edit',
+            '{{ i18nText }}' => $i18n['default.i18n'] ?? 'default.i18n',
         ];
         try {
             $this->replaceAndWrite($sourcePath, $targetPath, function ($content) use ($replaceCondition) {
