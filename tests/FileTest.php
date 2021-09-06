@@ -39,7 +39,10 @@ class FileTest extends TestCase
     */
     public function testUpdate()
     {
-        ModelCreator::file('new-model', 'New Model')->update($this->fieldsData);
+        ModelCreator::file('new-model', 'New Model')->update($this->fieldsData, [
+            'handleFieldValidation' => true,
+            'handleAllowField' => true
+        ]);
         $filePaths = [];
         $filePaths[] = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'NewModel') . '.php';
         $filePaths[] = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'NewModel') . '.php';
@@ -50,7 +53,7 @@ class FileTest extends TestCase
             $this->assertTrue($this->fileSystem->exists($filePath));
         }
     }
-    
+
     /**
     * @depends testUpdate
     */

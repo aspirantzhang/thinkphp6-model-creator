@@ -23,7 +23,7 @@ class File
         $this->modelTitle = $modelTitle;
         return $this;
     }
-    
+
     public function create()
     {
         try {
@@ -33,14 +33,26 @@ class File
         }
     }
 
-    public function update($fieldsData)
+    /**
+     * Update model files
+     * @param array $fieldsData
+     * @param array $fieldOptions handling options
+     * - handleFieldValidation: default false
+     * - handleAllowField : default false
+     * @return void
+     */
+    public function update(array $fieldsData, array $fieldOptions = [])
     {
         try {
             (new FieldLang())->init($this->tableName, $this->modelTitle)->createFieldLangFile($fieldsData);
             (new LayoutLang())->init($this->tableName, $this->modelTitle)->createLayoutLangFile();
-            (new Validate())->init($this->tableName, $this->modelTitle)->createValidateFile($fieldsData);
-            (new ValidateLang())->init($this->tableName, $this->modelTitle)->createValidateLangFile($fieldsData);
-            (new AllowField())->init($this->tableName, $this->modelTitle)->createAllowFieldsFile($fieldsData);
+            if ($fieldOptions['handleFieldValidation'] ?? false) {
+                (new Validate())->init($this->tableName, $this->modelTitle)->createValidateFile($fieldsData);
+                (new ValidateLang())->init($this->tableName, $this->modelTitle)->createValidateLangFile($fieldsData);
+            }
+            if ($fieldOptions['handleAllowField'] ?? false) {
+                (new AllowField())->init($this->tableName, $this->modelTitle)->createAllowFieldsFile($fieldsData);
+            }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
