@@ -12,10 +12,15 @@ class UnitTest extends Validate
     protected $message = [
     ];
 
-    public function sceneHome()
-    {
-        $this->only(['page', 'per_page', 'id', 'status', 'create_time'])
-            ->remove('id', 'require')
-            ->remove('create_time', 'require');
-    }
+    protected $scene = [
+        'home' => [''],
+        'add' => [''],
+        'save' => [''],
+        'update' => [''],
+        'read' => [''],
+        'delete' => [''],
+        'restore' => [''],
+        'i18n' => [''],
+        'i18n_update' => [''],
+    ];
 }
