@@ -20,7 +20,7 @@ class UnitTest extends Validate
         'read' => [''],
         'delete' => [''],
         'restore' => [''],
-        'i18n' => [''],
+        'i18n_read' => [''],
         'i18n_update' => [''],
     ];
 }

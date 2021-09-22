@@ -22,6 +22,7 @@ class Validate extends FileCommon
             'page' => 'number',
             'per_page' => 'number',
             'create_time' => 'require|dateTimeRange',
+            'revisionId' => 'require|number',
         ];
         $this->scenes = [
             'save' => ['create_time', 'status'],
@@ -29,8 +30,11 @@ class Validate extends FileCommon
             'read' => ['id'],
             'delete' => ['ids'],
             'restore' => ['ids'],
-            'i18n' => ['id'],
+            'i18n_read' => ['id'],
             'i18n_update' => ['id'],
+            'revision_home' => ['page', 'per_page'],
+            'revision_restore' => ['revisionId'],
+            'revision_read' => [''],
             'add' => [''],
             'home' => [],
             'homeExclude' => []

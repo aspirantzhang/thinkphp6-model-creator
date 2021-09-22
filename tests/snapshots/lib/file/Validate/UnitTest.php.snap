@@ -13,6 +13,7 @@ class UnitTest extends Validate
         'page' => 'number',
         'per_page' => 'number',
         'create_time' => 'require|dateTimeRange',
+        'revisionId' => 'require|number',
         'nickname' => 'require|length:4,32',
         'gender' => 'require',
         'married' => 'require',
@@ -28,6 +29,8 @@ class UnitTest extends Validate
         'per_page.number' => 'per_page#number',
         'create_time.require' => 'create_time#require',
         'create_time.dateTimeRange' => 'create_time#dateTimeRange',
+        'revisionId.require' => 'revisionId#require',
+        'revisionId.number' => 'revisionId#number',
         'nickname.require' => 'unit-test@nickname#require',
         'nickname.length' => 'unit-test@nickname#length:4,32',
         'gender.require' => 'unit-test@gender#require',
@@ -41,8 +44,11 @@ class UnitTest extends Validate
         'delete' => ['ids'],
         'restore' => ['ids'],
         'add' => [''],
-        'i18n' => ['id'],
+        'i18n_read' => ['id'],
         'i18n_update' => ['id'],
+        'revision_home' => ['page', 'per_page'],
+        'revision_restore' => ['revisionId'],
+        'revision_read' => [''],
     ];
 
     public function sceneHome()

@@ -21,8 +21,11 @@ class {{ modelName }} extends Validate
         'delete' => ['ids'],
         'restore' => ['ids'],
         'add' => [''],
-        'i18n' => ['id'],
+        'i18n_read' => ['id'],
         'i18n_update' => ['id'],
+        'revision_home' => ['page', 'per_page'],
+        'revision_restore' => ['revisionId'],
+        'revision_read' => [''],
     ];
 
     public function sceneHome()

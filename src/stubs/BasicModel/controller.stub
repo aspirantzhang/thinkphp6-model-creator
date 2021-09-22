@@ -66,7 +66,7 @@ class {{ modelName }} extends Common
         return $this->json(...$result);
     }
 
-    public function i18n(int $id)
+    public function i18nRead(int $id)
     {
         $result = $this->{{ instanceName }}->i18nAPI($id);
 
@@ -78,5 +78,31 @@ class {{ modelName }} extends Common
         $result = $this->{{ instanceName }}->i18nUpdateAPI($id, $this->request->only(Config::get('lang.allow_lang_list')));
 
         return $this->json(...$result);
+    }
+
+    public function revisionHome(int $id)
+    {
+        $result = $this->app->revision->listAPI($this->{{ instanceName }}->getTableName(), $id, (int)$this->request->param('page') ?: 1);
+
+        return $this->json($result);
+    }
+
+    public function revisionRestore(int $id)
+    {
+        $result = $this->app->revision->restoreAPI(
+            $this->{{ instanceName }}->getTableName(),
+            $id,
+            (int)$this->request->param('revisionId'),
+            $this->{{ instanceName }}->getRevisionTable()
+        );
+
+        return $this->json($result);
+    }
+
+    public function revisionRead(int $revisionId)
+    {
+        $result = $this->app->revision->readAPI((int)$revisionId);
+
+        return $this->json($result);
     }
 }

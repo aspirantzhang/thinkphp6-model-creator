@@ -9,6 +9,19 @@ use think\facade\Lang;
 
 class ValidateLang extends FileCommon
 {
+    private $builtInRules = [
+        'id.require',
+        'id.number',
+        'ids.require',
+        'ids.numberArray',
+        'status.numberTag',
+        'page.number',
+        'per_page.number',
+        'create_time.require',
+        'create_time.dateTimeRange',
+        'revisionId.require',
+        'revisionId.number'
+    ];
     /**
      * ATTENTION: field lang should be load in advance
      */
@@ -47,8 +60,7 @@ class ValidateLang extends FileCommon
          */
         $validateMessages = (new Validate())->init($this->tableName, $this->modelTitle)->getMessages($fieldsData);
         // exclude built in field rule
-        $exclude = ['id.require', 'id.number', 'ids.require', 'ids.numberArray', 'status.numberTag', 'page.number', 'per_page.number', 'create_time.require', 'create_time.dateTimeRange'];
-        $fieldRules = array_diff_key($validateMessages, array_flip($exclude));
+        $fieldRules = array_diff_key($validateMessages, array_flip($this->builtInRules));
         $data = '';
         foreach ($fieldRules as $fieldRule) {
             $data .= '    \'' . $fieldRule . '\' => \'' . $this->getRuleText($fieldRule) . "',\n";
