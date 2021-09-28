@@ -18,7 +18,7 @@ class Field extends DbCommon
         }
         return $existingFields;
     }
- 
+
     public function fieldsHandler(array $fieldsData, array $processedFields, array $reservedFields)
     {
         $existingFields = $this->getExistingFields();
@@ -32,14 +32,14 @@ class Field extends DbCommon
             $type = '';
             $typeAddon = '';
             $default = '';
-            
+
             switch ($field['type']) {
-                case 'longtext':
-                    $type = 'LONGTEXT';
-                    $typeAddon = '';
-                    $default = '';
-                    break;
                 case 'number':
+                    $type = 'INT';
+                    $typeAddon = '';
+                    $default = 'DEFAULT 0';
+                    break;
+                case 'parent':
                     $type = 'INT';
                     $typeAddon = ' UNSIGNED';
                     $default = 'DEFAULT 0';
@@ -48,11 +48,20 @@ class Field extends DbCommon
                     $type = 'DATETIME';
                     $typeAddon = '';
                     break;
-                case 'tag':
                 case 'switch':
                     $type = 'TINYINT';
                     $typeAddon = '(1)';
                     $default = 'DEFAULT 1';
+                    break;
+                case 'textarea':
+                    $type = 'TEXT';
+                    $typeAddon = '';
+                    $default = '';
+                    break;
+                case 'textEditor':
+                    $type = 'LONGTEXT';
+                    $typeAddon = '';
+                    $default = '';
                     break;
                 default:
                     $type = 'VARCHAR';
