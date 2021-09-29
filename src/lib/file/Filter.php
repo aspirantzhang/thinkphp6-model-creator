@@ -6,9 +6,9 @@ namespace aspirantzhang\octopusModelCreator\lib\file;
 
 use think\Exception;
 
-class AllowField extends FileCommon
+class Filter extends FileCommon
 {
-    private function buildAllowText(array $fieldsData)
+    private function buildFilterText(array $fieldsData)
     {
         $allowHome = [];
         $allowRead = [];
@@ -48,9 +48,9 @@ class AllowField extends FileCommon
         return [$allowHomeText, $allowReadText, $allowSaveText, $allowUpdateText, $allowTranslateText];
     }
 
-    public function createAllowFieldsFile(array $fieldsData)
+    public function createFilterFile(array $fieldsData)
     {
-        list($allowHomeText, $allowReadText, $allowSaveText, $allowUpdateText, $allowTranslateText) = $this->buildAllowText($fieldsData);
+        list($allowHomeText, $allowReadText, $allowSaveText, $allowUpdateText, $allowTranslateText) = $this->buildFilterText($fieldsData);
         $replaceCondition = [
             '{{ allowHomeText }}' => $allowHomeText,
             '{{ allowReadText }}' => $allowReadText,
@@ -59,7 +59,7 @@ class AllowField extends FileCommon
             '{{ allowTranslateText }}' => $allowTranslateText,
         ];
         $targetPath = createPath($this->rootPath, 'config', 'api', 'allowFields', $this->modelName) . '.php';
-        $sourcePath = $this->getStubPath('AllowField');
+        $sourcePath = $this->getStubPath('Filter');
         try {
             $this->replaceAndWrite($sourcePath, $targetPath, function ($content) use ($replaceCondition) {
                 return strtr($content, $replaceCondition);
@@ -69,7 +69,7 @@ class AllowField extends FileCommon
         }
     }
 
-    public function removeAllowFieldsFile()
+    public function removeFilterFile()
     {
         $targetPath = createPath($this->rootPath, 'config', 'api', 'allowFields', $this->modelName) . '.php';
         $this->fileSystem->remove($targetPath);

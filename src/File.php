@@ -10,7 +10,7 @@ use aspirantzhang\octopusModelCreator\lib\file\FieldLang;
 use aspirantzhang\octopusModelCreator\lib\file\LayoutLang;
 use aspirantzhang\octopusModelCreator\lib\file\Validate;
 use aspirantzhang\octopusModelCreator\lib\file\ValidateLang;
-use aspirantzhang\octopusModelCreator\lib\file\AllowField;
+use aspirantzhang\octopusModelCreator\lib\file\Filter;
 
 class File
 {
@@ -38,7 +38,7 @@ class File
      * @param array $fieldsData
      * @param array $fieldOptions handling options
      * - handleFieldValidation: default false
-     * - handleAllowField : default false
+     * - handleFilter : default false
      * @return void
      */
     public function update(array $fieldsData, array $fieldOptions = [])
@@ -50,8 +50,8 @@ class File
                 (new Validate())->init($this->tableName, $this->modelTitle)->createValidateFile($fieldsData);
                 (new ValidateLang())->init($this->tableName, $this->modelTitle)->createValidateLangFile($fieldsData);
             }
-            if ($fieldOptions['handleAllowField'] ?? false) {
-                (new AllowField())->init($this->tableName, $this->modelTitle)->createAllowFieldsFile($fieldsData);
+            if ($fieldOptions['handleFilter'] ?? false) {
+                (new Filter())->init($this->tableName, $this->modelTitle)->createFilterFile($fieldsData);
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -66,7 +66,7 @@ class File
             (new LayoutLang())->init($this->tableName, $this->modelTitle)->removeLayoutLangFile();
             (new Validate())->init($this->tableName, $this->modelTitle)->removeValidateFile();
             (new ValidateLang())->init($this->tableName, $this->modelTitle)->removeValidateLangFile();
-            (new AllowField())->init($this->tableName, $this->modelTitle)->removeAllowFieldsFile();
+            (new Filter())->init($this->tableName, $this->modelTitle)->removeFilterFile();
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }

@@ -41,7 +41,7 @@ class FileTest extends TestCase
     {
         ModelCreator::file('new-model', 'New Model')->update($this->fieldsData, [
             'handleFieldValidation' => true,
-            'handleAllowField' => true
+            'handleFilter' => true
         ]);
         $filePaths = [];
         $filePaths[] = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'NewModel') . '.php';
