@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'uniqueValue' => [{{ uniqueValueText }}],
+    'ignoreFilter' => [{{ ignoreFilterText }}],
     'allowHome' => [{{ allowHomeText }}],
     'allowRead' => [{{ allowReadText }}],
     'allowSave' => [{{ allowSaveText }}],

@@ -10,6 +10,8 @@ class Filter extends FileCommon
 {
     private function buildFilterText(array $fieldsData)
     {
+        $uniqueValue = [];
+        $ignoreFilter = [];
         $allowHome = [];
         $allowRead = [];
         $allowSave = [];
@@ -17,6 +19,14 @@ class Filter extends FileCommon
         $allowTranslate = [];
 
         foreach ($fieldsData as $field) {
+            // unique value
+            if ($field['uniqueValue'] ?? false) {
+                array_push($uniqueValue, $field['name']);
+            }
+            // ignore filter
+            if ($field['ignoreFilter'] ?? false) {
+                array_push($ignoreFilter, $field['name']);
+            }
             // home
             if ($field['allowHome'] ?? false) {
                 array_push($allowHome, $field['name']);
@@ -39,26 +49,30 @@ class Filter extends FileCommon
             }
         }
 
+        $uniqueValueText = $uniqueValue ? '\'' . implode('\', \'', $uniqueValue) . '\'' : '';
+        $ignoreFilterText = $ignoreFilter ? '\'' . implode('\', \'', $ignoreFilter) . '\'' : '';
         $allowHomeText = $allowHome ? '\'' . implode('\', \'', $allowHome) . '\'' : '';
         $allowReadText = $allowRead ? '\'' . implode('\', \'', $allowRead) . '\'' : '';
         $allowSaveText = $allowSave ? '\'' . implode('\', \'', $allowSave) . '\'' : '';
         $allowUpdateText = $allowUpdate ? '\'' . implode('\', \'', $allowUpdate) . '\'' : '';
         $allowTranslateText = $allowTranslate ? '\'' . implode('\', \'', $allowTranslate) . '\'' : '';
 
-        return [$allowHomeText, $allowReadText, $allowSaveText, $allowUpdateText, $allowTranslateText];
+        return [$uniqueValueText, $ignoreFilterText, $allowHomeText, $allowReadText, $allowSaveText, $allowUpdateText, $allowTranslateText];
     }
 
     public function createFilterFile(array $fieldsData)
     {
-        list($allowHomeText, $allowReadText, $allowSaveText, $allowUpdateText, $allowTranslateText) = $this->buildFilterText($fieldsData);
+        list($uniqueValueText, $ignoreFilterText, $allowHomeText, $allowReadText, $allowSaveText, $allowUpdateText, $allowTranslateText) = $this->buildFilterText($fieldsData);
         $replaceCondition = [
+            '{{ uniqueValueText }}' => $uniqueValueText,
+            '{{ ignoreFilterText }}' => $ignoreFilterText,
             '{{ allowHomeText }}' => $allowHomeText,
             '{{ allowReadText }}' => $allowReadText,
             '{{ allowSaveText }}' => $allowSaveText,
             '{{ allowUpdateText }}' => $allowUpdateText,
             '{{ allowTranslateText }}' => $allowTranslateText,
         ];
-        $targetPath = createPath($this->rootPath, 'config', 'api', 'allowFields', $this->modelName) . '.php';
+        $targetPath = createPath($this->rootPath, 'config', 'api', 'filter', $this->modelName) . '.php';
         $sourcePath = $this->getStubPath('Filter');
         try {
             $this->replaceAndWrite($sourcePath, $targetPath, function ($content) use ($replaceCondition) {
@@ -71,7 +85,7 @@ class Filter extends FileCommon
 
     public function removeFilterFile()
     {
-        $targetPath = createPath($this->rootPath, 'config', 'api', 'allowFields', $this->modelName) . '.php';
+        $targetPath = createPath($this->rootPath, 'config', 'api', 'filter', $this->modelName) . '.php';
         $this->fileSystem->remove($targetPath);
     }
 }

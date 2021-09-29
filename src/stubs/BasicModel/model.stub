@@ -8,9 +8,7 @@ use aspirantzhang\TPAntdBuilder\Builder;
 
 class {{ modelName }} extends Common
 {
-    // Allow fields
     protected $readonly = ['id'];
-    protected $unique = [];
 
     // Relation
 

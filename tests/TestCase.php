@@ -103,7 +103,15 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 "allowRead" => true,
                 "allowUpdate" => true,
                 "allowSave" => true
-            ]
+            ],
+            [
+                "name" => "comment",
+                "title" => "Comment",
+                "type" => "textEditor",
+                "settings" => [],
+                "uniqueValue" => true,
+                "ignoreFilter" => true,
+            ],
         ];
         $langMock = m::mock('alias:think\facade\Lang');
         $langMock->shouldReceive('get')->andReturnUsing(function (string $name, array $vars = [], string $lang = '') {
@@ -120,7 +128,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         // $configMock = m::mock('alias:think\facade\Config');
         // $configMock->shouldReceive('get')->andReturn('Valid Config');
     }
-    
+
     protected function tearDown(): void
     {
     }
