@@ -47,6 +47,9 @@ class Rule extends DbCommon
             ['rule_title' => $this->modelTitle . __('rule_title_restore'), 'rule_path' => 'api/' . $this->tableName . '/restore'],
             ['rule_title' => $this->modelTitle . __('rule_title_i18n'), 'rule_path' => 'api/' . $this->tableName . '/i18n'],
             ['rule_title' => $this->modelTitle . __('rule_title_i18nUpdate'), 'rule_path' => 'api/' . $this->tableName . '/i18n_update'],
+            ['rule_title' => $this->modelTitle . __('rule_title_revisionHome'), 'rule_path' => 'api/' . $this->tableName . '/revision_home'],
+            ['rule_title' => $this->modelTitle . __('rule_title_revisionRestore'), 'rule_path' => 'api/' . $this->tableName . '/revision_restore'],
+            ['rule_title' => $this->modelTitle . __('rule_title_revisionRead'), 'rule_path' => 'api/' . $this->tableName . '/revision_read'],
         ];
         $childrenIds = [];
         try {
