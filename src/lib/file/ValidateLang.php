@@ -44,7 +44,7 @@ class ValidateLang extends FileCommon
         }
         $ruleLang = $this->getDefaultLang('validate');
         if (isset($ruleLang['default.' . $ruleName])) {
-            return strtr($ruleLang['default.' . $ruleName], ['field' => __($fieldName), 'option' => $option]);
+            return strtr($ruleLang['default.' . $ruleName], ['{{ field }}' => '[' . __($fieldName) . ']', '{{ option }}' => '[' . $option . ']']);
         } else {
             return 'custom' . $ruleName;
         }

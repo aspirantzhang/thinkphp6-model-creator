@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'unit-test@nickname#require' => '{{ unit-test.nickname }} should not be empty.',
-    'unit-test@nickname#length:4,32' => '{{ unit-test.nickname }} length should be between {{ 4 - 32 }}.',
-    'unit-test@gender#require' => '{{ unit-test.gender }} should not be empty.',
-    'unit-test@married#require' => '{{ unit-test.married }} should not be empty.',
+    'unit-test@nickname#require' => '[unit-test.nickname] should not be empty.',
+    'unit-test@nickname#length:4,32' => '[unit-test.nickname] length should be between [4 - 32].',
+    'unit-test@gender#require' => '[unit-test.gender] should not be empty.',
+    'unit-test@married#require' => '[unit-test.married] should not be empty.',
 ];
