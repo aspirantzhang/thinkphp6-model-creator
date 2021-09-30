@@ -38,7 +38,7 @@ class File
      * @param array $fieldsData
      * @param array $fieldOptions handling options
      * - handleFieldValidation: default false
-     * - handleFilter : default false
+     * - handleFieldFilter : default false
      * @return void
      */
     public function update(array $fieldsData, array $fieldOptions = [])
@@ -50,7 +50,7 @@ class File
                 (new Validate())->init($this->tableName, $this->modelTitle)->createValidateFile($fieldsData);
                 (new ValidateLang())->init($this->tableName, $this->modelTitle)->createValidateLangFile($fieldsData);
             }
-            if ($fieldOptions['handleFilter'] ?? false) {
+            if ($fieldOptions['handleFieldFilter'] ?? false) {
                 (new Filter())->init($this->tableName, $this->modelTitle)->createFilterFile($fieldsData);
             }
         } catch (Exception $e) {
