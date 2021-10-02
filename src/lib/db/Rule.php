@@ -37,19 +37,20 @@ class Rule extends DbCommon
     public function createChildrenRules(int $parentRuleId, string $lang = null)
     {
         $lang = $lang ?? Lang::getLangSet();
+        $rulePathPrefix = 'api/' . $this->tableName;
         $childrenRules = [
-            ['rule_title' => $this->modelTitle . __('rule_title_home'), 'rule_path' => 'api/' . $this->tableName . '/home'],
-            ['rule_title' => $this->modelTitle . __('rule_title_add'), 'rule_path' => 'api/' . $this->tableName . '/add'],
-            ['rule_title' => $this->modelTitle . __('rule_title_save'), 'rule_path' => 'api/' . $this->tableName . '/save'],
-            ['rule_title' => $this->modelTitle . __('rule_title_read'), 'rule_path' => 'api/' . $this->tableName . '/read'],
-            ['rule_title' => $this->modelTitle . __('rule_title_update'), 'rule_path' => 'api/' . $this->tableName . '/update'],
-            ['rule_title' => $this->modelTitle . __('rule_title_delete'), 'rule_path' => 'api/' . $this->tableName . '/delete'],
-            ['rule_title' => $this->modelTitle . __('rule_title_restore'), 'rule_path' => 'api/' . $this->tableName . '/restore'],
-            ['rule_title' => $this->modelTitle . __('rule_title_i18n'), 'rule_path' => 'api/' . $this->tableName . '/i18n'],
-            ['rule_title' => $this->modelTitle . __('rule_title_i18nUpdate'), 'rule_path' => 'api/' . $this->tableName . '/i18n_update'],
-            ['rule_title' => $this->modelTitle . __('rule_title_revisionHome'), 'rule_path' => 'api/' . $this->tableName . '/revision_home'],
-            ['rule_title' => $this->modelTitle . __('rule_title_revisionRestore'), 'rule_path' => 'api/' . $this->tableName . '/revision_restore'],
-            ['rule_title' => $this->modelTitle . __('rule_title_revisionRead'), 'rule_path' => 'api/' . $this->tableName . '/revision_read'],
+            ['rule_title' => $this->modelTitle . __('rule_title_home'), 'rule_path' => $rulePathPrefix . '/home'],
+            ['rule_title' => $this->modelTitle . __('rule_title_add'), 'rule_path' => $rulePathPrefix . '/add'],
+            ['rule_title' => $this->modelTitle . __('rule_title_save'), 'rule_path' => $rulePathPrefix . '/save'],
+            ['rule_title' => $this->modelTitle . __('rule_title_read'), 'rule_path' => $rulePathPrefix . '/read'],
+            ['rule_title' => $this->modelTitle . __('rule_title_update'), 'rule_path' => $rulePathPrefix . '/update'],
+            ['rule_title' => $this->modelTitle . __('rule_title_delete'), 'rule_path' => $rulePathPrefix . '/delete'],
+            ['rule_title' => $this->modelTitle . __('rule_title_restore'), 'rule_path' => $rulePathPrefix . '/restore'],
+            ['rule_title' => $this->modelTitle . __('rule_title_i18nRead'), 'rule_path' => $rulePathPrefix . '/i18n_read'],
+            ['rule_title' => $this->modelTitle . __('rule_title_i18nUpdate'), 'rule_path' => $rulePathPrefix . '/i18n_update'],
+            ['rule_title' => $this->modelTitle . __('rule_title_revisionHome'), 'rule_path' => $rulePathPrefix . '/revision_home'],
+            ['rule_title' => $this->modelTitle . __('rule_title_revisionRestore'), 'rule_path' => $rulePathPrefix . '/revision_restore'],
+            ['rule_title' => $this->modelTitle . __('rule_title_revisionRead'), 'rule_path' => $rulePathPrefix . '/revision_read'],
         ];
         $childrenIds = [];
         try {
