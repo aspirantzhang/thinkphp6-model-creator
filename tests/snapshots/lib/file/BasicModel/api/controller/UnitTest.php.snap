@@ -68,7 +68,7 @@ class UnitTest extends Common
 
     public function i18nRead(int $id)
     {
-        $result = $this->unitTest->i18nAPI($id);
+        $result = $this->unitTest->i18nReadAPI($id);
 
         return $this->json(...$result);
     }
