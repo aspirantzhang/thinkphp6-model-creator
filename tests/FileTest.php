@@ -48,7 +48,7 @@ class FileTest extends TestCase
         $filePaths[] = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'NewModel') . '.php';
         $filePaths[] = createPath(base_path(), 'api', 'validate', 'NewModel') . '.php';
         $filePaths[] = createPath(base_path(), 'api', 'lang', 'validate', 'en-us', 'NewModel') . '.php';
-        $filePaths[] = createPath(root_path(), 'config', 'api', 'filter', 'NewModel') . '.php';
+        $filePaths[] = createPath(root_path(), 'config', 'api', 'model', 'NewModel') . '.php';
         foreach ($filePaths as $filePath) {
             $this->assertTrue($this->fileSystem->exists($filePath));
         }
@@ -67,7 +67,7 @@ class FileTest extends TestCase
         $filePaths[] = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'NewModel') . '.php';
         $filePaths[] = createPath(base_path(), 'api', 'validate', 'NewModel') . '.php';
         $filePaths[] = createPath(base_path(), 'api', 'lang', 'validate', 'en-us', 'NewModel') . '.php';
-        $filePaths[] = createPath(root_path(), 'config', 'api', 'filter', 'NewModel') . '.php';
+        $filePaths[] = createPath(root_path(), 'config', 'api', 'model', 'NewModel') . '.php';
         foreach ($filePaths as $filePath) {
             $this->assertFalse($this->fileSystem->exists($filePath));
         }

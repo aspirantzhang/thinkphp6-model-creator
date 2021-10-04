@@ -72,7 +72,7 @@ class Filter extends FileCommon
             '{{ allowUpdateText }}' => $allowUpdateText,
             '{{ allowTranslateText }}' => $allowTranslateText,
         ];
-        $targetPath = createPath($this->rootPath, 'config', 'api', 'filter', $this->modelName) . '.php';
+        $targetPath = createPath($this->rootPath, 'config', 'api', 'model', $this->modelName) . '.php';
         $sourcePath = $this->getStubPath('Filter');
         try {
             $this->replaceAndWrite($sourcePath, $targetPath, function ($content) use ($replaceCondition) {
@@ -85,7 +85,7 @@ class Filter extends FileCommon
 
     public function removeFilterFile()
     {
-        $targetPath = createPath($this->rootPath, 'config', 'api', 'filter', $this->modelName) . '.php';
+        $targetPath = createPath($this->rootPath, 'config', 'api', 'model', $this->modelName) . '.php';
         $this->fileSystem->remove($targetPath);
     }
 }

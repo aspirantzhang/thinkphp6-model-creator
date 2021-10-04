@@ -23,7 +23,7 @@ class FilterTest extends BaseCase
     public function testCreateFilterFile()
     {
         $this->filter->init('unit-test', 'Unit Test')->createFilterFile($this->fieldsData);
-        $filePath = createPath(root_path(), 'config', 'api', 'filter', 'UnitTest') . '.php';
+        $filePath = createPath(root_path(), 'config', 'api', 'model', 'UnitTest') . '.php';
         $snapshotPath = createPath($this->snapPath, 'UnitTest') . '.php.snap';
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
     }
@@ -33,7 +33,7 @@ class FilterTest extends BaseCase
     public function testRemoveFilterFile()
     {
         $this->filter->init('unit-test', 'Unit Test')->removeFilterFile();
-        $filePath = createPath(root_path(), 'config', 'api', 'filter', 'UnitTest') . '.php';
+        $filePath = createPath(root_path(), 'config', 'api', 'model', 'UnitTest') . '.php';
         $this->assertFalse($this->fileSystem->exists($filePath));
     }
 }
