@@ -10,6 +10,7 @@ class Filter extends FileCommon
 {
     private function buildFilterText(array $fieldsData)
     {
+        $titleField = [];
         $uniqueValue = [];
         $ignoreFilter = [];
         $allowHome = [];
@@ -19,6 +20,10 @@ class Filter extends FileCommon
         $allowTranslate = [];
 
         foreach ($fieldsData as $field) {
+            // title field
+            if ($field['titleField'] ?? false) {
+                array_push($titleField, $field['name']);
+            }
             // unique value
             if ($field['uniqueValue'] ?? false) {
                 array_push($uniqueValue, $field['name']);
@@ -49,6 +54,7 @@ class Filter extends FileCommon
             }
         }
 
+        $titleFieldText = $titleField ? $titleField[0] ?? '' : '';
         $uniqueValueText = $uniqueValue ? '\'' . implode('\', \'', $uniqueValue) . '\'' : '';
         $ignoreFilterText = $ignoreFilter ? '\'' . implode('\', \'', $ignoreFilter) . '\'' : '';
         $allowHomeText = $allowHome ? '\'' . implode('\', \'', $allowHome) . '\'' : '';
@@ -57,13 +63,14 @@ class Filter extends FileCommon
         $allowUpdateText = $allowUpdate ? '\'' . implode('\', \'', $allowUpdate) . '\'' : '';
         $allowTranslateText = $allowTranslate ? '\'' . implode('\', \'', $allowTranslate) . '\'' : '';
 
-        return [$uniqueValueText, $ignoreFilterText, $allowHomeText, $allowReadText, $allowSaveText, $allowUpdateText, $allowTranslateText];
+        return [$titleFieldText, $uniqueValueText, $ignoreFilterText, $allowHomeText, $allowReadText, $allowSaveText, $allowUpdateText, $allowTranslateText];
     }
 
     public function createFilterFile(array $fieldsData)
     {
-        list($uniqueValueText, $ignoreFilterText, $allowHomeText, $allowReadText, $allowSaveText, $allowUpdateText, $allowTranslateText) = $this->buildFilterText($fieldsData);
+        list($titleFieldText, $uniqueValueText, $ignoreFilterText, $allowHomeText, $allowReadText, $allowSaveText, $allowUpdateText, $allowTranslateText) = $this->buildFilterText($fieldsData);
         $replaceCondition = [
+            '{{ titleFieldText }}' => $titleFieldText,
             '{{ uniqueValueText }}' => $uniqueValueText,
             '{{ ignoreFilterText }}' => $ignoreFilterText,
             '{{ allowHomeText }}' => $allowHomeText,

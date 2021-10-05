@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'titleField' => '{{ titleFieldText }}',
     'uniqueValue' => [{{ uniqueValueText }}],
     'ignoreFilter' => [{{ ignoreFilterText }}],
     'allowHome' => [{{ allowHomeText }}],

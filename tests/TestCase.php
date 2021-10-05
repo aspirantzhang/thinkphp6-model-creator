@@ -42,6 +42,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                         ]
                     ]
                 ],
+                "titleField" => true,
                 "allowHome" => true,
                 "allowRead" => true,
                 "allowSave" => true,

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'titleField' => 'nickname',
     'uniqueValue' => ['comment'],
     'ignoreFilter' => ['comment'],
     'allowHome' => ['nickname', 'gender', 'married'],
