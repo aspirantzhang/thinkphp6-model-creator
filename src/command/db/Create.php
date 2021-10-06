@@ -25,13 +25,13 @@ class Create extends Command
 
     protected function execute(Input $input, Output $output)
     {
-        $output->writeln('<info>Deleting reserved table\'s data...</info>');
+        $output->writeln('<info>Creating model database...</info>');
 
         $tableName = trim($input->getArgument('tableName'));
-        $modelTitle = trim($input->getOption('modelTitle'));
+        $modelTitle = $input->getOption('modelTitle') ?: $tableName;
 
         try {
-            $result = ModelCreator::db($tableName, $modelTitle);
+            $result = ModelCreator::db($tableName, $modelTitle)->create();
             $output->writeln('<info>' . print_r($result) . '</info>');
             $output->writeln('<info>...Complete successfully.</info>');
         } catch (Exception $e) {
