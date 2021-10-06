@@ -12,6 +12,7 @@ class Service extends BaseService
     {
         $this->commands([
             'db:create' => command\db\Create::class,
+            'db:remove' => command\db\Remove::class,
             'db:deleteReservedTable' => command\db\DeleteTable::class
         ]);
     }
