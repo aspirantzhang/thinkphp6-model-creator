@@ -18,8 +18,6 @@ class FileTest extends TestCase
     protected function setUp(): void
     {
         $this->snapPath = createPath(__DIR__, 'snapshots', 'lib', 'file', 'BasicModel');
-        // $this->testStubPath = createPath(dirname(__DIR__, 2), 'stubs', 'lib', 'file', 'BasicModel', '');
-        // $this->prodStubPath = createPath(dirname(__DIR__, 3), 'src', 'stubs', 'BasicModel');
         $this->fileTypes = ['controller', 'model', 'view', 'logic', 'service', 'route', 'validate'];
         parent::setUp();
     }
