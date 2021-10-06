@@ -18,8 +18,8 @@ class Remove extends Command
     {
         $this->setName('db:remove')
             ->addArgument('tableName', Argument::REQUIRED, "Table name")
-            ->addOption('topRuleId', null, Option::VALUE_REQUIRED, 'Top rule id')
-            ->addOption('topMenuId', null, Option::VALUE_REQUIRED, 'Top Menu id')
+            ->addArgument('topRuleId', Argument::OPTIONAL, 'Top rule id')
+            ->addArgument('topMenuId', Argument::OPTIONAL, 'Top Menu id')
             ->setDescription('Remove table and related records of the model');
     }
 
@@ -28,8 +28,8 @@ class Remove extends Command
         $output->writeln('<info>Processing...</info>');
 
         $tableName = trim($input->getArgument('tableName'));
-        $topRuleId = $input->getOption('topRuleId');
-        $topMenuId = $input->getOption('topMenuId');
+        $topRuleId = $input->getArgument('topRuleId') ? trim($input->getArgument('topRuleId')) : 0;
+        $topMenuId = $input->getArgument('topMenuId') ? trim($input->getArgument('topMenuId')) : 0;
 
         try {
             ModelCreator::db($tableName)->remove((int)$topRuleId, (int)$topMenuId);

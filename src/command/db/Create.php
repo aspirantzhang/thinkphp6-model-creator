@@ -19,7 +19,7 @@ class Create extends Command
     {
         $this->setName('db:create')
             ->addArgument('tableName', Argument::REQUIRED, "Table name")
-            ->addOption('modelTitle', null, Option::VALUE_REQUIRED, 'Model title')
+            ->addArgument('modelTitle', Argument::OPTIONAL, "Model title")
             ->setDescription('Create table for new model');
     }
 
@@ -28,7 +28,7 @@ class Create extends Command
         $output->writeln('<info>Creating model database...</info>');
 
         $tableName = trim($input->getArgument('tableName'));
-        $modelTitle = $input->getOption('modelTitle') ?: $tableName;
+        $modelTitle = $input->getArgument('modelTitle') ? trim($input->getArgument('modelTitle')) : $tableName;
 
         try {
             $result = ModelCreator::db($tableName, $modelTitle)->create();
