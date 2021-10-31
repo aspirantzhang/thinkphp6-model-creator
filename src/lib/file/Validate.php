@@ -52,7 +52,7 @@ class Validate extends FileCommon
         */
         foreach ($this->fieldsData as $field) {
             $fieldName = $field['name'];
-            if (in_array('parent_id', array_keys($fieldName))) {
+            if (in_array('parent_id', array_keys($this->rules))) {
                 continue;
             }
             if (!empty($field['settings']['validate'])) {
