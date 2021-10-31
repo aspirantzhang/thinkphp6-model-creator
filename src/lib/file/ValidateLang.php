@@ -19,6 +19,8 @@ class ValidateLang extends FileCommon
         'per_page.number',
         'create_time.require',
         'create_time.dateTimeRange',
+        'parent_id.number',
+        'parent_id.checkParentId',
         'revisionId.require',
         'revisionId.number'
     ];
@@ -46,7 +48,7 @@ class ValidateLang extends FileCommon
         if (isset($ruleLang['default.' . $ruleName])) {
             return strtr($ruleLang['default.' . $ruleName], ['{{ field }}' => '[' . __($fieldName) . ']', '{{ option }}' => '[' . $option . ']']);
         } else {
-            return 'custom' . $ruleName;
+            return 'custom_rule_' . $ruleName;
         }
     }
 

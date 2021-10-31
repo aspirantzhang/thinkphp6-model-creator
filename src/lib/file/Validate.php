@@ -22,6 +22,7 @@ class Validate extends FileCommon
             'page' => 'number',
             'per_page' => 'number',
             'create_time' => 'require|dateTimeRange',
+            'parent_id' => 'number|checkParentId',
             'revisionId' => 'require|number',
         ];
         $this->scenes = [
@@ -51,6 +52,9 @@ class Validate extends FileCommon
         */
         foreach ($this->fieldsData as $field) {
             $fieldName = $field['name'];
+            if (in_array('parent_id', array_keys($fieldName))) {
+                continue;
+            }
             if (!empty($field['settings']['validate'])) {
                 $ruleConditionSetString = '';
                 foreach ($field['settings']['validate'] as $ruleName) {
