@@ -16,18 +16,38 @@ class File
 {
     protected $tableName;
     protected $modelTitle;
+    protected $type;
+    protected $config;
 
-    public function init(string $tableName, string $modelTitle)
+    private function checkRequiredConfig()
     {
-        $this->tableName = $tableName;
-        $this->modelTitle = $modelTitle;
+        if (
+            !isset($this->config['name']) ||
+            empty($this->config['name']) ||
+            !isset($this->config['title']) ||
+            empty($this->config['title'])
+        ) {
+            throw new Exception(__('missing required config name and title'));
+        }
+    }
+
+    public function config(array $config)
+    {
+        $this->config = $config;
+        $this->checkRequiredConfig();
         return $this;
+    }
+
+    public function getConfig()
+    {
+        $this->checkRequiredConfig();
+        return $this->config;
     }
 
     public function create()
     {
         try {
-            (new BasicModel())->init($this->tableName, $this->modelTitle)->createBasicModelFile();
+            (new BasicModel())->init($this->getConfig())->createBasicModelFile();
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -44,14 +64,14 @@ class File
     public function update(array $fieldsData, array $fieldOptions = [])
     {
         try {
-            (new FieldLang())->init($this->tableName, $this->modelTitle)->createFieldLangFile($fieldsData);
-            (new LayoutLang())->init($this->tableName, $this->modelTitle)->createLayoutLangFile();
+            (new FieldLang())->init($this->getConfig())->createFieldLangFile($fieldsData);
+            (new LayoutLang())->init($this->getConfig())->createLayoutLangFile();
             if ($fieldOptions['handleFieldValidation'] ?? false) {
-                (new Validate())->init($this->tableName, $this->modelTitle)->createValidateFile($fieldsData);
-                (new ValidateLang())->init($this->tableName, $this->modelTitle)->createValidateLangFile($fieldsData);
+                (new Validate())->init($this->getConfig())->createValidateFile($fieldsData);
+                (new ValidateLang())->init($this->getConfig())->createValidateLangFile($fieldsData);
             }
             if ($fieldOptions['handleFieldFilter'] ?? false) {
-                (new Filter())->init($this->tableName, $this->modelTitle)->createFilterFile($fieldsData);
+                (new Filter())->init($this->getConfig())->createFilterFile($fieldsData);
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -61,12 +81,12 @@ class File
     public function remove()
     {
         try {
-            (new BasicModel())->init($this->tableName, $this->modelTitle)->removeBasicModelFile();
-            (new FieldLang())->init($this->tableName, $this->modelTitle)->removeFieldLangFile();
-            (new LayoutLang())->init($this->tableName, $this->modelTitle)->removeLayoutLangFile();
-            (new Validate())->init($this->tableName, $this->modelTitle)->removeValidateFile();
-            (new ValidateLang())->init($this->tableName, $this->modelTitle)->removeValidateLangFile();
-            (new Filter())->init($this->tableName, $this->modelTitle)->removeFilterFile();
+            (new BasicModel())->init($this->getConfig())->removeBasicModelFile();
+            (new FieldLang())->init($this->getConfig())->removeFieldLangFile();
+            (new LayoutLang())->init($this->getConfig())->removeLayoutLangFile();
+            (new Validate())->init($this->getConfig())->removeValidateFile();
+            (new ValidateLang())->init($this->getConfig())->removeValidateLangFile();
+            (new Filter())->init($this->getConfig())->removeFilterFile();
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }

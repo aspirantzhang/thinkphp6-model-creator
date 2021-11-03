@@ -60,7 +60,10 @@ class ValidateLang extends FileCommon
          * to messageI18n
          * 'news@nickname#length:0,32' => 'Nick Name length should be between 0 - 32.',
          */
-        $validateMessages = (new Validate())->init($this->tableName, $this->modelTitle)->getMessages($fieldsData);
+        $validateMessages = (new Validate())->init([
+            'name' => $this->tableName,
+            'title' => $this->modelTitle
+        ])->getMessages($fieldsData);
         // exclude built in field rule
         $fieldRules = array_diff_key($validateMessages, array_flip($this->builtInRules));
         $data = '';
