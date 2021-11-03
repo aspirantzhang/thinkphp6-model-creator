@@ -28,7 +28,10 @@ class Remove extends Command
         $tableName = trim($input->getArgument('tableName'));
 
         try {
-            ModelCreator::file($tableName)->remove();
+            ModelCreator::file()->config([
+                'name' => $tableName,
+                'title' => $tableName
+            ])->remove();
             $output->writeln('<info>...Complete successfully.</info>');
         } catch (Exception $e) {
             $output->writeln('<error>Error: ' . $e->getMessage() . '</error>');
