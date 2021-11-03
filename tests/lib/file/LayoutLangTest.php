@@ -26,12 +26,12 @@ class LayoutLangTest extends BaseCase
         $customPath = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'default') . '.php';
         $this->fileSystem->remove([$customPath]);
 
-        $this->layoutLang->init('unit-test', 'Unit Test')->createLayoutLangFile();
+        $this->layoutLang->init($this->defaultConfig)->createLayoutLangFile();
         $filePath = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'UnitTest') . '.php';
         $snapshotPath = createPath($this->snapPath, 'UnitTest') . '.php.snap';
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
         // specific lang
-        $this->layoutLang->init('unit-test', 'Unit Test')->createLayoutLangFile('zh-cn');
+        $this->layoutLang->init($this->defaultConfig)->createLayoutLangFile('zh-cn');
         $filePath = createPath(base_path(), 'api', 'lang', 'layout', 'zh-cn', 'UnitTest') . '.php';
         $snapshotPath = createPath($this->snapPath, 'UnitTest.zh-cn') . '.php.snap';
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
@@ -42,11 +42,11 @@ class LayoutLangTest extends BaseCase
     */
     public function testRemoveLayoutLangFile()
     {
-        $this->layoutLang->init('unit-test', 'Unit Test')->removeLayoutLangFile();
+        $this->layoutLang->init($this->defaultConfig)->removeLayoutLangFile();
         $filePath = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'UnitTest') . '.php';
         $this->assertFalse($this->fileSystem->exists($filePath));
         // specific lang
-        $this->layoutLang->init('unit-test', 'Unit Test')->removeLayoutLangFile('de-de');
+        $this->layoutLang->init($this->defaultConfig)->removeLayoutLangFile('de-de');
         $filePath = createPath(base_path(), 'api', 'lang', 'layout', 'de-de', 'UnitTest') . '.php';
         $this->assertFalse($this->fileSystem->exists($filePath));
     }

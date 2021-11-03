@@ -22,12 +22,12 @@ class FieldLangTest extends BaseCase
 
     public function testCreateFieldLangFile()
     {
-        $this->fieldLang->init('unit-test', 'Unit Test')->createFieldLangFile($this->fieldsData);
+        $this->fieldLang->init($this->defaultConfig)->createFieldLangFile($this->fieldsData);
         $filePath = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'UnitTest') . '.php';
         $snapshotPath = createPath($this->snapPath, 'UnitTest') . '.php.snap';
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
         // specific lang
-        $this->fieldLang->init('unit-test', 'Unit Test')->createFieldLangFile($this->fieldsData, 'de-de');
+        $this->fieldLang->init($this->defaultConfig)->createFieldLangFile($this->fieldsData, 'de-de');
         $filePath = createPath(base_path(), 'api', 'lang', 'field', 'de-de', 'UnitTest') . '.php';
         $snapshotPath = createPath($this->snapPath, 'UnitTest') . '.php.snap';
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
@@ -38,11 +38,11 @@ class FieldLangTest extends BaseCase
     */
     public function testRemoveFieldLangFile()
     {
-        $this->fieldLang->init('unit-test', 'Unit Test')->removeFieldLangFile();
+        $this->fieldLang->init($this->defaultConfig)->removeFieldLangFile();
         $filePath = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'UnitTest') . '.php';
         $this->assertFalse($this->fileSystem->exists($filePath));
         // specific lang
-        $this->fieldLang->init('unit-test', 'Unit Test')->removeFieldLangFile('de-de');
+        $this->fieldLang->init($this->defaultConfig)->removeFieldLangFile('de-de');
         $filePath = createPath(base_path(), 'api', 'lang', 'field', 'de-de', 'UnitTest') . '.php';
         $this->assertFalse($this->fileSystem->exists($filePath));
     }
