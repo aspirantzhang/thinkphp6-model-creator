@@ -8,14 +8,20 @@ use think\Exception;
 
 class TableTest extends BaseCase
 {
+    protected $config;
+
     protected function setUp(): void
     {
         parent::setUp();
+        $this->config = [
+            'name' => 'table-test',
+            'title' => 'Table Test',
+        ];
     }
 
     public function testCreateModelTable()
     {
-        (new Table())->init('unit-test-1', 'Unit Test 1')->createModelTable();
+        (new Table())->init($this->config)->createModelTable();
         $this->assertTrue(true);
     }
 
@@ -25,8 +31,8 @@ class TableTest extends BaseCase
     public function testCreateModelTableFailed()
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage('create model table failed: tableName=unit-test-1');
-        (new Table())->init('unit-test-1', 'Unit Test 1')->createModelTable();
+        $this->expectExceptionMessage('create model table failed: tableName=table-test');
+        (new Table())->init($this->config)->createModelTable();
     }
 
     /**
@@ -34,7 +40,7 @@ class TableTest extends BaseCase
     */
     public function testRemoveModelTable()
     {
-        (new Table())->init('unit-test-1', 'Unit Test 1')->removeModelTable();
+        (new Table())->init($this->config)->removeModelTable();
         $this->assertTrue(true);
     }
 }

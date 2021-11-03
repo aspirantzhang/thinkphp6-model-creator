@@ -15,7 +15,11 @@ class FieldTest extends BaseCase
 
     public function testFieldsHandler()
     {
-        (new Table())->init('field-test', 'Field Test')->createModelTable();
+        $config = [
+            'name' => 'field-test',
+            'title' => 'Field Test',
+        ];
+        (new Table())->init($config)->createModelTable();
 
         $fieldsData = [
             [
@@ -198,8 +202,8 @@ class FieldTest extends BaseCase
             'lang_code',
             'translate_time'
         ];
-        (new Field())->init('field-test', 'Field Test')->fieldsHandler($fieldsData, ['nickname', 'gender', 'married'], $reservedFields);
-        (new Field())->init('field-test', 'Field Test')->fieldsHandler($fieldsDataUpdate, ['nickname', 'gender', 'age', 'foo_time'], $reservedFields);
+        (new Field())->init($config)->fieldsHandler($fieldsData, ['nickname', 'gender', 'married'], $reservedFields);
+        (new Field())->init($config)->fieldsHandler($fieldsDataUpdate, ['nickname', 'gender', 'age', 'foo_time'], $reservedFields);
         $this->assertTrue(true);
     }
 }
