@@ -8,11 +8,11 @@ class ModelCreator
 {
     public static function file()
     {
-        return (new File());
+        return new File();
     }
 
-    public static function db(string $tableName, string $modelTitle = '')
+    public static function db()
     {
-        return (new Db())->init($tableName, $modelTitle);
+        return new Db();
     }
 }

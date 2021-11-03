@@ -85,7 +85,11 @@ END
 
     public function testCreate()
     {
-        $modelData = ModelCreator::db('db-test', 'DB Test')->create();
+        $config = [
+            'name' => 'db-test',
+            'title' => 'DB Test',
+        ];
+        $modelData = ModelCreator::db()->config($config)->create();
         $this->assertTrue(true);
         return $modelData;
     }
@@ -186,8 +190,11 @@ END
             'lang_code',
             'translate_time'
         ];
-
-        ModelCreator::db('db-test', 'DB Test')->update($fieldsData, ['gender', 'married'], $reservedFields, ['nickname']);
+        $config = [
+            'name' => 'db-test',
+            'title' => 'DB Test',
+        ];
+        ModelCreator::db()->config($config)->update($fieldsData, ['gender', 'married'], $reservedFields, ['nickname']);
         $this->assertTrue(true);
         return $modelData;
     }
@@ -197,7 +204,11 @@ END
     */
     public function testRemove($modelData)
     {
-        $modelData = ModelCreator::db('db-test', 'DB Test')->remove($modelData['topRuleId'], $modelData['topMenuId']);
+        $config = [
+            'name' => 'db-test',
+            'title' => 'DB Test',
+        ];
+        $modelData = ModelCreator::db()->config($config)->remove($modelData['topRuleId'], $modelData['topMenuId']);
         $this->assertTrue(true);
         return $modelData;
     }

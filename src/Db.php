@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace aspirantzhang\octopusModelCreator;
 
+use think\Exception;
 use aspirantzhang\octopusModelCreator\lib\db\Table;
 use aspirantzhang\octopusModelCreator\lib\db\Rule;
 use aspirantzhang\octopusModelCreator\lib\db\GroupRule;
@@ -14,26 +15,50 @@ class Db
 {
     protected $tableName;
     protected $modelTitle;
+    protected $config;
 
-    public function init(string $tableName, string $modelTitle)
+    private function checkRequiredConfig()
     {
-        $this->tableName = $tableName;
-        $this->modelTitle = $modelTitle;
+        if (
+            !isset($this->config['name']) ||
+            empty($this->config['name']) ||
+            !isset($this->config['title']) ||
+            empty($this->config['title'])
+        ) {
+            throw new Exception(__('missing required config name and title'));
+        }
+    }
+
+    public function config(array $config)
+    {
+        $this->config = $config;
+        $this->checkRequiredConfig();
         return $this;
+    }
+
+    public function getConfig($type = 'main')
+    {
+        $this->checkRequiredConfig();
+        if ($type === 'i18n') {
+            return array_merge($this->config, [
+                'name' => $this->config['name'] . '_i18n',
+            ]);
+        }
+        return $this->config;
     }
 
     public function create()
     {
         try {
-            (new Table())->init($this->tableName, $this->modelTitle)->createModelTable();
-            $topRuleId = (new Rule())->init($this->tableName, $this->modelTitle)->createRule();
-            $childrenRuleIds = (new Rule())->init($this->tableName, $this->modelTitle)->createChildrenRules($topRuleId);
+            (new Table())->init($this->getConfig())->createModelTable();
+            $topRuleId = (new Rule())->init($this->getConfig())->createRule();
+            $childrenRuleIds = (new Rule())->init($this->getConfig())->createChildrenRules($topRuleId);
             (new GroupRule())->addRulesToGroup([$topRuleId, ...$childrenRuleIds]);
             $topMenuPath = '/basic-list/api/' . $this->tableName;
-            $topMenuId = (new Menu())->init($this->tableName, $this->modelTitle)->createMenu($topMenuPath);
-            $childrenMenuIds = (new Menu())->init($this->tableName, $this->modelTitle)->createChildrenMenus($topMenuId);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            $topMenuId = (new Menu())->init($this->getConfig())->createMenu($topMenuPath);
+            $childrenMenuIds = (new Menu())->init($this->getConfig())->createChildrenMenus($topMenuId);
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
 
         return [
@@ -47,12 +72,12 @@ class Db
     public function update(array $fieldsData, array $mainTableFields, array $reservedFields, array $i18nTableFields = [])
     {
         try {
-            (new Field())->init($this->tableName, $this->modelTitle)->fieldsHandler($fieldsData, $mainTableFields, $reservedFields);
+            (new Field())->init($this->getConfig())->fieldsHandler($fieldsData, $mainTableFields, $reservedFields);
             if (!empty($i18nTableFields)) {
-                (new Field())->init($this->tableName . '_i18n', $this->modelTitle)->fieldsHandler($fieldsData, $i18nTableFields, $reservedFields);
+                (new Field())->init($this->getConfig('i18n'))->fieldsHandler($fieldsData, $i18nTableFields, $reservedFields);
             }
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -61,9 +86,9 @@ class Db
         try {
             (new Rule())->removeRules($ruleId);
             (new Menu())->removeMenus($menuId);
-            (new Table())->init($this->tableName, $this->modelTitle)->removeModelTable();
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            (new Table())->init($this->getConfig())->removeModelTable();
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 }
