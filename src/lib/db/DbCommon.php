@@ -13,14 +13,16 @@ class DbCommon
     protected $modelName;
     protected $instanceName;
     protected $modelTitle;
+    protected $modelType;
 
-    public function init($tableName, $modelTitle)
+    public function init(array $config)
     {
-        $this->tableName = $tableName;
-        $this->routeName = $tableName;
-        $this->modelName = Str::studly($tableName);
-        $this->instanceName = Str::camel($tableName);
-        $this->modelTitle = $modelTitle;
+        $this->tableName = $config['name'];
+        $this->routeName = $config['name'];
+        $this->modelName = Str::studly($config['name']);
+        $this->instanceName = Str::camel($config['name']);
+        $this->modelTitle = $config['title'];
+        $this->modelType = $config['type'] ?? 'main';
         return $this;
     }
 }

@@ -31,7 +31,10 @@ class Remove extends Command
         $topMenuId = $input->getArgument('topMenuId') ? trim($input->getArgument('topMenuId')) : 0;
 
         try {
-            ModelCreator::db($tableName)->remove((int)$topRuleId, (int)$topMenuId);
+            ModelCreator::db()->config([
+                'name' => $tableName,
+                'title' => $tableName
+            ])->remove((int)$topRuleId, (int)$topMenuId);
             $output->writeln('<info>...Complete successfully.</info>');
         } catch (Exception $e) {
             $output->writeln('<error>Error: ' . $e->getMessage() . '</error>');

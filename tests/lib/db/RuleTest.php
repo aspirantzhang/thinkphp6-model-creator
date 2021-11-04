@@ -4,18 +4,22 @@ declare(strict_types=1);
 
 namespace aspirantzhang\octopusModelCreator\lib\db;
 
-use think\Exception;
-
 class RuleTest extends BaseCase
 {
+    protected $config;
+
     protected function setUp(): void
     {
         parent::setUp();
+        $this->config = [
+            'name' => 'menu-test',
+            'title' => 'Menu Test',
+        ];
     }
 
     public function testCreateRule()
     {
-        $id = (new Rule())->init('rule-test', 'Rule Test')->createRule();
+        $id = (new Rule())->init($this->config)->createRule();
         $this->assertTrue(true);
         return $id;
     }
@@ -25,7 +29,7 @@ class RuleTest extends BaseCase
     */
     public function testCreateChildrenRules($id)
     {
-        (new Rule())->init('rule-test', 'Rule Test')->createChildrenRules($id);
+        (new Rule())->init($this->config)->createChildrenRules($id);
         $this->assertTrue(true);
         return $id;
     }

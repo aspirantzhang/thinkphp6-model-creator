@@ -30,7 +30,10 @@ class Create extends Command
         $modelTitle = $input->getArgument('modelTitle') ? trim($input->getArgument('modelTitle')) : $tableName;
 
         try {
-            $result = ModelCreator::db($tableName, $modelTitle)->create();
+            $result = ModelCreator::db()->config([
+                'name' => $tableName,
+                'title' => $modelTitle
+            ])->create();
             $output->writeln('<info>' . print_r($result) . '</info>');
             $output->writeln('<info>...Complete successfully.</info>');
         } catch (Exception $e) {

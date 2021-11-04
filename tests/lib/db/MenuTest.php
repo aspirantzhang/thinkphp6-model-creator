@@ -8,14 +8,20 @@ use think\Exception;
 
 class MenuTest extends BaseCase
 {
+    protected $config;
+
     protected function setUp(): void
     {
         parent::setUp();
+        $this->config = [
+            'name' => 'menu-test',
+            'title' => 'Menu Test',
+        ];
     }
 
     public function testCreateMenu()
     {
-        $id = (new Menu())->init('menu-test', 'Menu Test')->createMenu('menu_path');
+        $id = (new Menu())->init($this->config)->createMenu('menu_path');
         $this->assertTrue(true);
         return $id;
     }
@@ -25,7 +31,7 @@ class MenuTest extends BaseCase
     */
     public function testCreateChildrenMenus($id)
     {
-        (new Menu())->init('menu-test', 'Menu Test')->createChildrenMenus($id);
+        (new Menu())->init($this->config)->createChildrenMenus($id);
         $this->assertTrue(true);
         return $id;
     }

@@ -24,7 +24,11 @@ class FileTest extends TestCase
 
     public function testCreate()
     {
-        ModelCreator::file('new-model', 'New Model')->create();
+        $config = [
+            'name' => 'new-model',
+            'title' => 'New Model',
+        ];
+        ModelCreator::file()->config($config)->create();
 
         foreach ($this->fileTypes as $type) {
             $filePath = createPath(base_path(), 'api', $type, 'NewModel') . '.php';
@@ -37,7 +41,11 @@ class FileTest extends TestCase
     */
     public function testUpdate()
     {
-        ModelCreator::file('new-model', 'New Model')->update($this->fieldsData, [
+        $config = [
+            'name' => 'new-model',
+            'title' => 'New Model',
+        ];
+        ModelCreator::file()->config($config)->update($this->fieldsData, [
             'handleFieldValidation' => true,
             'handleFieldFilter' => true
         ]);
@@ -57,7 +65,11 @@ class FileTest extends TestCase
     */
     public function testRemove()
     {
-        ModelCreator::file('new-model', 'New Model')->remove();
+        $config = [
+            'name' => 'new-model',
+            'title' => 'New Model',
+        ];
+        ModelCreator::file()->config($config)->remove();
         $filePaths = array_map(function ($type) {
             return createPath(base_path(), 'api', $type, 'NewModel') . '.php';
         }, $this->fileTypes);
