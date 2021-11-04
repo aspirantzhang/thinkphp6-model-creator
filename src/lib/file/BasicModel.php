@@ -19,6 +19,11 @@ class BasicModel extends FileCommon
             '{{ modelName }}' => $this->modelName,
             '{{ instanceName }}' => $this->instanceName,
         ];
+        if ($this->modelType === 'category') {
+            $replaceCondition = array_merge($replaceCondition, [
+                '{{ withRelationString }}' => $this->getWithRelation('string'),
+            ]);
+        }
         try {
             foreach ($fileTypes as $type) {
                 $targetPath = createPath($this->appPath, 'api', $type, $this->modelName) . '.php';

@@ -49,4 +49,12 @@ class BasicModelTest extends BaseCase
             $this->assertFalse($this->fileSystem->exists($filePath));
         }
     }
+
+    public function testCategoryModelBasicModel()
+    {
+        $this->basicModel->init($this->categoryConfig)->createBasicModelFile(['controller']);
+        $filePath = createPath(base_path(), 'api', 'controller', 'CategoryTable') . '.php';
+        $snapshotPath = createPath($this->snapPath, 'api', 'controller', 'CategoryTable') . '.php.snap';
+        $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
+    }
 }

@@ -54,4 +54,23 @@ class FileCommonTest extends BaseCase
         $result = $this->fileCommon->getDefaultLang('layout');
         $this->assertEquals($result['default.list'], 'custom');
     }
+
+    public function testGetWithRelationReturnString()
+    {
+        $actual = $this->fileCommon->init([
+            'name' => 'unit-test',
+            'title' => 'Unit Test',
+            'type' => 'category',
+            'withRelation' => ['model1', 'model2'],
+        ])->getWithRelation('string');
+        $this->assertEquals('\'model1\', \'model2\'', $actual);
+
+        $actual2 = $this->fileCommon->init([
+            'name' => 'unit-test',
+            'title' => 'Unit Test',
+            'type' => 'category',
+            'withRelation' => ['model1'],
+        ])->getWithRelation('string');
+        $this->assertEquals('\'model1\'', $actual2);
+    }
 }

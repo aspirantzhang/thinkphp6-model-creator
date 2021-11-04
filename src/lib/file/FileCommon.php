@@ -23,6 +23,7 @@ class FileCommon
     protected $modelTitle;
     protected $instanceName;
     protected $modelType;
+    protected $withRelation;
 
     public function __construct()
     {
@@ -41,7 +42,29 @@ class FileCommon
         $this->instanceName = Str::camel($config['name']);
         $this->modelTitle = $config['title'];
         $this->modelType = $config['type'] ?? 'main';
+        if ($this->modelType === 'category') {
+            $this->initTypeCategory($config);
+        }
         return $this;
+    }
+
+    private function initTypeCategory($config)
+    {
+        if (
+            !isset($config['withRelation']) ||
+            empty($config['withRelation'])
+        ) {
+            throw new Exception(__('missing required withRelation'));
+        }
+        $this->withRelation = $config['withRelation'];
+    }
+
+    public function getWithRelation($returnType = 'array')
+    {
+        if ($returnType === 'string') {
+            return '\'' . implode('\', \'', $this->withRelation) . '\'';
+        }
+        return $this->withRelation;
     }
 
     public function replaceAndWrite(string $sourcePath, string $targetPath, callable $callback)
@@ -85,10 +108,19 @@ class FileCommon
 
     public function getStubPath(string $type, string $fileName = 'default')
     {
+        if (!empty($this->modelType) && $this->modelType !== 'main') {
+            $customPathWithType = createPath($this->appPath, 'api', 'stubs', $type, $this->modelType, $fileName) . '.stub';
+            if ($this->fileSystem->exists($customPathWithType)) {
+                return $customPathWithType;
+            }
+            return createPath($this->stubPath, $type, $this->modelType, $fileName) . '.stub';
+        }
+
         $customPath = createPath($this->appPath, 'api', 'stubs', $type, $fileName) . '.stub';
         if ($this->fileSystem->exists($customPath)) {
             return $customPath;
         }
+
         return createPath($this->stubPath, $type, $fileName) . '.stub';
     }
 
