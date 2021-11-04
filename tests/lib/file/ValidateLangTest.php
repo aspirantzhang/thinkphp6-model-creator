@@ -22,12 +22,12 @@ class ValidateLangTest extends BaseCase
 
     public function testCreateValidateLangFile()
     {
-        $this->validateLang->init($this->defaultConfig)->createValidateLangFile($this->fieldsData);
+        $this->validateLang->init($this->mainConfig)->createValidateLangFile($this->fieldsData);
         $filePath = createPath(base_path(), 'api', 'lang', 'validate', 'en-us', 'UnitTest') . '.php';
         $snapshotPath = createPath($this->snapPath, 'UnitTest') . '.php.snap';
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
         // specific lang
-        $this->validateLang->init($this->defaultConfig)->createValidateLangFile($this->fieldsData, 'de-de');
+        $this->validateLang->init($this->mainConfig)->createValidateLangFile($this->fieldsData, 'de-de');
         $filePath = createPath(base_path(), 'api', 'lang', 'validate', 'de-de', 'UnitTest') . '.php';
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
     }
@@ -37,11 +37,11 @@ class ValidateLangTest extends BaseCase
     */
     public function testRemoveValidateLangFile()
     {
-        $this->validateLang->init($this->defaultConfig)->removeValidateLangFile();
+        $this->validateLang->init($this->mainConfig)->removeValidateLangFile();
         $filePath = createPath(base_path(), 'api', 'lang', 'validate', 'en-us', 'UnitTest') . '.php';
         $this->assertFalse($this->fileSystem->exists($filePath));
         // specific lang
-        $this->validateLang->init($this->defaultConfig)->removeValidateLangFile('de-de');
+        $this->validateLang->init($this->mainConfig)->removeValidateLangFile('de-de');
         $filePath = createPath(base_path(), 'api', 'lang', 'validate', 'de-de', 'UnitTest') . '.php';
         $this->assertFalse($this->fileSystem->exists($filePath));
     }

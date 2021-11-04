@@ -26,7 +26,7 @@ class BasicModelTest extends BaseCase
 
     public function testCreateBasicModelFile()
     {
-        $this->basicModel->init($this->defaultConfig)->createBasicModelFile();
+        $this->basicModel->init($this->mainConfig)->createBasicModelFile();
 
         foreach ($this->fileTypes as $type) {
             $filePath = createPath(base_path(), 'api', $type, 'UnitTest') . '.php';
@@ -36,12 +36,12 @@ class BasicModelTest extends BaseCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('unable to get file content: filePath=' . createPath($this->prodStubPath, 'notExist.stub'));
-        $this->basicModel->init($this->defaultConfig)->createBasicModelFile(['notExist']);
+        $this->basicModel->init($this->mainConfig)->createBasicModelFile(['notExist']);
     }
 
     public function testRemoveBasicModelFile()
     {
-        $this->basicModel->init($this->defaultConfig)->removeBasicModelFile();
+        $this->basicModel->init($this->mainConfig)->removeBasicModelFile();
         $filePaths = array_map(function ($type) {
             return createPath(base_path(), 'api', $type, 'UnitTest') . '.php';
         }, $this->fileTypes);
