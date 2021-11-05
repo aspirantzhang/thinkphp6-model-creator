@@ -18,12 +18,12 @@ if (!function_exists('root_path')) {
 }
 class BaseCase extends \aspirantzhang\octopusModelCreator\TestCase
 {
-    protected $mainConfig;
+    protected $singleMainTableConfig;
     protected $categoryConfig;
 
     protected function setUp(): void
     {
-        $this->mainConfig = [
+        $this->singleMainTableConfig = [
             'name' => 'unit-test',
             'title' => 'Unit Test',
         ];
