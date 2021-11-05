@@ -23,7 +23,7 @@ class FileCommon
     protected $modelTitle;
     protected $instanceName;
     protected $modelType;
-    protected $withRelation;
+    protected $categoryTableName;
 
     public function __construct()
     {
@@ -42,29 +42,21 @@ class FileCommon
         $this->instanceName = Str::camel($config['name']);
         $this->modelTitle = $config['title'];
         $this->modelType = $config['type'] ?? 'main';
-        if ($this->modelType === 'category') {
-            $this->initTypeCategory($config);
+        if ($this->modelType === 'mainTableOfCategory') {
+            $this->initMainOfCategory($config);
         }
         return $this;
     }
 
-    private function initTypeCategory($config)
+    private function initMainOfCategory($config)
     {
         if (
-            !isset($config['withRelation']) ||
-            empty($config['withRelation'])
+            !isset($config['categoryTableName']) ||
+            empty($config['categoryTableName'])
         ) {
-            throw new Exception(__('missing required withRelation'));
+            throw new Exception(__('missing required category table name'));
         }
-        $this->withRelation = $config['withRelation'];
-    }
-
-    public function getWithRelation($returnType = 'array')
-    {
-        if ($returnType === 'string') {
-            return '\'' . implode('\', \'', $this->withRelation) . '\'';
-        }
-        return $this->withRelation;
+        $this->categoryTableName = $config['categoryTableName'];
     }
 
     public function replaceAndWrite(string $sourcePath, string $targetPath, callable $callback)

@@ -19,7 +19,7 @@ class {{ modelName }} extends Common
 
     public function home()
     {
-        $result = $this->{{ instanceName }}->paginatedListAPI($this->request->only($this->{{ instanceName }}->getAllowHome()), [{{ withRelationString }}]);
+        $result = $this->{{ instanceName }}->paginatedListAPI($this->request->only($this->{{ instanceName }}->getAllowHome()), ['category']);
 
         return $this->json(...$result);
     }
@@ -33,21 +33,21 @@ class {{ modelName }} extends Common
 
     public function save()
     {
-        $result = $this->{{ instanceName }}->saveAPI($this->request->only($this->{{ instanceName }}->getAllowSave()), [{{ withRelationString }}]);
+        $result = $this->{{ instanceName }}->saveAPI($this->request->only($this->{{ instanceName }}->getAllowSave()), ['category']);
 
         return $this->json(...$result);
     }
 
     public function read(int $id)
     {
-        $result = $this->{{ instanceName }}->readAPI($id, [{{ withRelationString }}]);
+        $result = $this->{{ instanceName }}->readAPI($id, ['category']);
 
         return $this->json(...$result);
     }
 
     public function update(int $id)
     {
-        $result = $this->{{ instanceName }}->updateAPI($id, $this->request->only($this->{{ instanceName }}->getAllowUpdate()), [{{ withRelationString }}]);
+        $result = $this->{{ instanceName }}->updateAPI($id, $this->request->only($this->{{ instanceName }}->getAllowUpdate()), ['category']);
 
         return $this->json(...$result);
     }

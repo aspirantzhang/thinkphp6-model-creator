@@ -50,16 +50,16 @@ class BasicModelTest extends BaseCase
         }
     }
 
-    public function testCategoryModelBasicModel()
+    public function testMainTableOfCategoryBasicModel()
     {
-        $this->basicModel->init($this->categoryConfig)->createBasicModelFile(['controller', 'model']);
+        $this->basicModel->init($this->mainTableOfCategoryTypeConfig)->createBasicModelFile(['controller', 'model']);
         // controller
-        $controllerFilePath = createPath(base_path(), 'api', 'controller', 'CategoryTable') . '.php';
-        $controllerSnapshotPath = createPath($this->snapPath, 'api', 'controller', 'CategoryTable') . '.php.snap';
+        $controllerFilePath = createPath(base_path(), 'api', 'controller', 'MainTableOfCategory') . '.php';
+        $controllerSnapshotPath = createPath($this->snapPath, 'api', 'controller', 'MainTableOfCategory') . '.php.snap';
         $this->assertTrue(matchSnapshot($controllerFilePath, $controllerSnapshotPath));
         // model
-        $modelFilePath = createPath(base_path(), 'api', 'model', 'CategoryTable') . '.php';
-        $modelSnapshotPath = createPath($this->snapPath, 'api', 'model', 'CategoryTable') . '.php.snap';
+        $modelFilePath = createPath(base_path(), 'api', 'model', 'MainTableOfCategory') . '.php';
+        $modelSnapshotPath = createPath($this->snapPath, 'api', 'model', 'MainTableOfCategory') . '.php.snap';
         $this->assertTrue(matchSnapshot($modelFilePath, $modelSnapshotPath));
     }
 }

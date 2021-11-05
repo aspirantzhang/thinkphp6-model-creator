@@ -19,7 +19,7 @@ if (!function_exists('root_path')) {
 class BaseCase extends \aspirantzhang\octopusModelCreator\TestCase
 {
     protected $singleMainTableConfig;
-    protected $categoryConfig;
+    protected $mainTableOfCategoryTypeConfig;
 
     protected function setUp(): void
     {
@@ -27,13 +27,11 @@ class BaseCase extends \aspirantzhang\octopusModelCreator\TestCase
             'name' => 'unit-test',
             'title' => 'Unit Test',
         ];
-        $this->categoryConfig = [
-            'name' => 'category-table',
-            'title' => 'Category Unit Test',
-            'type' => 'category',
-            'withRelation' => [
-                'main-table'
-            ],
+        $this->mainTableOfCategoryTypeConfig = [
+            'name' => 'main_table_of_category',
+            'title' => 'Main Table of Category',
+            'type' => 'mainTableOfCategory',
+            'categoryTableName' => 'category_table_of_category',
         ];
         parent::setUp();
     }

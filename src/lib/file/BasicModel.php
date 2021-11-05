@@ -20,10 +20,9 @@ class BasicModel extends FileCommon
             '{{ modelName }}' => $this->modelName,
             '{{ instanceName }}' => $this->instanceName,
         ];
-        if ($this->modelType === 'category') {
+        if ($this->modelType === 'mainTableOfCategory') {
             $replaceCondition = array_merge($replaceCondition, [
-                '{{ withRelationString }}' => $this->getWithRelation('string'),
-                '{{ categoryModelName }}' => Str::studly($this->getWithRelation()[0]),
+                '{{ categoryModelName }}' => Str::studly($this->categoryTableName),
             ]);
         }
         try {
