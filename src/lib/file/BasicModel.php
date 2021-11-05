@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace aspirantzhang\octopusModelCreator\lib\file;
 
+use think\helper\Str;
 use think\Exception;
 
 class BasicModel extends FileCommon
@@ -22,6 +23,7 @@ class BasicModel extends FileCommon
         if ($this->modelType === 'category') {
             $replaceCondition = array_merge($replaceCondition, [
                 '{{ withRelationString }}' => $this->getWithRelation('string'),
+                '{{ categoryModelName }}' => Str::studly($this->getWithRelation()[0]),
             ]);
         }
         try {
