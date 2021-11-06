@@ -22,7 +22,7 @@ class FileTest extends TestCase
         parent::setUp();
     }
 
-    public function testCreate()
+    public function testSingleMainCreate()
     {
         $config = [
             'name' => 'new-model',
@@ -37,9 +37,9 @@ class FileTest extends TestCase
     }
 
     /**
-    * @depends testCreate
+    * @depends testSingleMainCreate
     */
-    public function testUpdate()
+    public function testSingleMainUpdate()
     {
         $config = [
             'name' => 'new-model',
@@ -61,9 +61,9 @@ class FileTest extends TestCase
     }
 
     /**
-    * @depends testUpdate
+    * @depends testSingleMainUpdate
     */
-    public function testRemove()
+    public function testSingleMainRemove()
     {
         $config = [
             'name' => 'new-model',
