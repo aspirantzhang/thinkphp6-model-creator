@@ -62,4 +62,13 @@ class BasicModelTest extends BaseCase
         $modelSnapshotPath = createPath($this->snapPath, 'api', 'model', 'MainTableOfCategory') . '.php.snap';
         $this->assertTrue(matchSnapshot($modelFilePath, $modelSnapshotPath));
     }
+
+    public function testCategoryTableOfCategoryBasicModel()
+    {
+        $this->basicModel->init($this->categoryTableOfCategoryTypeConfig)->createBasicModelFile(['model']);
+        // model
+        $modelFilePath = createPath(base_path(), 'api', 'model', 'CategoryTableOfCategory') . '.php';
+        $modelSnapshotPath = createPath($this->snapPath, 'api', 'model', 'CategoryTableOfCategory') . '.php.snap';
+        $this->assertTrue(matchSnapshot($modelFilePath, $modelSnapshotPath));
+    }
 }

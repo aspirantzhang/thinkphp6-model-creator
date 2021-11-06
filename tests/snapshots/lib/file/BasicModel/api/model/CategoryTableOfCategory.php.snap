@@ -1,0 +1,31 @@
+<?php
+
+declare(strict_types=1);
+
+namespace app\api\model;
+
+use app\api\service\MainTableOfCategory as MainTableOfCategoryService;
+
+class CategoryTableOfCategory extends Common
+{
+    protected $readonly = ['id'];
+
+    protected function setAddonData($params = [])
+    {
+        return [
+            'parent_id' => $this->treeDataAPI([], [], $params['id'] ?? 0),
+        ];
+    }
+
+    // Relation
+    public function main()
+    {
+        return $this->belongsToMany(MainTableOfCategoryService::class, 'pivot_main_table_of_category_category', 'main_table_of_category_id', 'category_id');
+    }
+
+    // Accessor
+
+    // Mutator
+
+    // Searcher
+}

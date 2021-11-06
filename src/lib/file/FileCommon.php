@@ -24,6 +24,7 @@ class FileCommon
     protected $instanceName;
     protected $modelType;
     protected $categoryTableName;
+    protected $mainTableName;
 
     public function __construct()
     {
@@ -45,6 +46,9 @@ class FileCommon
         if ($this->modelType === 'mainTableOfCategory') {
             $this->initMainOfCategory($config);
         }
+        if ($this->modelType === 'categoryTableOfCategory') {
+            $this->initCategoryTableOfCategory($config);
+        }
         return $this;
     }
 
@@ -57,6 +61,17 @@ class FileCommon
             throw new Exception(__('missing required category table name'));
         }
         $this->categoryTableName = $config['categoryTableName'];
+    }
+
+    private function initCategoryTableOfCategory($config)
+    {
+        if (
+            !isset($config['mainTableName']) ||
+            empty($config['mainTableName'])
+        ) {
+            throw new Exception(__('missing required main table name'));
+        }
+        $this->mainTableName = $config['mainTableName'];
     }
 
     public function replaceAndWrite(string $sourcePath, string $targetPath, callable $callback)

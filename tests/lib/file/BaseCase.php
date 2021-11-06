@@ -20,6 +20,7 @@ class BaseCase extends \aspirantzhang\octopusModelCreator\TestCase
 {
     protected $singleMainTableConfig;
     protected $mainTableOfCategoryTypeConfig;
+    protected $categoryTableOfCategoryTypeConfig;
 
     protected function setUp(): void
     {
@@ -32,6 +33,12 @@ class BaseCase extends \aspirantzhang\octopusModelCreator\TestCase
             'title' => 'Main Table of Category',
             'type' => 'mainTableOfCategory',
             'categoryTableName' => 'category_table_of_category',
+        ];
+        $this->categoryTableOfCategoryTypeConfig = [
+            'name' => 'category_table_of_category',
+            'title' => 'category Table of Category',
+            'type' => 'categoryTableOfCategory',
+            'mainTableName' => 'main_table_of_category',
         ];
         parent::setUp();
     }

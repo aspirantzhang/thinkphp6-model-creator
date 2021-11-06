@@ -25,6 +25,13 @@ class BasicModel extends FileCommon
                 '{{ categoryModelName }}' => Str::studly($this->categoryTableName),
             ]);
         }
+        if ($this->modelType === 'categoryTableOfCategory') {
+            $replaceCondition = array_merge($replaceCondition, [
+                '{{ mainTableName }}' => $this->mainTableName,
+                '{{ mainModelName }}' => Str::studly($this->mainTableName),
+                '{{ mainInstanceName }}' => Str::camel($this->mainTableName),
+            ]);
+        }
         try {
             foreach ($fileTypes as $type) {
                 $targetPath = createPath($this->appPath, 'api', $type, $this->modelName) . '.php';
