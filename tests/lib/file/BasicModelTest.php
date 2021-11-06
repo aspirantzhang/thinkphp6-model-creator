@@ -70,5 +70,9 @@ class BasicModelTest extends BaseCase
         $modelFilePath = createPath(base_path(), 'api', 'model', 'CategoryTableOfCategory') . '.php';
         $modelSnapshotPath = createPath($this->snapPath, 'api', 'model', 'CategoryTableOfCategory') . '.php.snap';
         $this->assertTrue(matchSnapshot($modelFilePath, $modelSnapshotPath));
+        // pivot
+        $pivotFilePath = createPath(base_path(), 'api', 'model', 'PivotMainTableOfCategoryCategory') . '.php';
+        $pivotSnapshotPath = createPath($this->snapPath, 'api', 'model', 'PivotMainTableOfCategoryCategory') . '.php.snap';
+        $this->assertTrue(matchSnapshot($pivotFilePath, $pivotSnapshotPath));
     }
 }

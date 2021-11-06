@@ -13,26 +13,32 @@ class BasicModel extends FileCommon
 
     public function createBasicModelFile(array $fileTypes = null)
     {
-        $fileTypes = $fileTypes ?? $this->fileTypes;
-        $replaceCondition = [
-            '{{ tableName }}' => $this->tableName,
-            '{{ routeName }}' => $this->routeName,
-            '{{ modelName }}' => $this->modelName,
-            '{{ instanceName }}' => $this->instanceName,
-        ];
-        if ($this->modelType === 'mainTableOfCategory') {
-            $replaceCondition = array_merge($replaceCondition, [
-                '{{ categoryModelName }}' => Str::studly($this->categoryTableName),
-            ]);
-        }
-        if ($this->modelType === 'categoryTableOfCategory') {
-            $replaceCondition = array_merge($replaceCondition, [
-                '{{ mainTableName }}' => $this->mainTableName,
-                '{{ mainModelName }}' => Str::studly($this->mainTableName),
-                '{{ mainInstanceName }}' => Str::camel($this->mainTableName),
-            ]);
-        }
         try {
+            $fileTypes = $fileTypes ?? $this->fileTypes;
+            $replaceCondition = [
+                '{{ tableName }}' => $this->tableName,
+                '{{ routeName }}' => $this->routeName,
+                '{{ modelName }}' => $this->modelName,
+                '{{ instanceName }}' => $this->instanceName,
+            ];
+            if ($this->modelType === 'mainTableOfCategory') {
+                $replaceCondition = array_merge($replaceCondition, [
+                    '{{ categoryModelName }}' => Str::studly($this->categoryTableName),
+                ]);
+            }
+            if ($this->modelType === 'categoryTableOfCategory') {
+                $replaceCondition = array_merge($replaceCondition, [
+                    '{{ mainTableName }}' => $this->mainTableName,
+                    '{{ mainModelName }}' => Str::studly($this->mainTableName),
+                    '{{ mainInstanceName }}' => Str::camel($this->mainTableName),
+                ]);
+                // add pivot table
+                $targetPath = createPath($this->appPath, 'api', 'model', 'Pivot' . Str::studly($this->mainTableName) . 'Category') . '.php';
+                $sourcePath = $this->getStubPath('BasicModel', 'pivot');
+                $this->replaceAndWrite($sourcePath, $targetPath, function ($content) use ($replaceCondition) {
+                    return strtr($content, $replaceCondition);
+                });
+            }
             foreach ($fileTypes as $type) {
                 $targetPath = createPath($this->appPath, 'api', $type, $this->modelName) . '.php';
                 $sourcePath = $this->getStubPath('BasicModel', $type);
