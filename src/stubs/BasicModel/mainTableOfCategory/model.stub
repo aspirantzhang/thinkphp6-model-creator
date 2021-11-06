@@ -20,7 +20,7 @@ class {{ modelName }} extends Common
     // Relation
     public function category()
     {
-        return $this->belongsToMany({{ categoryModelName }}Service::class, 'pivot_{{ tableName }}_category', 'category_id', '{{ tableName }}_id');
+        return $this->belongsToMany({{ categoryModelName }}Service::class, 'pivot_{{ tableName }}_category', 'category_id', 'item_id');
     }
 
     // Accessor

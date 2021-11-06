@@ -20,7 +20,7 @@ class CategoryTableOfCategory extends Common
     // Relation
     public function main()
     {
-        return $this->belongsToMany(MainTableOfCategoryService::class, 'pivot_main_table_of_category_category', 'main_table_of_category_id', 'category_id');
+        return $this->belongsToMany(MainTableOfCategoryService::class, 'pivot_main_table_of_category_category', 'item_id', 'category_id');
     }
 
     // Accessor

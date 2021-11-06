@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace app\api\model;
 
-use app\api\service\MainTableOfCategory as MainTableOfCategoryService;
+use app\api\service\{{ mainModelName }} as {{ mainModelName }}Service;
 
-class CategoryTableOfCategory extends Common
+class {{ modelName }} extends Common
 {
     protected $readonly = ['id'];
 
@@ -20,7 +20,7 @@ class CategoryTableOfCategory extends Common
     // Relation
     public function main()
     {
-        return $this->belongsToMany(MainTableOfCategoryService::class, 'pivot_main_table_of_category_category', 'main_table_of_category_id', 'category_id');
+        return $this->belongsToMany({{ mainModelName }}Service::class, 'pivot_{{ mainTableName }}_category', 'item_id', 'category_id');
     }
 
     // Accessor
