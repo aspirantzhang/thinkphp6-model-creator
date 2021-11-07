@@ -8,3 +8,4 @@ parameters:
     - "#Function base_path not found.#"
     - "#Function root_path not found.#"
     - '#Method aspirantzhang\\octopusModelCreator\\command\\[a-zA-Z0-9\\_]+\\[a-zA-Z0-9\\_]+::execute\(\) should return int\|null but return statement is missing.#'
+    - '#Call to an undefined method think\\db\\BaseQuery::leftJoin\(\).#'

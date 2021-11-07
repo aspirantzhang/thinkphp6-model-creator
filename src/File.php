@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace aspirantzhang\octopusModelCreator;
 
+use think\facade\Db;
 use think\Exception;
 use aspirantzhang\octopusModelCreator\lib\file\BasicModel;
 use aspirantzhang\octopusModelCreator\lib\file\FieldLang;
@@ -14,43 +15,56 @@ use aspirantzhang\octopusModelCreator\lib\file\Filter;
 
 class File
 {
-    protected $tableName;
-    protected $modelTitle;
-    protected $type;
     protected $config;
 
-    private function checkRequiredConfig()
+    private function getConfig()
     {
-        if (
-            !isset($this->config['name']) ||
-            empty($this->config['name']) ||
-            !isset($this->config['title']) ||
-            empty($this->config['title'])
-        ) {
-            throw new Exception(__('missing required config name and title'));
-        }
+        $config = $this->config;
+        $config['type'] = $config['type'] ?? 'main';
+        return $config;
     }
 
     public function config(array $config)
     {
+        if (
+            !isset($config['name']) ||
+            empty($config['name']) ||
+            !isset($config['title']) ||
+            empty($config['title'])
+        ) {
+            throw new Exception(__('missing required config name and title'));
+        }
         $this->config = $config;
-        $this->checkRequiredConfig();
         return $this;
-    }
-
-    public function getConfig()
-    {
-        $this->checkRequiredConfig();
-        return $this->config;
     }
 
     public function create()
     {
-        try {
-            (new BasicModel())->init($this->getConfig())->createBasicModelFile();
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+        $config = $this->getConfig();
+        if ($config['type'] === 'category') {
+            // get main table info using parent id
+            $mainTable = Db::name('model')
+                ->alias('o')
+                ->where('o.id', $config['parentId'])
+                ->leftJoin('model_i18n i', 'o.id = i.original_id')
+                ->find();
+            // rebuild the controller and model of main model
+            (new BasicModel())->init([
+                'name' => $mainTable['table_name'],
+                'title' => $mainTable['model_title'],
+                'type' => 'mainTableOfCategory',
+                'categoryTableName' => $config['name'],
+            ])->createBasicModelFile(['controller', 'model']);
+            // create category model
+            (new BasicModel())->init([
+                'name' => $config['name'],
+                'title' => $config['title'],
+                'type' => 'categoryTableOfCategory',
+                'mainTableName' => $mainTable['table_name'],
+            ])->createBasicModelFile(['model']);
+            return;
         }
+        return (new BasicModel())->init($this->config)->createBasicModelFile();
     }
 
     /**
