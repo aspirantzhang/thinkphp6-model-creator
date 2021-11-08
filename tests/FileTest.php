@@ -84,25 +84,25 @@ class FileTest extends TestCase
         }
     }
 
-    public function testCategoryModelCreate()
+    private function createCategoryTestingTable()
     {
         ThinkDb::execute('DROP TABLE IF EXISTS `model`, `model_i18n`;');
         ThinkDb::execute(<<<END
 CREATE TABLE `model` (
-    `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-    `table_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-    `type` tinyint(4) unsigned NOT NULL DEFAULT 1,
-    `parent_id` int(11) unsigned NOT NULL DEFAULT 0,
-    `data` text COLLATE utf8mb4_unicode_ci NOT NULL,
-    `rule_id` int(11) unsigned NOT NULL DEFAULT 0,
-    `menu_id` int(11) unsigned NOT NULL DEFAULT 0,
-    `create_time` datetime NOT NULL,
-    `update_time` datetime NOT NULL,
-    `delete_time` datetime DEFAULT NULL,
-    `status` tinyint(1) NOT NULL DEFAULT 1,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `table_name` (`table_name`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+`table_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+`type` tinyint(4) unsigned NOT NULL DEFAULT 1,
+`parent_id` int(11) unsigned NOT NULL DEFAULT 0,
+`data` text COLLATE utf8mb4_unicode_ci NOT NULL,
+`rule_id` int(11) unsigned NOT NULL DEFAULT 0,
+`menu_id` int(11) unsigned NOT NULL DEFAULT 0,
+`create_time` datetime NOT NULL,
+`update_time` datetime NOT NULL,
+`delete_time` datetime DEFAULT NULL,
+`status` tinyint(1) NOT NULL DEFAULT 1,
+PRIMARY KEY (`id`),
+UNIQUE KEY `table_name` (`table_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 END
         );
         ThinkDb::execute(<<<END
@@ -139,7 +139,11 @@ END
                 'model_title' => 'Main Model',
             ],
         ]);
+    }
 
+    public function testCategoryModelCreate()
+    {
+        $this->createCategoryTestingTable();
         $config = [
             'name' => 'category_table',
             'title' => 'Category Model',

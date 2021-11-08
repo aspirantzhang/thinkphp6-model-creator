@@ -38,16 +38,37 @@ class File
         return $this;
     }
 
+    private function getMainTableInfo(int $id)
+    {
+        $mainTable = Db::name('model')
+            ->alias('o')
+            ->where('o.id', $id)
+            ->leftJoin('model_i18n i', 'o.id = i.original_id')
+            ->find();
+        if ($mainTable === null) {
+            throw new Exception(__('can not find main table'));
+        }
+        return $mainTable;
+    }
+
+    public function checkCategoryTypeConfig()
+    {
+        $config = $this->getConfig();
+        if (
+            !isset($config['parentId']) ||
+            empty($config['parentId'])
+        ) {
+            throw new Exception(__('missing required config parentId'));
+        }
+    }
+
     public function create()
     {
         $config = $this->getConfig();
         if ($config['type'] === 'category') {
+            $this->checkCategoryTypeConfig();
             // get main table info using parent id
-            $mainTable = Db::name('model')
-                ->alias('o')
-                ->where('o.id', $config['parentId'])
-                ->leftJoin('model_i18n i', 'o.id = i.original_id')
-                ->find();
+            $mainTable = $this->getMainTableInfo((int)$config['parentId']);
             // rebuild the controller and model of main model
             (new BasicModel())->init([
                 'name' => $mainTable['table_name'],
@@ -61,7 +82,7 @@ class File
                 'title' => $config['title'],
                 'type' => 'categoryTableOfCategory',
                 'mainTableName' => $mainTable['table_name'],
-            ])->createBasicModelFile(['model']);
+            ])->createBasicModelFile();
             return;
         }
         return (new BasicModel())->init($this->config)->createBasicModelFile();
