@@ -120,7 +120,10 @@ class FileCommon
             if ($this->fileSystem->exists($customPathWithType)) {
                 return $customPathWithType;
             }
-            return createPath($this->stubPath, $type, $this->modelType, $fileName) . '.stub';
+            $pathWithType = createPath($this->stubPath, $type, $this->modelType, $fileName) . '.stub';
+            if ($this->fileSystem->exists($pathWithType)) {
+                return $pathWithType;
+            }
         }
 
         $customPath = createPath($this->appPath, 'api', 'stubs', $type, $fileName) . '.stub';
