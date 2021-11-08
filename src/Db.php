@@ -13,38 +13,30 @@ use aspirantzhang\octopusModelCreator\lib\db\Field;
 
 class Db
 {
-    protected $tableName;
-    protected $modelTitle;
     protected $config;
 
-    private function checkRequiredConfig()
+    private function getConfig($type = 'main')
     {
-        if (
-            !isset($this->config['name']) ||
-            empty($this->config['name']) ||
-            !isset($this->config['title']) ||
-            empty($this->config['title'])
-        ) {
-            throw new Exception(__('missing required config name and title'));
+        $config = $this->config;
+        $config['type'] = $config['type'] ?? 'main';
+        if ($type === 'i18n') {
+            $config['name'] = $config['name'] . '_i18n';
         }
+        return $config;
     }
 
     public function config(array $config)
     {
-        $this->config = $config;
-        $this->checkRequiredConfig();
-        return $this;
-    }
-
-    public function getConfig($type = 'main')
-    {
-        $this->checkRequiredConfig();
-        if ($type === 'i18n') {
-            return array_merge($this->config, [
-                'name' => $this->config['name'] . '_i18n',
-            ]);
+        if (
+            !isset($config['name']) ||
+            empty($config['name']) ||
+            !isset($config['title']) ||
+            empty($config['title'])
+        ) {
+            throw new Exception(__('missing required config name and title'));
         }
-        return $this->config;
+        $this->config = $config;
+        return $this;
     }
 
     public function create()
@@ -54,7 +46,7 @@ class Db
             $topRuleId = (new Rule())->init($this->getConfig())->createRule();
             $childrenRuleIds = (new Rule())->init($this->getConfig())->createChildrenRules($topRuleId);
             (new GroupRule())->addRulesToGroup([$topRuleId, ...$childrenRuleIds]);
-            $topMenuPath = '/basic-list/api/' . $this->tableName;
+            $topMenuPath = '/basic-list/api/' . $this->getConfig()['name'];
             $topMenuId = (new Menu())->init($this->getConfig())->createMenu($topMenuPath);
             $childrenMenuIds = (new Menu())->init($this->getConfig())->createChildrenMenus($topMenuId);
         } catch (Exception $e) {
