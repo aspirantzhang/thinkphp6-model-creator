@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace aspirantzhang\octopusModelCreator;
 
 use think\Exception;
+use think\facade\Db as ThinkDb;
 use aspirantzhang\octopusModelCreator\lib\db\Table;
 use aspirantzhang\octopusModelCreator\lib\db\Rule;
 use aspirantzhang\octopusModelCreator\lib\db\GroupRule;
@@ -39,19 +40,35 @@ class Db
         return $this;
     }
 
+    private function getMainTableInfo(int $id)
+    {
+        $mainTable = ThinkDb::name('model')
+            ->alias('o')
+            ->where('o.id', $id)
+            ->leftJoin('model_i18n i', 'o.id = i.original_id')
+            ->find();
+        if ($mainTable === null) {
+            throw new Exception(__('can not find main table'));
+        }
+        return $mainTable;
+    }
+
     public function create()
     {
-        try {
-            (new Table())->init($this->getConfig())->createModelTable();
-            $topRuleId = (new Rule())->init($this->getConfig())->createRule();
-            $childrenRuleIds = (new Rule())->init($this->getConfig())->createChildrenRules($topRuleId);
-            (new GroupRule())->addRulesToGroup([$topRuleId, ...$childrenRuleIds]);
-            $topMenuPath = '/basic-list/api/' . $this->getConfig()['name'];
-            $topMenuId = (new Menu())->init($this->getConfig())->createMenu($topMenuPath);
-            $childrenMenuIds = (new Menu())->init($this->getConfig())->createChildrenMenus($topMenuId);
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+        $config = $this->getConfig();
+        if ($config['type'] === 'category') {
+            // get main table info using parent id
+            $mainTable = $this->getMainTableInfo((int)$config['parentId']);
+            (new Table())->init($config)->createModelTable(['mainTableName' => $mainTable['table_name']]);
+        } else {
+            (new Table())->init($config)->createModelTable();
         }
+        $topRuleId = (new Rule())->init($config)->createRule();
+        $childrenRuleIds = (new Rule())->init($config)->createChildrenRules($topRuleId);
+        (new GroupRule())->addRulesToGroup([$topRuleId, ...$childrenRuleIds]);
+        $topMenuPath = '/basic-list/api/' . $config['name'];
+        $topMenuId = (new Menu())->init($config)->createMenu($topMenuPath);
+        $childrenMenuIds = (new Menu())->init($config)->createChildrenMenus($topMenuId);
 
         return [
             'topRuleId' => $topRuleId,
