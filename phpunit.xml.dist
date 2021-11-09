@@ -23,8 +23,9 @@
             <directory suffix=".php">src</directory>
         </include>
         <exclude>
-            <file>Service.php</file>
-            <directory>command</directory>
+            <file>src/Service.php</file>
+            <directory>src/command</directory>
+            <directory>src/lang</directory>
         </exclude>
     </coverage>
 </phpunit>
