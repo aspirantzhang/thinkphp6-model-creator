@@ -9,7 +9,7 @@ use think\Exception;
 
 class Table extends DbCommon
 {
-    public function createModelTable()
+    private function createTypeMain()
     {
         try {
             Db::execute("CREATE TABLE `$this->tableName` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `create_time` DATETIME NOT NULL , `update_time` DATETIME NOT NULL , `delete_time` DATETIME NULL DEFAULT NULL , `status` TINYINT(1) NOT NULL DEFAULT '1' , PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;");
@@ -18,6 +18,15 @@ class Table extends DbCommon
         } catch (Exception $e) {
             throw new Exception(__('create model table failed', ['tableName' => $this->tableName]));
         }
+    }
+
+    public function createModelTable()
+    {
+        $createMethodName = 'createType' . $this->modelType;
+        if (method_exists($this, $createMethodName)) {
+            return $this->$createMethodName();
+        }
+        throw new Exception(__('cannot find the method to create model tables', ['methodName' => $createMethodName]));
     }
 
     public function removeModelTable()
