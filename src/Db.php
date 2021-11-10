@@ -53,10 +53,22 @@ class Db
         return $mainTable;
     }
 
+    public function checkCategoryTypeConfig()
+    {
+        $config = $this->getConfig();
+        if (
+            !isset($config['parentId']) ||
+            empty($config['parentId'])
+        ) {
+            throw new Exception(__('missing required config parentId'));
+        }
+    }
+
     public function create()
     {
         $config = $this->getConfig();
         if ($config['type'] === 'category') {
+            $this->checkCategoryTypeConfig();
             // get main table info using parent id
             $mainTable = $this->getMainTableInfo((int)$config['parentId']);
             (new Table())->init($config)->createModelTable(['mainTableName' => $mainTable['table_name']]);
