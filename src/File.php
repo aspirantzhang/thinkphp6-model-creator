@@ -65,6 +65,7 @@ class File
     public function create()
     {
         $config = $this->getConfig();
+        // TODO: refactor to separate method
         if ($config['type'] === 'category') {
             $this->checkCategoryTypeConfig();
             // get main table info using parent id
@@ -116,7 +117,19 @@ class File
     public function remove()
     {
         try {
-            (new BasicModel())->init($this->getConfig())->removeBasicModelFile();
+            $config = $this->getConfig();
+            if ($config['type'] === 'category') {
+                // get main table info using parent id
+                $mainTable = $this->getMainTableInfo((int)$config['parentId']);
+                (new BasicModel())->init([
+                    'name' => $config['name'],
+                    'title' => $config['title'],
+                    'type' => 'categoryTableOfCategory',
+                    'mainTableName' => $mainTable['table_name'],
+                ])->removeBasicModelFile();
+            } else {
+                (new BasicModel())->init($this->getConfig())->removeBasicModelFile();
+            }
             (new FieldLang())->init($this->getConfig())->removeFieldLangFile();
             (new LayoutLang())->init($this->getConfig())->removeLayoutLangFile();
             (new Validate())->init($this->getConfig())->removeValidateFile();

@@ -53,10 +53,15 @@ class BasicModel extends FileCommon
 
     public function removeBasicModelFile(array $fileTypes = null)
     {
+        // normal model
         $fileTypes = $fileTypes ?? $this->fileTypes;
         $filePaths = array_map(function ($type) {
             return createPath($this->appPath, 'api', $type, $this->modelName) . '.php';
         }, $fileTypes);
         $this->fileSystem->remove($filePaths);
+        // other type
+        if ($this->modelType === 'categoryTableOfCategory') {
+            $this->fileSystem->remove(createPath($this->appPath, 'api', 'model', 'Pivot' . Str::studly($this->mainTableName) . 'Category') . '.php');
+        }
     }
 }
