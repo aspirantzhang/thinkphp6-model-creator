@@ -76,14 +76,11 @@ class BasicModelTest extends BaseCase
         $this->assertTrue(matchSnapshot($pivotFilePath, $pivotSnapshotPath));
     }
 
-    /**
-    * @depends testCategoryTableOfCategoryBasicModel
-    */
     public function testRemoveCategoryTableOfCategory()
     {
         $this->basicModel->init($this->categoryTableOfCategoryTypeConfig)->removeBasicModelFile();
         $filePaths = array_map(function ($type) {
-            return createPath(base_path(), 'api', $type, 'UnitTest') . '.php';
+            return createPath(base_path(), 'api', $type, 'CategoryTableOfCategoryCategory') . '.php';
         }, $this->fileTypes);
         foreach ($filePaths as $filePath) {
             $this->assertFalse($this->fileSystem->exists($filePath));
