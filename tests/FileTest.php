@@ -151,6 +151,34 @@ END
             'parentId' => 1,
         ];
         ModelCreator::file()->config($config)->create();
+        // TODO: improve testing, check all file existing
         $this->assertTrue(true);
+        return $config;
+    }
+
+    /**
+    * @depends testCategoryModelCreate
+    */
+    public function testCategoryModelRemove($config)
+    {
+        ModelCreator::file()->config($config)->remove();
+        $filePaths = array_map(function ($type) {
+            return createPath(base_path(), 'api', $type, 'CategoryTable') . '.php';
+        }, $this->fileTypes);
+        $filePaths[] = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'CategoryTable') . '.php';
+        $filePaths[] = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'CategoryTable') . '.php';
+        $filePaths[] = createPath(base_path(), 'api', 'validate', 'CategoryTable') . '.php';
+        $filePaths[] = createPath(base_path(), 'api', 'lang', 'validate', 'en-us', 'CategoryTable') . '.php';
+        $filePaths[] = createPath(root_path(), 'config', 'api', 'model', 'CategoryTable') . '.php';
+        foreach ($filePaths as $filePath) {
+            $this->assertFalse($this->fileSystem->exists($filePath));
+        }
+        // main model rebuild check
+        $mainControllerPath = createPath(base_path(), 'api', 'controller', 'MainTable') . '.php';
+        $mainControllerSnap = createPath($this->snapPath, 'api', 'controller', 'MainTableAfterRemoveCategory') . '.php.snap';
+        $this->assertTrue(matchSnapshot($mainControllerPath, $mainControllerSnap));
+        $mainModelPath = createPath(base_path(), 'api', 'model', 'MainTable') . '.php';
+        $mainModelSnap = createPath($this->snapPath, 'api', 'model', 'MainTableAfterRemoveCategory') . '.php.snap';
+        $this->assertTrue(matchSnapshot($mainModelPath, $mainModelSnap));
     }
 }

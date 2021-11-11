@@ -127,6 +127,11 @@ class File
                     'type' => 'categoryTableOfCategory',
                     'mainTableName' => $mainTable['table_name'],
                 ])->removeBasicModelFile();
+                // rebuild main model
+                (new BasicModel())->init([
+                    'name' => $mainTable['table_name'],
+                    'title' => $mainTable['model_title'],
+                ])->createBasicModelFile(['controller', 'model']);
             } else {
                 (new BasicModel())->init($this->getConfig())->removeBasicModelFile();
             }
