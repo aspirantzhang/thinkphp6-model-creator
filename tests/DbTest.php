@@ -270,7 +270,7 @@ END
             ]);
     }
 
-    public function testCategoryModelCreate()
+    public function testCategoryModelDbCreate()
     {
         $this->createCategoryTestingTable();
         $config = [
@@ -280,6 +280,16 @@ END
             'parentId' => 1,
         ];
         $modelData = ModelCreator::db()->config($config)->create();
+        $this->assertTrue(true);
+        return $config;
+    }
+
+    /**
+    * @depends testCategoryModelDbCreate
+    */
+    public function testCategoryModelDbRemove($config)
+    {
+        $modelData = ModelCreator::db()->config($config)->remove(0, 0);
         $this->assertTrue(true);
         return $modelData;
     }

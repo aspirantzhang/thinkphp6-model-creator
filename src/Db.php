@@ -107,7 +107,15 @@ class Db
         try {
             (new Rule())->removeRules($ruleId);
             (new Menu())->removeMenus($menuId);
-            (new Table())->init($this->getConfig())->removeModelTable();
+            $config = $this->getConfig();
+            if ($config['type'] === 'category') {
+                $this->checkCategoryTypeConfig();
+                // get main table info using parent id
+                $mainTable = $this->getMainTableInfo((int)$config['parentId']);
+                (new Table())->init($this->getConfig())->removeModelTable(['mainTableName' => $mainTable['table_name']]);
+            } else {
+                (new Table())->init($this->getConfig())->removeModelTable();
+            }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }

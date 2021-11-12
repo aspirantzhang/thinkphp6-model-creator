@@ -78,11 +78,15 @@ class Table extends DbCommon
         throw new Exception(__('cannot find the method to create model tables', ['methodName' => $createMethodName]));
     }
 
-    public function removeModelTable()
+    public function removeModelTable(array $addon = [])
     {
         try {
             $i18nTable = $this->tableName . '_i18n';
             Db::execute("DROP TABLE IF EXISTS `$this->tableName`, `$i18nTable`;");
+            if ($this->modelType === 'category') {
+                $pivotTable = 'pivot_' . ($addon['mainTableName'] ?? $this->tableName) . '_category';
+                Db::execute("DROP TABLE IF EXISTS `$pivotTable`;");
+            }
         } catch (Exception $e) {
             throw new Exception(__('remove model table failed', ['tableName' => $this->tableName]));
         }
