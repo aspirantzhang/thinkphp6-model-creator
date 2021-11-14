@@ -26,7 +26,7 @@ class BasicModelTest extends BaseCase
 
     public function testCreateBasicModelFile()
     {
-        $this->basicModel->init($this->defaultConfig)->createBasicModelFile();
+        $this->basicModel->init($this->singleMainTableConfig)->createBasicModelFile();
 
         foreach ($this->fileTypes as $type) {
             $filePath = createPath(base_path(), 'api', $type, 'UnitTest') . '.php';
@@ -36,17 +36,55 @@ class BasicModelTest extends BaseCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('unable to get file content: filePath=' . createPath($this->prodStubPath, 'notExist.stub'));
-        $this->basicModel->init($this->defaultConfig)->createBasicModelFile(['notExist']);
+        $this->basicModel->init($this->singleMainTableConfig)->createBasicModelFile(['notExist']);
     }
 
     public function testRemoveBasicModelFile()
     {
-        $this->basicModel->init($this->defaultConfig)->removeBasicModelFile();
+        $this->basicModel->init($this->singleMainTableConfig)->removeBasicModelFile();
         $filePaths = array_map(function ($type) {
             return createPath(base_path(), 'api', $type, 'UnitTest') . '.php';
         }, $this->fileTypes);
         foreach ($filePaths as $filePath) {
             $this->assertFalse($this->fileSystem->exists($filePath));
         }
+    }
+
+    public function testMainTableOfCategoryBasicModel()
+    {
+        $this->basicModel->init($this->mainTableOfCategoryTypeConfig)->createBasicModelFile(['controller', 'model']);
+        // controller
+        $controllerFilePath = createPath(base_path(), 'api', 'controller', 'MainTableOfCategory') . '.php';
+        $controllerSnapshotPath = createPath($this->snapPath, 'api', 'controller', 'MainTableOfCategory') . '.php.snap';
+        $this->assertTrue(matchSnapshot($controllerFilePath, $controllerSnapshotPath));
+        // model
+        $modelFilePath = createPath(base_path(), 'api', 'model', 'MainTableOfCategory') . '.php';
+        $modelSnapshotPath = createPath($this->snapPath, 'api', 'model', 'MainTableOfCategory') . '.php.snap';
+        $this->assertTrue(matchSnapshot($modelFilePath, $modelSnapshotPath));
+    }
+
+    public function testCategoryTableOfCategoryBasicModel()
+    {
+        $this->basicModel->init($this->categoryTableOfCategoryTypeConfig)->createBasicModelFile(['model']);
+        // model
+        $modelFilePath = createPath(base_path(), 'api', 'model', 'CategoryTableOfCategory') . '.php';
+        $modelSnapshotPath = createPath($this->snapPath, 'api', 'model', 'CategoryTableOfCategory') . '.php.snap';
+        $this->assertTrue(matchSnapshot($modelFilePath, $modelSnapshotPath));
+        // pivot
+        $pivotFilePath = createPath(base_path(), 'api', 'model', 'PivotMainTableOfCategoryCategory') . '.php';
+        $pivotSnapshotPath = createPath($this->snapPath, 'api', 'model', 'PivotMainTableOfCategoryCategory') . '.php.snap';
+        $this->assertTrue(matchSnapshot($pivotFilePath, $pivotSnapshotPath));
+    }
+
+    public function testRemoveCategoryTableOfCategory()
+    {
+        $this->basicModel->init($this->categoryTableOfCategoryTypeConfig)->removeBasicModelFile();
+        $filePaths = array_map(function ($type) {
+            return createPath(base_path(), 'api', $type, 'CategoryTableOfCategoryCategory') . '.php';
+        }, $this->fileTypes);
+        foreach ($filePaths as $filePath) {
+            $this->assertFalse($this->fileSystem->exists($filePath));
+        }
+        $this->assertFalse($this->fileSystem->exists(createPath(base_path(), 'api', 'model', 'PivotMainTableOfCategoryCategory') . '.php'));
     }
 }

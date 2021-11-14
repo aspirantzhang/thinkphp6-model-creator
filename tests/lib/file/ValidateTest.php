@@ -22,7 +22,7 @@ class ValidateTest extends BaseCase
 
     public function testCreateValidateFile()
     {
-        $this->validate->init($this->defaultConfig)->createValidateFile($this->fieldsData);
+        $this->validate->init($this->singleMainTableConfig)->createValidateFile($this->fieldsData);
         $filePath = createPath(base_path(), 'api', 'validate', 'UnitTest') . '.php';
         $snapshotPath = createPath($this->snapPath, 'UnitTest') . '.php.snap';
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
@@ -33,7 +33,7 @@ class ValidateTest extends BaseCase
     */
     public function testRemoveValidateFile()
     {
-        $this->validate->init($this->defaultConfig)->removeValidateFile();
+        $this->validate->init($this->singleMainTableConfig)->removeValidateFile();
         $filePath = createPath(base_path(), 'api', 'validate', 'UnitTest') . '.php';
         $this->assertFalse($this->fileSystem->exists($filePath));
     }

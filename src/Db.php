@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace aspirantzhang\octopusModelCreator;
 
 use think\Exception;
+use think\facade\Db as ThinkDb;
 use aspirantzhang\octopusModelCreator\lib\db\Table;
 use aspirantzhang\octopusModelCreator\lib\db\Rule;
 use aspirantzhang\octopusModelCreator\lib\db\GroupRule;
@@ -13,53 +14,73 @@ use aspirantzhang\octopusModelCreator\lib\db\Field;
 
 class Db
 {
-    protected $tableName;
-    protected $modelTitle;
     protected $config;
 
-    private function checkRequiredConfig()
+    private function getConfig($type = 'main')
     {
-        if (
-            !isset($this->config['name']) ||
-            empty($this->config['name']) ||
-            !isset($this->config['title']) ||
-            empty($this->config['title'])
-        ) {
-            throw new Exception(__('missing required config name and title'));
+        $config = $this->config;
+        $config['type'] = $config['type'] ?? 'main';
+        if ($type === 'i18n') {
+            $config['name'] = $config['name'] . '_i18n';
         }
+        return $config;
     }
 
     public function config(array $config)
     {
+        if (
+            !isset($config['name']) ||
+            empty($config['name']) ||
+            !isset($config['title']) ||
+            empty($config['title'])
+        ) {
+            throw new Exception(__('missing required config name and title'));
+        }
         $this->config = $config;
-        $this->checkRequiredConfig();
         return $this;
     }
 
-    public function getConfig($type = 'main')
+    private function getMainTableInfo(int $id)
     {
-        $this->checkRequiredConfig();
-        if ($type === 'i18n') {
-            return array_merge($this->config, [
-                'name' => $this->config['name'] . '_i18n',
-            ]);
+        $mainTable = ThinkDb::name('model')
+            ->alias('o')
+            ->where('o.id', $id)
+            ->leftJoin('model_i18n i', 'o.id = i.original_id')
+            ->find();
+        if ($mainTable === null) {
+            throw new Exception(__('can not find main table'));
         }
-        return $this->config;
+        return $mainTable;
+    }
+
+    public function checkCategoryTypeConfig()
+    {
+        $config = $this->getConfig();
+        if (
+            !isset($config['parentId']) ||
+            empty($config['parentId'])
+        ) {
+            throw new Exception(__('missing required config parentId'));
+        }
     }
 
     public function create()
     {
-        try {
-            (new Table())->init($this->getConfig())->createModelTable();
-            $topRuleId = (new Rule())->init($this->getConfig())->createRule();
-            $childrenRuleIds = (new Rule())->init($this->getConfig())->createChildrenRules($topRuleId);
-            (new GroupRule())->addRulesToGroup([$topRuleId, ...$childrenRuleIds]);
-            $topMenuPath = '/basic-list/api/' . $this->tableName;
-            $topMenuId = (new Menu())->init($this->getConfig())->createMenu($topMenuPath);
-            $childrenMenuIds = (new Menu())->init($this->getConfig())->createChildrenMenus($topMenuId);
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+        $config = $this->getConfig();
+        if ($config['type'] === 'category') {
+            $this->checkCategoryTypeConfig();
+            // get main table info using parent id
+            $mainTable = $this->getMainTableInfo((int)$config['parentId']);
+            (new Table())->init($config)->createModelTable(['mainTableName' => $mainTable['table_name']]);
+        } else {
+            (new Table())->init($config)->createModelTable();
         }
+        $topRuleId = (new Rule())->init($config)->createRule();
+        $childrenRuleIds = (new Rule())->init($config)->createChildrenRules($topRuleId);
+        (new GroupRule())->addRulesToGroup([$topRuleId, ...$childrenRuleIds]);
+        $topMenuPath = '/basic-list/api/' . $config['name'];
+        $topMenuId = (new Menu())->init($config)->createMenu($topMenuPath);
+        $childrenMenuIds = (new Menu())->init($config)->createChildrenMenus($topMenuId);
 
         return [
             'topRuleId' => $topRuleId,
@@ -86,7 +107,15 @@ class Db
         try {
             (new Rule())->removeRules($ruleId);
             (new Menu())->removeMenus($menuId);
-            (new Table())->init($this->getConfig())->removeModelTable();
+            $config = $this->getConfig();
+            if ($config['type'] === 'category') {
+                $this->checkCategoryTypeConfig();
+                // get main table info using parent id
+                $mainTable = $this->getMainTableInfo((int)$config['parentId']);
+                (new Table())->init($this->getConfig())->removeModelTable(['mainTableName' => $mainTable['table_name']]);
+            } else {
+                (new Table())->init($this->getConfig())->removeModelTable();
+            }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }

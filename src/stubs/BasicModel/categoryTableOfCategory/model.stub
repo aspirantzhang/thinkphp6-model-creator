@@ -1,0 +1,31 @@
+<?php
+
+declare(strict_types=1);
+
+namespace app\api\model;
+
+use app\api\service\{{ mainModelName }} as {{ mainModelName }}Service;
+
+class {{ modelName }} extends Common
+{
+    protected $readonly = ['id'];
+
+    protected function setAddonData($params = [])
+    {
+        return [
+            'parent_id' => $this->treeDataAPI([], [], $params['id'] ?? 0),
+        ];
+    }
+
+    // Relation
+    public function main()
+    {
+        return $this->belongsToMany({{ mainModelName }}Service::class, 'pivot_{{ mainTableName }}_category', 'item_id', 'category_id');
+    }
+
+    // Accessor
+
+    // Mutator
+
+    // Searcher
+}

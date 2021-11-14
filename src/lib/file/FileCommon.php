@@ -23,6 +23,8 @@ class FileCommon
     protected $modelTitle;
     protected $instanceName;
     protected $modelType;
+    protected $categoryTableName;
+    protected $mainTableName;
 
     public function __construct()
     {
@@ -41,7 +43,35 @@ class FileCommon
         $this->instanceName = Str::camel($config['name']);
         $this->modelTitle = $config['title'];
         $this->modelType = $config['type'] ?? 'main';
+        if ($this->modelType === 'mainTableOfCategory') {
+            $this->initMainOfCategory($config);
+        }
+        if ($this->modelType === 'categoryTableOfCategory') {
+            $this->initCategoryTableOfCategory($config);
+        }
         return $this;
+    }
+
+    private function initMainOfCategory($config)
+    {
+        if (
+            !isset($config['categoryTableName']) ||
+            empty($config['categoryTableName'])
+        ) {
+            throw new Exception(__('missing required category table name'));
+        }
+        $this->categoryTableName = $config['categoryTableName'];
+    }
+
+    private function initCategoryTableOfCategory($config)
+    {
+        if (
+            !isset($config['mainTableName']) ||
+            empty($config['mainTableName'])
+        ) {
+            throw new Exception(__('missing required main table name'));
+        }
+        $this->mainTableName = $config['mainTableName'];
     }
 
     public function replaceAndWrite(string $sourcePath, string $targetPath, callable $callback)
@@ -85,10 +115,22 @@ class FileCommon
 
     public function getStubPath(string $type, string $fileName = 'default')
     {
+        if (!empty($this->modelType) && $this->modelType !== 'main') {
+            $customPathWithType = createPath($this->appPath, 'api', 'stubs', $type, $this->modelType, $fileName) . '.stub';
+            if ($this->fileSystem->exists($customPathWithType)) {
+                return $customPathWithType;
+            }
+            $pathWithType = createPath($this->stubPath, $type, $this->modelType, $fileName) . '.stub';
+            if ($this->fileSystem->exists($pathWithType)) {
+                return $pathWithType;
+            }
+        }
+
         $customPath = createPath($this->appPath, 'api', 'stubs', $type, $fileName) . '.stub';
         if ($this->fileSystem->exists($customPath)) {
             return $customPath;
         }
+
         return createPath($this->stubPath, $type, $fileName) . '.stub';
     }
 
