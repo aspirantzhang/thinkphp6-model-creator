@@ -9,6 +9,8 @@ use think\Exception;
 
 class Field extends DbCommon
 {
+    private $ignoreHandleType = ['category'];
+
     private function getExistingFields()
     {
         $existingFields = [];
@@ -32,6 +34,10 @@ class Field extends DbCommon
             $type = '';
             $typeAddon = '';
             $default = '';
+
+            if (in_array($field['type'], $this->ignoreHandleType)) {
+                continue;
+            }
 
             switch ($field['type']) {
                 case 'number':

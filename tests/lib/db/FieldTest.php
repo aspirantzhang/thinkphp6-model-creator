@@ -190,6 +190,11 @@ class FieldTest extends BaseCase
                 "title" => "Foo Time",
                 "type" => "datetime",
             ],
+            [
+                "name" => "category",
+                "title" => "Category",
+                "type" => "category",
+            ],
         ];
         $reservedFields = [
             'id',
