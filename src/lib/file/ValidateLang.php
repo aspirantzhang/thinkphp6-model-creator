@@ -14,7 +14,7 @@ class ValidateLang extends FileCommon
         'id.number',
         'ids.require',
         'ids.numberArray',
-        'status.numberTag',
+        'status.numberArray',
         'page.number',
         'per_page.number',
         'create_time.require',

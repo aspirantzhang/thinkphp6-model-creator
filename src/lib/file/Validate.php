@@ -18,7 +18,7 @@ class Validate extends FileCommon
         $this->rules = [
             'id' => 'require|number',
             'ids' => 'require|numberArray',
-            'status' => 'numberTag',
+            'status' => 'numberArray',
             'page' => 'number',
             'per_page' => 'number',
             'create_time' => 'require|dateTimeRange',
