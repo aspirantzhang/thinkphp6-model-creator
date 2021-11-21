@@ -9,15 +9,27 @@ use aspirantzhang\octopusModelCreator\TestCase;
 
 class HelperTest extends TestCase
 {
-    public function testCheckContainsMysqlReservedKeywords()
+    public function testCheckContainsMysqlReservedKeywordsFailed()
     {
         $this->expectException(Exception::class);
         ModelCreator::helper()->checkContainsMysqlReservedKeywords(['all']);
-        ModelCreator::helper()->checkContainsMysqlReservedKeywords(['like', 'left', 'ok']);
+        ModelCreator::helper()->checkContainsMysqlReservedKeywords(['like', 'left', 'notExist']);
     }
 
-    public function testCheckContainsMysqlReservedKeywordsSuccessfully()
+    public function testCheckContainsMysqlReservedKeywordsPassed()
     {
-        $this->assertNull(ModelCreator::helper()->checkContainsMysqlReservedKeywords(['ok']));
+        $this->assertNull(ModelCreator::helper()->checkContainsMysqlReservedKeywords(['notExist']));
+    }
+
+    public function testCheckContainsReservedFieldNamesFailed()
+    {
+        $this->expectException(Exception::class);
+        ModelCreator::helper()->checkContainsReservedFieldNames(['id']);
+        ModelCreator::helper()->checkContainsReservedFieldNames(['id', 'create_time', 'notExist']);
+    }
+
+    public function testCheckContainsReservedFieldNamesPassed()
+    {
+        $this->assertNull(ModelCreator::helper()->checkContainsReservedFieldNames(['notExist']));
     }
 }
