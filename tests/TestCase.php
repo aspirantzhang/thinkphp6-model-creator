@@ -126,8 +126,30 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $langMock->shouldReceive('getLangSet')->andReturn('en-us');
         $langMock->shouldReceive('load')->andReturn();
 
-        // $configMock = m::mock('alias:think\facade\Config');
-        // $configMock->shouldReceive('get')->andReturn('Valid Config');
+        $configMock = m::mock('alias:think\facade\Config');
+        $configMock->shouldReceive('get')->andReturnUsing(function (string $name, $default = null) {
+            $reserved = [
+                'reserved_field' => [
+                    'id',
+                    'create_time',
+                    'update_time',
+                ],
+                'reserved_table' => [
+                    'admin',
+                    'admin_i18n',
+                ],
+            ];
+            switch ($name) {
+                case 'reserved':
+                    return $reserved;
+                case 'reserved.reserved_field':
+                    return $reserved['reserved_field'];
+                case 'reserved.reserved_table':
+                    return $reserved['reserved_table'];
+                default:
+                    return null;
+            }
+        });
     }
 
     protected function tearDown(): void
