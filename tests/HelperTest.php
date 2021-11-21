@@ -9,10 +9,15 @@ use aspirantzhang\octopusModelCreator\TestCase;
 
 class HelperTest extends TestCase
 {
-    public function testExistMysqlReservedKeywords()
+    public function testCheckContainsMysqlReservedKeywords()
     {
-        $this->assertTrue(ModelCreator::helper()->existMysqlReservedKeywords(['all']));
-        $this->assertTrue(ModelCreator::helper()->existMysqlReservedKeywords(['like', 'left', 'ok']));
-        $this->assertFalse(ModelCreator::helper()->existMysqlReservedKeywords(['ok']));
+        $this->expectException(Exception::class);
+        ModelCreator::helper()->checkContainsMysqlReservedKeywords(['all']);
+        ModelCreator::helper()->checkContainsMysqlReservedKeywords(['like', 'left', 'ok']);
+    }
+
+    public function testCheckContainsMysqlReservedKeywordsSuccessfully()
+    {
+        $this->assertNull(ModelCreator::helper()->checkContainsMysqlReservedKeywords(['ok']));
     }
 }
