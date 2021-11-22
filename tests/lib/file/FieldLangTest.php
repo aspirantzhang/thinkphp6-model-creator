@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace aspirantzhang\octopusModelCreator\lib\file;
 
+use aspirantzhang\octopusModelCreator\ModelCreator;
+
 class FieldLangTest extends BaseCase
 {
     protected $fieldLang;
@@ -22,12 +24,13 @@ class FieldLangTest extends BaseCase
 
     public function testCreateFieldLangFile()
     {
-        $this->fieldLang->init($this->singleMainTableConfig)->createFieldLangFile($this->fieldsData);
+        $demoFieldsData = ModelCreator::helper()->extractAllFields($this->getDemo('default-field')['data']);
+        $this->fieldLang->init($this->singleMainTableConfig)->createFieldLangFile($demoFieldsData);
         $filePath = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'UnitTest') . '.php';
         $snapshotPath = createPath($this->snapPath, 'UnitTest') . '.php.snap';
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
         // specific lang
-        $this->fieldLang->init($this->singleMainTableConfig)->createFieldLangFile($this->fieldsData, 'de-de');
+        $this->fieldLang->init($this->singleMainTableConfig)->createFieldLangFile($demoFieldsData, 'de-de');
         $filePath = createPath(base_path(), 'api', 'lang', 'field', 'de-de', 'UnitTest') . '.php';
         $snapshotPath = createPath($this->snapPath, 'UnitTest') . '.php.snap';
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));

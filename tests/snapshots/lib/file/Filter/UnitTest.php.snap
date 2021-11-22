@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'titleField' => 'nickname',
+    'titleField' => 'title',
     'uniqueValue' => ['comment'],
-    'ignoreFilter' => ['comment'],
-    'allowHome' => ['nickname', 'gender', 'married'],
-    'allowRead' => ['nickname', 'gender', 'married'],
-    'allowSave' => ['nickname', 'gender', 'married'],
-    'allowUpdate' => ['nickname', 'gender', 'married'],
-    'allowTranslate' => ['nickname'],
+    'ignoreFilter' => ['content', 'comment'],
+    'allowHome' => ['title', 'pathname', 'content', 'category', 'listOrder'],
+    'allowRead' => ['title', 'pathname', 'content', 'category', 'listOrder'],
+    'allowSave' => ['title', 'pathname', 'content', 'category', 'listOrder'],
+    'allowUpdate' => ['title', 'pathname', 'content', 'category', 'listOrder'],
+    'allowTranslate' => ['title', 'content'],
 ];

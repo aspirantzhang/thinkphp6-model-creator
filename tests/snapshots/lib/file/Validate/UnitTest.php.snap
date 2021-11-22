@@ -15,9 +15,10 @@ class UnitTest extends Validate
         'create_time' => 'require|dateTimeRange',
         'parent_id' => 'number|checkParentId',
         'revisionId' => 'require|number',
-        'nickname' => 'require|length:4,32',
-        'gender' => 'require',
-        'married' => 'require',
+        'title' => 'require|length:0,255',
+        'pathname' => 'require|length:0,255',
+        'category' => 'numberArray',
+        'listOrder' => 'number',
     ];
 
     protected $message = [
@@ -34,15 +35,17 @@ class UnitTest extends Validate
         'parent_id.checkParentId' => 'parent_id#checkParentId',
         'revisionId.require' => 'revisionId#require',
         'revisionId.number' => 'revisionId#number',
-        'nickname.require' => 'unit-test@nickname#require',
-        'nickname.length' => 'unit-test@nickname#length:4,32',
-        'gender.require' => 'unit-test@gender#require',
-        'married.require' => 'unit-test@married#require',
+        'title.require' => 'unit-test@title#require',
+        'title.length' => 'unit-test@title#length:0,255',
+        'pathname.require' => 'unit-test@pathname#require',
+        'pathname.length' => 'unit-test@pathname#length:0,255',
+        'category.numberArray' => 'unit-test@category#numberArray',
+        'listOrder.number' => 'unit-test@listOrder#number',
     ];
 
     protected $scene = [
-        'save' => ['create_time', 'status', 'nickname', 'gender', 'married'],
-        'update' => ['id', 'create_time', 'status', 'nickname', 'gender', 'married'],
+        'save' => ['create_time', 'status', 'title', 'pathname', 'category', 'listOrder'],
+        'update' => ['id', 'create_time', 'status', 'title', 'pathname', 'category', 'listOrder'],
         'read' => ['id'],
         'delete' => ['ids'],
         'restore' => ['ids'],
@@ -56,10 +59,11 @@ class UnitTest extends Validate
 
     public function sceneHome()
     {
-        $this->only(['page', 'per_page', 'id', 'status', 'create_time', 'nickname', 'gender', 'married'])
-            ->remove('nickname', 'require')
-            ->remove('gender', 'require')
-            ->remove('married', 'require')
+        $this->only(['page', 'per_page', 'id', 'status', 'create_time', 'title', 'pathname', 'category', 'listOrder'])
+            ->remove('title', 'require')
+            ->remove('pathname', 'require')
+            ->remove('category', 'require')
+            ->remove('listOrder', 'require')
             ->remove('id', 'require')
             ->remove('create_time', 'require');
     }

@@ -20,100 +20,10 @@ if (!function_exists('root_path')) {
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     protected $fileSystem;
-    protected $fieldsData;
 
     protected function setUp(): void
     {
         $this->fileSystem = new Filesystem();
-        $this->fieldsData = [
-            [
-                "name" => "nickname",
-                "title" => "Nick Name",
-                "type" => "input",
-                "settings" => [
-                    "validate" => [
-                        "require",
-                        "length"
-                    ],
-                    "options" => [
-                        "length" => [
-                            "min" => 4,
-                            "max" => 32
-                        ]
-                    ]
-                ],
-                "titleField" => true,
-                "allowHome" => true,
-                "allowRead" => true,
-                "allowSave" => true,
-                "allowUpdate" => true,
-                "allowTranslate" => true
-            ],
-            [
-                "name" => "gender",
-                "title" => "Gender",
-                "type" => "radio",
-                "data" => [
-                    [
-                        "title" => "Mx",
-                        "value" => "mx"
-                    ],
-                    [
-                        "title" => "Mr",
-                        "value" => "mr"
-                    ],
-                    [
-                        "title" => "Ms",
-                        "value" => "ms"
-                    ]
-                ],
-                "settings" => [
-                    "validate" => [
-                        "require"
-                    ]
-                ],
-                "allowHome" => true,
-                "allowRead" => true,
-                "allowSave" => true,
-                "allowUpdate" => true
-            ],
-            [
-                "name" => "married",
-                "title" => "Married",
-                "type" => "switch",
-                "hideInColumn" => true,
-                "data" => [
-                    [
-                        "title" => "Yes",
-                        "value" => 1
-                    ],
-                    [
-                        "title" => "No",
-                        "value" => 0
-                    ]
-                ],
-                "settings" => [
-                    "display" => [
-                        "listSorter"
-                    ],
-                    "validate" => [
-                        "require"
-                    ]
-                ],
-                "allowHome" => true,
-                "allowRead" => true,
-                "allowUpdate" => true,
-                "allowSave" => true
-            ],
-            [
-                "name" => "comment",
-                "title" => "Comment",
-                "type" => "textEditor",
-                "settings" => [],
-                "uniqueValue" => true,
-                "ignoreFilter" => true,
-            ],
-        ];
         $langMock = m::mock('alias:think\facade\Lang');
         $langMock->shouldReceive('get')->andReturnUsing(function (string $name, array $vars = [], string $lang = '') {
             if (!empty($vars)) {

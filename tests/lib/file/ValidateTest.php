@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace aspirantzhang\octopusModelCreator\lib\file;
 
+use aspirantzhang\octopusModelCreator\ModelCreator;
+
 class ValidateTest extends BaseCase
 {
     protected $validate;
@@ -22,7 +24,8 @@ class ValidateTest extends BaseCase
 
     public function testCreateValidateFile()
     {
-        $this->validate->init($this->singleMainTableConfig)->createValidateFile($this->fieldsData);
+        $demoFieldsData = ModelCreator::helper()->extractAllFields($this->getDemo('default-field')['data']);
+        $this->validate->init($this->singleMainTableConfig)->createValidateFile($demoFieldsData);
         $filePath = createPath(base_path(), 'api', 'validate', 'UnitTest') . '.php';
         $snapshotPath = createPath($this->snapPath, 'UnitTest') . '.php.snap';
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));

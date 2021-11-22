@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace aspirantzhang\octopusModelCreator\lib\file;
 
+use aspirantzhang\octopusModelCreator\ModelCreator;
+
 class FilterTest extends BaseCase
 {
     protected $filter;
@@ -22,7 +24,8 @@ class FilterTest extends BaseCase
 
     public function testCreateFilterFile()
     {
-        $this->filter->init($this->singleMainTableConfig)->createFilterFile($this->fieldsData);
+        $demoFieldsData = ModelCreator::helper()->extractAllFields($this->getDemo('default-field')['data']);
+        $this->filter->init($this->singleMainTableConfig)->createFilterFile($demoFieldsData);
         $filePath = createPath(root_path(), 'config', 'api', 'model', 'UnitTest') . '.php';
         $snapshotPath = createPath($this->snapPath, 'UnitTest') . '.php.snap';
         $this->assertTrue(matchSnapshot($filePath, $snapshotPath));
