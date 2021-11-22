@@ -92,18 +92,6 @@ class Db
         ];
     }
 
-    private function extractAllFields($designData): array
-    {
-        $allFields = [];
-        foreach ($designData['tabs'] as $tab) {
-            $allFields = [...$allFields, ...$tab];
-        }
-        foreach ($designData['sidebars'] as $sidebar) {
-            $allFields = [...$allFields, ...$sidebar];
-        }
-        return $allFields;
-    }
-
     private function extractTranslateFields(array $allFields): array
     {
         $result = [];
@@ -129,7 +117,7 @@ class Db
 
     public function update(array $fieldsData)
     {
-        $allFieldsArray = $this->extractAllFields($fieldsData);
+        $allFieldsArray = ModelCreator::helper()->extractAllFields($fieldsData);
         $allFieldNames = extractValues($allFieldsArray, 'name');
         (new Helper())->checkContainsMysqlReservedKeywords($allFieldNames);
         (new Helper())->checkContainsReservedFieldNames($allFieldNames);
