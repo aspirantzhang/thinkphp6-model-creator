@@ -99,18 +99,15 @@ class File
      */
     public function update(array $fieldsData, array $fieldOptions = [])
     {
-        try {
-            (new FieldLang())->init($this->getConfig())->createFieldLangFile($fieldsData);
-            (new LayoutLang())->init($this->getConfig())->createLayoutLangFile();
-            if ($fieldOptions['handleFieldValidation'] ?? false) {
-                (new Validate())->init($this->getConfig())->createValidateFile($fieldsData);
-                (new ValidateLang())->init($this->getConfig())->createValidateLangFile($fieldsData);
-            }
-            if ($fieldOptions['handleFieldFilter'] ?? false) {
-                (new Filter())->init($this->getConfig())->createFilterFile($fieldsData);
-            }
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+        $allFieldsArray = ModelCreator::helper()->extractAllFields($fieldsData);
+        (new FieldLang())->init($this->getConfig())->createFieldLangFile($allFieldsArray);
+        (new LayoutLang())->init($this->getConfig())->createLayoutLangFile();
+        if ($fieldOptions['handleFieldValidation'] ?? false) {
+            (new Validate())->init($this->getConfig())->createValidateFile($allFieldsArray);
+            (new ValidateLang())->init($this->getConfig())->createValidateLangFile($allFieldsArray);
+        }
+        if ($fieldOptions['handleFieldFilter'] ?? false) {
+            (new Filter())->init($this->getConfig())->createFilterFile($allFieldsArray);
         }
     }
 
