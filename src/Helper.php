@@ -26,4 +26,16 @@ class Helper
             throw new Exception(__('reserved field name', ['fieldName' => implode(',', $intersect)]));
         }
     }
+
+    public function extractAllFields(array $data): array
+    {
+        $allFields = [];
+        foreach ((array)($data['tabs'] ?? []) as $tab) {
+            $allFields = [...$allFields, ...(array)$tab];
+        }
+        foreach ((array)($data['sidebars'] ?? []) as $sidebar) {
+            $allFields = [...$allFields, ...(array)$sidebar];
+        }
+        return $allFields;
+    }
 }

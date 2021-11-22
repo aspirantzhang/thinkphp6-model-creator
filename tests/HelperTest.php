@@ -32,4 +32,15 @@ class HelperTest extends TestCase
     {
         $this->assertNull(ModelCreator::helper()->checkContainsReservedFieldNames(['notExist']));
     }
+
+    public function testExtractAllFields()
+    {
+        $actual = ModelCreator::helper()->extractAllFields([
+            'tabs' => ['a','b'],
+            'sidebars' => ['c'],
+            'more' => ['whatever']
+        ]);
+        $expect = ['a', 'b', 'c'];
+        $this->assertEqualsCanonicalizing($actual, $expect);
+    }
 }
