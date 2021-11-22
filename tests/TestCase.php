@@ -152,6 +152,16 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         });
     }
 
+    public function getDemo(string $name)
+    {
+        $jsonFile = createPath(__DIR__, 'json', $name) . '.json';
+        if ($this->fileSystem->exists($jsonFile)) {
+            $content = file_get_contents($jsonFile);
+            return json_decode($content, true);
+        }
+        throw new \Exception('read demo file path failed: ' . $jsonFile);
+    }
+
     protected function tearDown(): void
     {
     }
