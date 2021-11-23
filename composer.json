@@ -1,6 +1,6 @@
 {
   "name": "aspirantzhang/octopus-model-creator",
-  "description": "A complete model creator based on ThinkPHP6.",
+  "description": "A complete model creator for Octopus.",
   "type": "library",
   "version": "0.0.1-dev",
   "license": "MIT",

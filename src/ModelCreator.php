@@ -15,4 +15,9 @@ class ModelCreator
     {
         return new Db();
     }
+
+    public static function helper()
+    {
+        return new Helper();
+    }
 }

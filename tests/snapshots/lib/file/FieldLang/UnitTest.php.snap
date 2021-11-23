@@ -2,9 +2,11 @@
 
 return [
     'unit-test' => [
-        'nickname' => 'Nick Name',
-        'gender' => 'Gender',
-        'married' => 'Married',
+        'title' => 'Title',
+        'pathname' => 'Path',
+        'content' => 'Content',
+        'category' => 'Category',
         'comment' => 'Comment',
+        'listOrder' => 'Order',
     ],
 ];

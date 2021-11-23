@@ -6,6 +6,8 @@ namespace aspirantzhang\octopusModelCreator;
 
 use think\Exception;
 use think\facade\Db as ThinkDb;
+use think\facade\Config;
+use aspirantzhang\octopusModelCreator\Helper;
 use aspirantzhang\octopusModelCreator\lib\db\Table;
 use aspirantzhang\octopusModelCreator\lib\db\Rule;
 use aspirantzhang\octopusModelCreator\lib\db\GroupRule;
@@ -90,15 +92,43 @@ class Db
         ];
     }
 
-    public function update(array $fieldsData, array $mainTableFields, array $reservedFields, array $i18nTableFields = [])
+    private function extractTranslateFields(array $allFields): array
     {
-        try {
-            (new Field())->init($this->getConfig())->fieldsHandler($fieldsData, $mainTableFields, $reservedFields);
-            if (!empty($i18nTableFields)) {
-                (new Field())->init($this->getConfig('i18n'))->fieldsHandler($fieldsData, $i18nTableFields, $reservedFields);
+        $result = [];
+        foreach ($allFields as $field) {
+            // only input/textarea/textEditor can be translated
+            if (
+                isset($field['type']) &&
+                ($field['type'] === 'input' || $field['type'] === 'textarea' || $field['type'] === 'textEditor') &&
+                ($field['allowTranslate'] ?? false)
+            ) {
+                // cannot be marked as 'editDisabled' and 'translate' ATST
+                if (
+                    isset($field['settings']['display']) &&
+                    in_array('editDisabled', $field['settings']['display'])
+                ) {
+                    throw new Exception(__('edit disabled fields cannot set as translate', ['fieldName' => $field['name']]));
+                }
+                array_push($result, $field['name']);
             }
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
+    public function update(array $fieldsData)
+    {
+        $allFieldsArray = ModelCreator::helper()->extractAllFields($fieldsData);
+        $allFieldNames = extractValues($allFieldsArray, 'name');
+        (new Helper())->checkContainsMysqlReservedKeywords($allFieldNames);
+        (new Helper())->checkContainsReservedFieldNames($allFieldNames);
+
+        $reservedFields = Config::get('reserved.reserved_field');
+        $i18nTableFields = $this->extractTranslateFields($allFieldsArray);
+        $mainTableFields = array_diff($allFieldNames, $reservedFields, $i18nTableFields);
+
+        (new Field())->init($this->getConfig())->fieldsHandler($allFieldsArray, $mainTableFields, $reservedFields);
+        if (!empty($i18nTableFields)) {
+            (new Field())->init($this->getConfig('i18n'))->fieldsHandler($allFieldsArray, $i18nTableFields, $reservedFields);
         }
     }
 

@@ -46,7 +46,7 @@ class FileTest extends TestCase
             'name' => 'new-model',
             'title' => 'New Model',
         ];
-        ModelCreator::file()->config($config)->update($this->fieldsData, [
+        ModelCreator::file()->config($config)->update($this->getDemo('default-field')['data'], [
             'handleFieldValidation' => true,
             'handleFieldFilter' => true
         ]);
