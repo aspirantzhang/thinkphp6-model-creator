@@ -11,4 +11,4 @@ Octopus Model Creator
 ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/aspirantzhang/octopus-model-creator)
 ![Packagist License](https://img.shields.io/packagist/l/aspirantzhang/octopus-model-creator)
 
-A complete model creator based on ThinkPHP6.
+A complete model creator for Octopus.
