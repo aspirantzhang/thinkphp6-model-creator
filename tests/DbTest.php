@@ -202,4 +202,51 @@ END
         $this->assertTrue(true);
         return $modelData;
     }
+
+    public function testInitModelDataFieldForTypeMain()
+    {
+        $actual = ModelCreator::db()->initModelDataField([
+            'model_title' => 'Main Model',
+            'table_name' => 'main_model',
+            'type' =>  1,
+        ]);
+        $expected  = [
+            'layout' => [
+                'tableName' => 'main_model'
+            ],
+        ];
+        $this->assertEqualsCanonicalizing($actual, $expected);
+    }
+
+    public function testInitModelDataFieldForTypeCategory()
+    {
+        $actual = ModelCreator::db()->initModelDataField([
+            'model_title' => 'Category Model',
+            'parent_id' => 1,
+            'table_name' => 'category_model',
+            'type' =>  2,
+        ]);
+        $expected  = [
+            'layout' => [
+                'tableName' => 'category_model'
+            ],
+            'fields' => [
+                'sidebars' => [
+                    'parent' => [
+                        [
+                            "name" => "parent_id",
+                            "title" => "Parent",
+                            "type" => "parent",
+                            "settings" => [ "validate" => ["checkParentId"] ],
+                            "allowHome" => "1",
+                            "allowRead" => "1",
+                            "allowSave" => "1",
+                            "allowUpdate" => "1"
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $this->assertEqualsCanonicalizing($actual, $expected);
+    }
 }

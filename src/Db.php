@@ -150,4 +150,25 @@ class Db
             throw new Exception($e->getMessage());
         }
     }
+
+    public function initModelDataField(array $data)
+    {
+        $dataField = [];
+        $dataField['layout']['tableName'] = strtolower($data['table_name']);
+        // category type
+        if ((int)$data['type'] === 2) {
+            $parentField = [
+                "name" => "parent_id",
+                "title" => "Parent",
+                "type" => "parent",
+                "settings" => [ "validate" => ["checkParentId"] ],
+                "allowHome" => "1",
+                "allowRead" => "1",
+                "allowSave" => "1",
+                "allowUpdate" => "1"
+            ];
+            $dataField['fields']['sidebars']['parent'][] = $parentField;
+        }
+        return $dataField;
+    }
 }
