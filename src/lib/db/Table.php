@@ -21,8 +21,37 @@ class Table extends DbCommon
         }
     }
 
+    // TODO: check $addon['mainTableName'] required
     private function createTypeCategory(array $addon = [])
     {
+        $mainTableName = $addon['mainTableName'];
+        $mainTableData = Db::table('model')->json(['data'])->where('table_name', $mainTableName)->find();
+        if (
+            $mainTableData &&
+            isset($mainTableData['data']['fields']['sidebars']) &&
+            !isset($mainTableData['data']['fields']['sidebars']['category'])
+        ) {
+            $categoryField = [
+                "name" => "category",
+                "title" => "Category",
+                "type" => "category",
+                "settings" => [ "validate" => ["numberArray"] ],
+                "allowHome" => "1",
+                "allowRead" => "1",
+                "allowSave" => "1",
+                "allowUpdate" => "1"
+            ];
+            $mainTableData['data']['fields']['sidebars']['category'][] = $categoryField;
+            try {
+                Db::name('model')
+                ->json(['data'])
+                ->where('table_name', $mainTableName)
+                ->update($mainTableData);
+            } catch (Exception $e) {
+                throw new Exception(__('failed to add category field to main table'));
+            }
+        }
+
         try {
             Db::execute("CREATE TABLE `$this->tableName` (
                 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,

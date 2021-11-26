@@ -1,0 +1,188 @@
+{
+  "layout": {
+    "listAction": [
+      {
+        "name": "edit",
+        "title": "Edit",
+        "type": "primary",
+        "call": "modal",
+        "uri": "/api/news/:id",
+        "method": "get"
+      },
+      {
+        "name": "page_edit",
+        "title": "Page Edit",
+        "type": "default",
+        "call": "page",
+        "uri": "/api/news/:id",
+        "method": "get"
+      },
+      {
+        "name": "delete",
+        "title": "Delete",
+        "type": "default",
+        "call": "delete",
+        "uri": "/api/news/delete",
+        "method": "post"
+      }
+    ],
+    "addAction": [
+      {
+        "name": "reset",
+        "title": "Reset",
+        "type": "dashed",
+        "call": "reset",
+        "method": "get"
+      },
+      {
+        "name": "cancel",
+        "title": "Cancel",
+        "type": "default",
+        "call": "cancel",
+        "method": "get"
+      },
+      {
+        "name": "submit",
+        "title": "Submit",
+        "type": "primary",
+        "call": "submit",
+        "uri": "/api/news",
+        "method": "post"
+      }
+    ],
+    "editAction": [
+      {
+        "name": "cancel",
+        "title": "Cancel",
+        "type": "default",
+        "call": "cancel",
+        "method": "get"
+      },
+      {
+        "name": "submit",
+        "title": "Submit",
+        "type": "primary",
+        "call": "submit",
+        "uri": "/api/news/:id",
+        "method": "put"
+      }
+    ],
+    "tableToolbar": [
+      {
+        "name": "add",
+        "title": "Add",
+        "type": "primary",
+        "call": "modal",
+        "uri": "/api/news/add",
+        "method": "get"
+      },
+      {
+        "name": "page_add",
+        "title": "Page Add",
+        "type": "default",
+        "call": "page",
+        "uri": "/api/news/add",
+        "method": "get"
+      }
+    ],
+    "batchToolbar": [
+      {
+        "name": "delete",
+        "title": "Delete",
+        "type": "danger",
+        "call": "delete",
+        "uri": "/api/news/delete",
+        "method": "post"
+      },
+      {
+        "name": "disable",
+        "title": "Disable",
+        "type": "default",
+        "call": "disable",
+        "uri": "/api/news/disable",
+        "method": "post"
+      }
+    ],
+    "batchToolbarTrashed": [
+      {
+        "name": "delete_permanently",
+        "title": "Delete Permanently",
+        "type": "danger",
+        "call": "deletePermanently",
+        "method": "post",
+        "uri": "/api/news/delete"
+      },
+      {
+        "name": "restore",
+        "title": "Restore",
+        "type": "default",
+        "call": "restore",
+        "uri": "/api/news/restore",
+        "method": "post"
+      }
+    ],
+    "tableName": "news"
+  },
+  "fields": {
+    "options": { "handleFieldValidation": "1", "handleFieldFilter": "1" },
+    "tabs": {
+      "basic": [
+        {
+          "name": "title",
+          "title": "Title",
+          "type": "input",
+          "settings": {
+            "validate": ["require", "length"],
+            "options": { "length": { "min": "0", "max": "255" } }
+          },
+          "titleField": "1",
+          "allowHome": "1",
+          "allowRead": "1",
+          "allowSave": "1",
+          "allowUpdate": "1",
+          "allowTranslate": "1"
+        },
+        {
+          "name": "pathname",
+          "title": "Path",
+          "type": "input",
+          "settings": {
+            "validate": ["require", "length"],
+            "options": { "length": { "min": "0", "max": "255" } },
+            "display": ["hideInColumn"]
+          },
+          "allowHome": "1",
+          "allowRead": "1",
+          "allowSave": "1",
+          "allowUpdate": "1"
+        },
+        {
+          "name": "content",
+          "title": "Content",
+          "type": "textEditor",
+          "settings": { "display": ["hideInColumn"] },
+          "ignoreFilter": "1",
+          "allowHome": "1",
+          "allowRead": "1",
+          "allowSave": "1",
+          "allowUpdate": "1",
+          "allowTranslate": "1"
+        }
+      ]
+    },
+    "sidebars": {
+      "basic": [
+        {
+          "name": "listOrder",
+          "title": "Order",
+          "type": "number",
+          "settings": { "display": ["listSorter"], "validate": ["number"] },
+          "allowHome": "1",
+          "allowRead": "1",
+          "allowSave": "1",
+          "allowUpdate": "1"
+        }
+      ]
+    }
+  }
+}
