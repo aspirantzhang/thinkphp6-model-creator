@@ -153,6 +153,14 @@ class Db
 
     public function initModelDataField(array $data)
     {
+        if (
+            !isset($config['table_name']) ||
+            empty($config['table_name']) ||
+            !isset($config['type']) ||
+            empty($config['type'])
+        ) {
+            throw new Exception(__('missing required data: table_name and type'));
+        }
         $dataField = [];
         $dataField['layout']['tableName'] = strtolower($data['table_name']);
         // category type
