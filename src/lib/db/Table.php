@@ -20,9 +20,11 @@ class Table extends DbCommon
         }
     }
 
-    // TODO: check $addon['mainTableName'] required
     private function createTypeCategory(array $addon = [])
     {
+        if (!isset($addon['mainTableName']) || empty($addon['mainTableName'])) {
+            throw new Exception(__('missing required data: mainTableName'));
+        }
         $mainTableName = $addon['mainTableName'];
         $mainTableData = Db::table('model')->json(['data'])->where('table_name', $mainTableName)->find();
         if (
@@ -105,7 +107,7 @@ class Table extends DbCommon
                 break;
 
             default:
-                $this->createTypeMain($addon);
+                $this->createTypeMain();
                 break;
         }
     }
