@@ -62,29 +62,32 @@ class File
         }
     }
 
+    private function createCategoryType(array $config)
+    {
+        $this->checkCategoryTypeConfig();
+        // get main table info using parent id
+        $mainTable = $this->getMainTableInfo((int)$config['parentId']);
+        // rebuild the controller and model of main model
+        (new BasicModel())->init([
+            'name' => $mainTable['table_name'],
+            'title' => $mainTable['model_title'],
+            'type' => 'mainTableOfCategory',
+            'categoryTableName' => $config['name'],
+        ])->createBasicModelFile(['controller', 'model']);
+        // create category model
+        return (new BasicModel())->init([
+            'name' => $config['name'],
+            'title' => $config['title'],
+            'type' => 'categoryTableOfCategory',
+            'mainTableName' => $mainTable['table_name'],
+        ])->createBasicModelFile();
+    }
+
     public function create()
     {
         $config = $this->getConfig();
-        // TODO: refactor to separate method
         if ($config['type'] === 'category') {
-            $this->checkCategoryTypeConfig();
-            // get main table info using parent id
-            $mainTable = $this->getMainTableInfo((int)$config['parentId']);
-            // rebuild the controller and model of main model
-            (new BasicModel())->init([
-                'name' => $mainTable['table_name'],
-                'title' => $mainTable['model_title'],
-                'type' => 'mainTableOfCategory',
-                'categoryTableName' => $config['name'],
-            ])->createBasicModelFile(['controller', 'model']);
-            // create category model
-            (new BasicModel())->init([
-                'name' => $config['name'],
-                'title' => $config['title'],
-                'type' => 'categoryTableOfCategory',
-                'mainTableName' => $mainTable['table_name'],
-            ])->createBasicModelFile();
-            return;
+            return $this->createCategoryType($config);
         }
         return (new BasicModel())->init($this->config)->createBasicModelFile();
     }
