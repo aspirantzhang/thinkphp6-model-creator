@@ -154,10 +154,10 @@ class Db
     public function initModelDataField(array $data)
     {
         if (
-            !isset($config['table_name']) ||
-            empty($config['table_name']) ||
-            !isset($config['type']) ||
-            empty($config['type'])
+            !isset($data['table_name']) ||
+            empty($data['table_name']) ||
+            !isset($data['type']) ||
+            empty($data['type'])
         ) {
             throw new Exception(__('missing required data: table_name and type'));
         }
