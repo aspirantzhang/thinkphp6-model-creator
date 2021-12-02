@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace aspirantzhang\octopusModelCreator\lib\db;
 
 use think\facade\Db;
-use think\helper\Str;
 use think\Exception;
 
 class Table extends DbCommon
@@ -21,9 +20,11 @@ class Table extends DbCommon
         }
     }
 
-    // TODO: check $addon['mainTableName'] required
     private function createTypeCategory(array $addon = [])
     {
+        if (!isset($addon['mainTableName']) || empty($addon['mainTableName'])) {
+            throw new Exception(__('missing required data: mainTableName'));
+        }
         $mainTableName = $addon['mainTableName'];
         $mainTableData = Db::table('model')->json(['data'])->where('table_name', $mainTableName)->find();
         if (
@@ -100,11 +101,15 @@ class Table extends DbCommon
 
     public function createModelTable(array $addon = [])
     {
-        $createMethodName = 'createType' . Str::studly($this->modelType);
-        if (method_exists($this, $createMethodName)) {
-            return $this->$createMethodName($addon);
+        switch ($this->modelType) {
+            case 'category':
+                $this->createTypeCategory($addon);
+                break;
+
+            default:
+                $this->createTypeMain();
+                break;
         }
-        throw new Exception(__('cannot find the method to create model tables', ['methodName' => $createMethodName]));
     }
 
     public function removeModelTable(array $addon = [])
