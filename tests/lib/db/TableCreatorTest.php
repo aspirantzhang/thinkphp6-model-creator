@@ -2,11 +2,14 @@
 
 namespace aspirantzhang\octopusModelCreator\lib\db;
 
+use think\facade\Db as ThinkDb;
+
 class TableCreatorTest extends BaseCase
 {
     protected function setUp(): void
     {
         parent::setUp();
+        ThinkDb::execute('DROP TABLE IF EXISTS `table-creator-main-extra`;');
     }
 
     public function testDefaultSqlIsEmpty()
@@ -24,15 +27,15 @@ class TableCreatorTest extends BaseCase
 
     public function testCreateTableOfTypeMainWithExtra()
     {
-        $tableCreator = new TableCreator('table-creator-main-extra');
-        $tableCreator->setExtraFields([
-            "extra-field-1",
-            "extra-field-2",
-        ]);
-        $tableCreator->setExtraIndexes([
-            "extra-index-1",
-            "extra-index-2",
-        ]);
+        $tableCreator = (new TableCreator('table-creator-main-extra'))
+            ->setExtraFields([
+                "extra-field-1",
+                "extra-field-2",
+            ])
+            ->setExtraIndexes([
+                "extra-index-1",
+                "extra-index-2",
+            ]);
         $tableCreator->buildSql();
         $this->assertStringContainsString('CREATE TABLE `table-creator-main-extra` (', $tableCreator->getSql());
         $this->assertStringContainsString('extra-field-1', $tableCreator->getSql());
@@ -43,16 +46,16 @@ class TableCreatorTest extends BaseCase
 
     public function testRealCreationOfTypeMain()
     {
-        $tableCreator = new TableCreator('table-creator-main-extra');
-        $tableCreator->setExtraFields([
+        (new TableCreator('table-creator-main-extra'))
+        ->setExtraFields([
             "`number_field` int(11) NOT NULL DEFAULT 0",
             "`string_field` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT ''",
-        ]);
-        $tableCreator->setExtraIndexes([
+        ])
+        ->setExtraIndexes([
             "KEY `single-key` (`number_field`)",
             "KEY `union-key` (`number_field`, `string_field`)",
-        ]);
-        $tableCreator->execute();
+        ])
+        ->execute();
         $this->assertTrue(true);
     }
 }

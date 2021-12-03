@@ -31,6 +31,7 @@ class TableCreator
     public function setExtraFields(array $fields)
     {
         $this->extraFields = $fields;
+        return $this;
     }
 
     public function getExtraFields(): string
@@ -45,6 +46,7 @@ class TableCreator
     public function setExtraIndexes(array $indexes)
     {
         $this->extraIndexes = $indexes;
+        return $this;
     }
 
     public function getExtraIndexes()
