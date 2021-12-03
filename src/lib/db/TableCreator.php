@@ -97,6 +97,7 @@ class TableCreator
         $this->sql = "CREATE TABLE `$this->tableName` (
         `_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
         `original_id` int(11) unsigned NOT NULL,
+        `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
         `lang_code` char(5) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
         `translate_time` datetime DEFAULT NULL,
         $extraFields
