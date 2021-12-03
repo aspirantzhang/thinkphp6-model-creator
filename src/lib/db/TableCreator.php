@@ -39,7 +39,7 @@ class TableCreator
             return '';
         }
 
-        return implode(',', $this->extraFields) . ',';
+        return implode(",\n        ", $this->extraFields) . ',';
     }
 
     public function setExtraIndexes(array $indexes)
@@ -52,7 +52,7 @@ class TableCreator
         if (empty($this->extraIndexes)) {
             return '';
         }
-        return implode(',', $this->extraIndexes) . ',';
+        return implode(",\n        ", $this->extraIndexes) . ',';
     }
 
     public function buildSql()
@@ -84,12 +84,16 @@ class TableCreator
         PRIMARY KEY (`id`),
         $extraIndexes
         KEY `pathname_status` (`pathname`, `status`)
-        ";
+        ) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;";
     }
 
     public function execute()
     {
         $this->buildSql();
-        Db::execute($this->getSql());
+        try {
+            Db::execute($this->getSql());
+        } catch (Exception $e) {
+            throw new Exception(__('create model table failed', ['tableName' => $this->tableName]));
+        }
     }
 }
