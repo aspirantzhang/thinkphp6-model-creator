@@ -64,6 +64,7 @@ class TableCreator
                 $this->buildTypeMain();
                 break;
             case 'i18n':
+                $this->buildTypeI18n();
                 break;
             default:
                 break;
@@ -86,6 +87,22 @@ class TableCreator
         PRIMARY KEY (`id`),
         $extraIndexes
         KEY `pathname_status` (`pathname`, `status`)
+        ) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;";
+    }
+
+    private function buildTypeI18n()
+    {
+        $extraFields = $this->getExtraFields();
+        $extraIndexes = $this->getExtraIndexes();
+        $this->sql = "CREATE TABLE `$this->tableName` (
+        `_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+        `original_id` int(11) unsigned NOT NULL,
+        `lang_code` char(5) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+        `translate_time` datetime DEFAULT NULL,
+        $extraFields
+        PRIMARY KEY (`_id`),
+        $extraIndexes
+        UNIQUE KEY `original_lang` (`original_id`,`lang_code`)
         ) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;";
     }
 
