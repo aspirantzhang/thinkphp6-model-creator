@@ -92,4 +92,20 @@ class TableCreatorTest extends BaseCase
         ->execute();
         $this->assertTrue(true);
     }
+
+    public function testRealCreationOfTypeCustom()
+    {
+        (new TableCreator('table-creator-custom', 'custom'))
+        ->setSql('CREATE TABLE `table-creator-custom` (
+            `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+            `item_id` int(11) unsigned NOT NULL,
+            `category_id` int(11) unsigned NOT NULL,
+            PRIMARY KEY (`id`),
+            KEY `item_id` (`item_id`),
+            KEY `category_id` (`category_id`),
+            KEY `item_category_id` (`item_id`,`category_id`)
+        ) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;')
+        ->execute();
+        $this->assertTrue(true);
+    }
 }

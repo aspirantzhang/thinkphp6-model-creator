@@ -23,6 +23,12 @@ class TableCreator
         $this->type = $type;
     }
 
+    public function setSql(string $sql)
+    {
+        $this->sql = $sql;
+        return $this;
+    }
+
     public function getSql()
     {
         return $this->sql;
@@ -75,7 +81,7 @@ class TableCreator
     {
         $extraFields = $this->getExtraFields();
         $extraIndexes = $this->getExtraIndexes();
-        $this->sql = "CREATE TABLE `$this->tableName` (
+        $this->setSql("CREATE TABLE `$this->tableName` (
         `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
         `pathname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
         `list_order` int(11) NOT NULL DEFAULT 0,
@@ -87,14 +93,14 @@ class TableCreator
         PRIMARY KEY (`id`),
         $extraIndexes
         KEY `pathname_status` (`pathname`, `status`)
-        ) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;";
+        ) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;");
     }
 
     private function buildTypeI18n()
     {
         $extraFields = $this->getExtraFields();
         $extraIndexes = $this->getExtraIndexes();
-        $this->sql = "CREATE TABLE `$this->tableName` (
+        $this->setSql("CREATE TABLE `$this->tableName` (
         `_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
         `original_id` int(11) unsigned NOT NULL,
         `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
@@ -104,7 +110,7 @@ class TableCreator
         PRIMARY KEY (`_id`),
         $extraIndexes
         UNIQUE KEY `original_lang` (`original_id`,`lang_code`)
-        ) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;";
+        ) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;");
     }
 
     public function execute()
@@ -113,7 +119,7 @@ class TableCreator
         try {
             Db::execute($this->getSql());
         } catch (Exception $e) {
-            throw new Exception(__('create model table failed', ['tableName' => $this->tableName]));
+            throw new Exception(__('create table failed', ['tableName' => $this->tableName]));
         }
     }
 }
