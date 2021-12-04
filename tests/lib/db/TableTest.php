@@ -32,7 +32,7 @@ class TableTest extends BaseCase
     public function testCreateModelTableFailed()
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage('create model table failed: tableName=table-test');
+        $this->expectExceptionMessage('create table failed: tableName=table-test');
         (new Table())->init($this->config)->createModelTable();
     }
 
