@@ -13,6 +13,7 @@ use aspirantzhang\octopusModelCreator\lib\db\Rule;
 use aspirantzhang\octopusModelCreator\lib\db\GroupRule;
 use aspirantzhang\octopusModelCreator\lib\db\Menu;
 use aspirantzhang\octopusModelCreator\lib\db\Field;
+use aspirantzhang\octopusModelCreator\lib\db\InitModelData;
 
 class Db
 {
@@ -161,22 +162,7 @@ class Db
         ) {
             throw new Exception(__('missing required data: table_name and type'));
         }
-        $dataField = [];
-        $dataField['layout']['tableName'] = strtolower($data['table_name']);
-        // category type
-        if ((int)$data['type'] === 2) {
-            $parentField = [
-                "name" => "parent_id",
-                "title" => "Parent",
-                "type" => "parent",
-                "settings" => [ "validate" => ["checkParentId"] ],
-                "allowHome" => "1",
-                "allowRead" => "1",
-                "allowSave" => "1",
-                "allowUpdate" => "1"
-            ];
-            $dataField['fields']['sidebars']['parent'][] = $parentField;
-        }
-        return $dataField;
+
+        return (new InitModelData($data['table_name'], $data['type']))->getData();
     }
 }

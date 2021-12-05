@@ -9,7 +9,7 @@ class TableCreatorTest extends BaseCase
     protected function setUp(): void
     {
         parent::setUp();
-        ThinkDb::execute('DROP TABLE IF EXISTS `table-creator-main-extra`, `table-creator-i18n-extra`;');
+        ThinkDb::execute('DROP TABLE IF EXISTS `table-creator-main-extra`, `table-creator-i18n-extra`, `table-creator-custom`;');
     }
 
     public function testDefaultSqlIsEmpty()
