@@ -6,13 +6,18 @@ namespace aspirantzhang\octopusModelCreator\lib\file;
 
 use think\Exception;
 use think\facade\Lang;
+use think\facade\Config;
 
 class FieldLang extends FileCommon
 {
     private function buildFieldText(array $fieldsData)
     {
         $data = '';
+        $reservedFields = Config::get('reserved.reserved_field');
         foreach ($fieldsData as $field) {
+            if (in_array($field['name'], $reservedFields)) {
+                continue;
+            }
             $data = $data . "        '" . $field['name'] . "' => '" . $field['title'] . "',\n";
         }
         return substr($data, 0, -1);
