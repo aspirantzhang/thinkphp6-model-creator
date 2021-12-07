@@ -41,8 +41,17 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $reserved = [
                 'reserved_field' => [
                     'id',
+                    'title',
+                    'pathname',
+                    'list_order',
                     'create_time',
                     'update_time',
+                    'delete_time',
+                    'status',
+                    '_id',
+                    'original_id',
+                    'lang_code',
+                    'translate_time'
                 ],
                 'reserved_table' => [
                     'admin',

@@ -30,8 +30,9 @@ class {{ modelName }} extends Validate
 
     public function sceneHome()
     {
-        $this->only(['page', 'per_page', 'id', 'status', 'create_time', {{ sceneHomeText }}]){{ sceneHomeExcludeText }}
+        $this->only(['id', 'title', 'pathname', 'list_order', 'page', 'per_page', 'status', 'create_time', {{ sceneHomeText }}]){{ sceneHomeExcludeText }}
             ->remove('id', 'require')
+            ->remove('title', 'require')
             ->remove('create_time', 'require');
     }
 }

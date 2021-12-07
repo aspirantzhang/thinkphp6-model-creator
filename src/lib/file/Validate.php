@@ -18,6 +18,9 @@ class Validate extends FileCommon
         $this->rules = [
             'id' => 'require|number',
             'ids' => 'require|numberArray',
+            'title' => 'require|length:1,255',
+            'pathname' => 'length:0,255',
+            'list_order' => 'number',
             'status' => 'numberArray',
             'page' => 'number',
             'per_page' => 'number',
@@ -26,8 +29,8 @@ class Validate extends FileCommon
             'revisionId' => 'require|number',
         ];
         $this->scenes = [
-            'save' => ['create_time', 'status'],
-            'update' => ['id', 'create_time', 'status'],
+            'save' => ['title', 'pathname', 'list_order', 'create_time', 'status'],
+            'update' => ['id', 'title', 'pathname', 'list_order', 'create_time', 'status'],
             'read' => ['id'],
             'delete' => ['ids'],
             'restore' => ['ids'],

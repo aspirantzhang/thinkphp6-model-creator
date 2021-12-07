@@ -9,16 +9,16 @@ class UnitTest extends Validate
     protected $rule = [
         'id' => 'require|number',
         'ids' => 'require|numberArray',
+        'title' => 'require|length:1,255',
+        'pathname' => 'length:0,255',
+        'list_order' => 'number',
         'status' => 'numberArray',
         'page' => 'number',
         'per_page' => 'number',
         'create_time' => 'dateTimeRange',
         'parent_id' => 'number|checkParentId',
         'revisionId' => 'require|number',
-        'title' => 'require|length:0,255',
-        'pathname' => 'require|length:0,255',
         'category' => 'numberArray',
-        'listOrder' => 'number',
     ];
 
     protected $message = [
@@ -26,6 +26,10 @@ class UnitTest extends Validate
         'id.number' => 'id#number',
         'ids.require' => 'ids#require',
         'ids.numberArray' => 'ids#numberArray',
+        'title.require' => 'title#require',
+        'title.length' => 'title#length:1,255',
+        'pathname.length' => 'pathname#length:0,255',
+        'list_order.number' => 'list_order#number',
         'status.numberArray' => 'status#numberArray',
         'page.number' => 'page#number',
         'per_page.number' => 'per_page#number',
@@ -34,17 +38,12 @@ class UnitTest extends Validate
         'parent_id.checkParentId' => 'parent_id#checkParentId',
         'revisionId.require' => 'revisionId#require',
         'revisionId.number' => 'revisionId#number',
-        'title.require' => 'unit-test@title#require',
-        'title.length' => 'unit-test@title#length:0,255',
-        'pathname.require' => 'unit-test@pathname#require',
-        'pathname.length' => 'unit-test@pathname#length:0,255',
         'category.numberArray' => 'unit-test@category#numberArray',
-        'listOrder.number' => 'unit-test@listOrder#number',
     ];
 
     protected $scene = [
-        'save' => ['create_time', 'status', 'title', 'pathname', 'category', 'listOrder'],
-        'update' => ['id', 'create_time', 'status', 'title', 'pathname', 'category', 'listOrder'],
+        'save' => ['title', 'pathname', 'list_order', 'create_time', 'status', 'category'],
+        'update' => ['id', 'title', 'pathname', 'list_order', 'create_time', 'status', 'category'],
         'read' => ['id'],
         'delete' => ['ids'],
         'restore' => ['ids'],
@@ -58,12 +57,10 @@ class UnitTest extends Validate
 
     public function sceneHome()
     {
-        $this->only(['page', 'per_page', 'id', 'status', 'create_time', 'title', 'pathname', 'category', 'listOrder'])
-            ->remove('title', 'require')
-            ->remove('pathname', 'require')
+        $this->only(['id', 'title', 'pathname', 'list_order', 'page', 'per_page', 'status', 'create_time', 'category'])
             ->remove('category', 'require')
-            ->remove('listOrder', 'require')
             ->remove('id', 'require')
+            ->remove('title', 'require')
             ->remove('create_time', 'require');
     }
 }

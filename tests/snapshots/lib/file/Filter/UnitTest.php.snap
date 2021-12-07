@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'titleField' => 'title',
+    'titleField' => '',
     'uniqueValue' => ['comment'],
     'ignoreFilter' => ['content', 'comment'],
-    'allowHome' => ['title', 'pathname', 'content', 'category', 'listOrder'],
-    'allowRead' => ['title', 'pathname', 'content', 'category', 'listOrder'],
-    'allowSave' => ['title', 'pathname', 'content', 'category', 'listOrder'],
-    'allowUpdate' => ['title', 'pathname', 'content', 'category', 'listOrder'],
-    'allowTranslate' => ['title', 'content'],
+    'allowHome' => ['content', 'category'],
+    'allowRead' => ['content', 'category'],
+    'allowSave' => ['content', 'category'],
+    'allowUpdate' => ['content', 'category'],
+    'allowTranslate' => ['content'],
 ];

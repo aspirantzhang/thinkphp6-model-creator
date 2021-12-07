@@ -2,11 +2,8 @@
 
 return [
     'unit-test' => [
-        'title' => 'Title',
-        'pathname' => 'Path',
         'content' => 'Content',
         'category' => 'Category',
         'comment' => 'Comment',
-        'listOrder' => 'Order',
     ],
 ];

@@ -1,10 +1,5 @@
 <?php
 
 return [
-    'unit-test@title#require' => '[unit-test.title] should not be empty.',
-    'unit-test@title#length:0,255' => '[unit-test.title] length should be between [0 - 255].',
-    'unit-test@pathname#require' => '[unit-test.pathname] should not be empty.',
-    'unit-test@pathname#length:0,255' => '[unit-test.pathname] length should be between [0 - 255].',
     'unit-test@category#numberArray' => 'Invalid value: [unit-test.category] (Number Array)',
-    'unit-test@listOrder#number' => '[unit-test.listOrder] must be numbers only.',
 ];
