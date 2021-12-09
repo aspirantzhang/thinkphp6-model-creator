@@ -223,4 +223,143 @@ END
         ];
         $this->assertEqualsCanonicalizing($actual, $expected);
     }
+
+    public function testIntegrateWithBuiltInFieldsWhenEmptyModel()
+    {
+        $model = [];
+        $expect = [
+            'data' => [
+                'fields' => [
+                    'tabs' => [
+                        'basic' => [
+                            [
+                                'name' => 'title',
+                                'title' => 'Title',
+                                'type' => 'input',
+                            ],
+                            [
+                                'name' => 'pathname',
+                                'title' => 'Path',
+                                'type' => 'input',
+                            ]
+                        ]
+                    ],
+                    'sidebars' => [
+                        'basic' => [
+                            [
+                                'name' => 'create_time',
+                                'title' => 'Create Time',
+                                'type' => 'datetime',
+                            ],
+                            [
+                                'name' => 'update_time',
+                                'title' => 'Update Time',
+                                'type' => 'datetime',
+                            ],
+                            [
+                                'name' => 'status',
+                                'title' => 'Status',
+                                'type' => 'switch',
+                            ],
+                            [
+                                'name' => 'list_order',
+                                'title' => 'Order',
+                                'type' => 'number',
+                            ],
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $actual = ModelCreator::db()->integrateWithBuiltInFields($model);
+        $this->assertEqualsCanonicalizing($expect, $actual);
+    }
+
+    public function testIntegrateWithBuiltInFieldsWhenExistingFields()
+    {
+        $model = [
+            'data' => [
+                'fields' => [
+                    'tabs' => [
+                        'basic' => [
+                            ['foo'],
+                            ['bar']
+                        ],
+                        'extraTabs' => [
+                            ['extra1'],
+                            ['extra2']
+                        ]
+                    ],
+                    'sidebars' => [
+                        'basic' => [
+                            ['bar'],
+                            ['foo']
+                        ],
+                        'extraSidebar' => [
+                            ['extra3'],
+                            ['extra4']
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $expect = [
+            'data' => [
+                'fields' => [
+                    'tabs' => [
+                        'basic' => [
+                            [
+                                'name' => 'title',
+                                'title' => 'Title',
+                                'type' => 'input',
+                            ],
+                            [
+                                'name' => 'pathname',
+                                'title' => 'Path',
+                                'type' => 'input',
+                            ],
+                            ['foo'],
+                            ['bar']
+                        ],
+                        'extraTabs' => [
+                            ['extra1'],
+                            ['extra2']
+                        ]
+                    ],
+                    'sidebars' => [
+                        'basic' => [
+                            [
+                                'name' => 'create_time',
+                                'title' => 'Create Time',
+                                'type' => 'datetime',
+                            ],
+                            [
+                                'name' => 'update_time',
+                                'title' => 'Update Time',
+                                'type' => 'datetime',
+                            ],
+                            [
+                                'name' => 'status',
+                                'title' => 'Status',
+                                'type' => 'switch',
+                            ],
+                            [
+                                'name' => 'list_order',
+                                'title' => 'Order',
+                                'type' => 'number',
+                            ],
+                            ['bar'],
+                            ['foo']
+                        ],
+                        'extraSidebar' => [
+                            ['extra3'],
+                            ['extra4']
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $actual = ModelCreator::db()->integrateWithBuiltInFields($model);
+        $this->assertEqualsCanonicalizing($expect, $actual);
+    }
 }

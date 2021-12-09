@@ -165,4 +165,55 @@ class Db
 
         return (new InitModelData($data['table_name'], $data['type']))->getData();
     }
+
+    public function integrateWithBuiltInFields(array $model)
+    {
+        $basicTabs = [
+            [
+                'name' => 'title',
+                'title' => 'Title',
+                'type' => 'input',
+            ],
+            [
+                'name' => 'pathname',
+                'title' => 'Path',
+                'type' => 'input',
+            ],
+        ];
+        if (isset($model['data']['fields']['tabs']) && !empty($model['data']['fields']['tabs'])) {
+            $model['data']['fields']['tabs']['basic'] = [...$basicTabs, ...$model['data']['fields']['tabs']['basic']];
+        } else {
+            $model['data']['fields']['tabs']['basic'] = $basicTabs;
+        }
+
+        $basicSidebars = [
+            [
+                'name' => 'create_time',
+                'title' => 'Create Time',
+                'type' => 'datetime',
+            ],
+            [
+                'name' => 'update_time',
+                'title' => 'Update Time',
+                'type' => 'datetime',
+            ],
+            [
+                'name' => 'status',
+                'title' => 'Status',
+                'type' => 'switch',
+            ],
+            [
+                'name' => 'list_order',
+                'title' => 'Order',
+                'type' => 'number',
+            ],
+        ];
+        if (isset($model['data']['fields']['sidebars']) && !empty($model['data']['fields']['sidebars'])) {
+            $model['data']['fields']['sidebars']['basic'] = [...$basicSidebars, ...$model['data']['fields']['sidebars']['basic']];
+        } else {
+            $model['data']['fields']['sidebars']['basic'] = $basicSidebars;
+        }
+
+        return $model;
+    }
 }
