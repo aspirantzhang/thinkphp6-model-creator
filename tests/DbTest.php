@@ -236,6 +236,7 @@ END
                                 'name' => 'title',
                                 'title' => 'Title',
                                 'type' => 'input',
+                                'allowTranslate' => '1',
                             ],
                             [
                                 'name' => 'pathname',
@@ -312,6 +313,7 @@ END
                                 'name' => 'title',
                                 'title' => 'Title',
                                 'type' => 'input',
+                                'allowTranslate' => '1',
                             ],
                             [
                                 'name' => 'pathname',
