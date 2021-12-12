@@ -181,7 +181,7 @@ class Db
                 'type' => 'input',
             ],
         ];
-        if (isset($model['data']['fields']['tabs']) && !empty($model['data']['fields']['tabs'])) {
+        if (isset($model['data']['fields']['tabs']['basic']) && !empty($model['data']['fields']['tabs']['basic'])) {
             $model['data']['fields']['tabs']['basic'] = [...$basicTabs, ...$model['data']['fields']['tabs']['basic']];
         } else {
             $model['data']['fields']['tabs']['basic'] = $basicTabs;
@@ -209,7 +209,7 @@ class Db
                 'type' => 'number',
             ],
         ];
-        if (isset($model['data']['fields']['sidebars']) && !empty($model['data']['fields']['sidebars'])) {
+        if (isset($model['data']['fields']['sidebars']['basic']) && !empty($model['data']['fields']['sidebars']['basic'])) {
             $model['data']['fields']['sidebars']['basic'] = [...$basicSidebars, ...$model['data']['fields']['sidebars']['basic']];
         } else {
             $model['data']['fields']['sidebars']['basic'] = $basicSidebars;
