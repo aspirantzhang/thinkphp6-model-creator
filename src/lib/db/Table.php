@@ -21,11 +21,11 @@ class Table extends DbCommon
         if (!isset($addon['mainTableName']) || empty($addon['mainTableName'])) {
             throw new Exception(__('missing required data: mainTableName'));
         }
+        // main table
         $mainTableName = $addon['mainTableName'];
         $mainTableData = Db::table('model')->json(['data'])->where('table_name', $mainTableName)->find();
         if (
             $mainTableData &&
-            isset($mainTableData['data']['fields']['sidebars']) &&
             !isset($mainTableData['data']['fields']['sidebars']['category'])
         ) {
             $categoryField = [
@@ -49,12 +49,12 @@ class Table extends DbCommon
             }
         }
 
-        // add main table
+        // category table
         (new TableCreator($this->tableName))
             ->setExtraFields(['`parent_id` int(11) unsigned NOT NULL DEFAULT 0'])
             ->setExtraIndexes(['KEY `parent_id` (`parent_id`)'])
             ->execute();
-        // add i18n table
+        // add category i18n table
         (new TableCreator($this->tableName . '_i18n', 'i18n'))
             ->execute();
         // add pivot table
