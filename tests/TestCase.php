@@ -51,7 +51,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                     '_id',
                     'original_id',
                     'lang_code',
-                    'translate_time'
+                    'translate_time',
+                    'parent_id',
                 ],
                 'reserved_table' => [
                     'admin',
