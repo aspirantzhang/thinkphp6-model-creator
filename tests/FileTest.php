@@ -46,10 +46,7 @@ class FileTest extends TestCase
             'name' => 'new-model',
             'title' => 'New Model',
         ];
-        ModelCreator::file()->config($config)->update($this->getDemo('default-field')['data'], [
-            'handleFieldValidation' => true,
-            'handleFieldFilter' => true
-        ]);
+        ModelCreator::file()->config($config)->update($this->getDemo('default-field')['data']);
         $filePaths = [];
         $filePaths[] = createPath(base_path(), 'api', 'lang', 'field', 'en-us', 'NewModel') . '.php';
         $filePaths[] = createPath(base_path(), 'api', 'lang', 'layout', 'en-us', 'NewModel') . '.php';

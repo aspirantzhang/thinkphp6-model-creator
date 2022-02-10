@@ -92,24 +92,16 @@ class File
         return (new BasicModel())->init($this->config)->createBasicModelFile();
     }
 
-    /**
-     * Update model files
-     * @param array $fieldsData
-     * @param array $fieldOptions handling options
-     * - handleFieldValidation: default false
-     * - handleFieldFilter : default false
-     * @return void
-     */
-    public function update(array $fieldsData, array $fieldOptions = [])
+    public function update(array $fieldsData)
     {
         $allFieldsArray = ModelCreator::helper()->extractAllFields($fieldsData);
         (new FieldLang())->init($this->getConfig())->createFieldLangFile($allFieldsArray);
         (new LayoutLang())->init($this->getConfig())->createLayoutLangFile();
-        if ($fieldOptions['handleFieldValidation'] ?? false) {
+        if ($fieldsData['options']['handleFieldValidation'] ?? false) {
             (new Validate())->init($this->getConfig())->createValidateFile($allFieldsArray);
             (new ValidateLang())->init($this->getConfig())->createValidateLangFile($allFieldsArray);
         }
-        if ($fieldOptions['handleFieldFilter'] ?? false) {
+        if ($fieldsData['options']['handleFieldFilter'] ?? false) {
             (new Filter())->init($this->getConfig())->createFilterFile($allFieldsArray);
         }
     }
